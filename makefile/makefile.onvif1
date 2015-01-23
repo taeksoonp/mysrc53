@@ -1,0 +1,10 @@
+Dirs = OnvifServer
+
+all: $(Dirs)
+$(Dirs):
+	make -C $@ all
+
+install clean distclean:
+	$(Dirs:%=make $@ -C % &&) echo $@ done!
+
+.PHONY: $(Dirs) clean install distclean
