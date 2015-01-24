@@ -7,4 +7,7 @@ $(Dirs):
 install clean distclean:
 	$(Dirs:%=make $@ -C % &&) echo $@ done!
 
-.PHONY: clean install distclean
+%:
+	$(Dirs:%=make $@ -C % &&) echo $@ done!
+
+.PHONY: all install clean distclean $(Dirs)
