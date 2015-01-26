@@ -35,7 +35,7 @@ test:
 clean:
 	rm -f $(TARGET) $(OBJS)
 
-.PHONY: clean install
+.PHONY: all install clean
 
 #make dependencies
 .deps: OBJS := $(OBJS:libproc.o=)
