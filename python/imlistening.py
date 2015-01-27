@@ -7,8 +7,7 @@ Created on 2014. 12. 12.
 
 import socket
 import os
-#from pahk import Interpreter
-#from time import sleep
+import subprocess
 
 UDP_IP = ""
 UDP_PORT = 6821
@@ -33,4 +32,4 @@ while True:
         cmd = os.path.normpath(cmd)
 
     print('cmd: ', cmd)
-    print("->", os.system(cmd))
+    print("->", subprocess.Popen(cmd).pid)
