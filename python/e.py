@@ -16,9 +16,6 @@ if len(sys.argv) > 1:
         exit(0)
     else:
         cmd += os.getcwd() + '/' + sys.argv[1]
-#	args = sys.argv
-#	del(args[0])
-#	cmd = ' '.join(sys.argv)
 
 else:
     cmd = 'explorer ' + os.getcwd()

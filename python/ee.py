@@ -10,6 +10,7 @@ def usage():
     print("\tl: log")
     print("\tm: modification")
     print("\tr: repository")
+    print("\tci: ci")
     exit(0)
 
 cmd = '"C:/Program Files/TortoiseSVN/bin/TortoiseProc.exe" '
@@ -22,6 +23,8 @@ if len(sys.argv) > 1:
         cmd += ' /command:diff /path:' + os.getcwd()
     elif sys.argv[1] == 'r':
         cmd += ' /command:repobrowser /path:' + os.getcwd()
+    elif sys.argv[1] == 'ci':
+        cmd += ' /command:commit /path:' + os.getcwd()
     else:
         usage()
 else:
