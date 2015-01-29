@@ -7,11 +7,13 @@ CC = $(CROSS_COMPILE)gcc
 AR = $(CROSS_COMPILE)ar
 STRIP = $(CROSS_COMPILE)strip
 
-CPPFLAGS = -Ibm -Ionvif -I. -Iwgi
+CPPFLAGS = -Ibm -Ionvif -I. -Iwgi -isystem $(Boost_include) -MMD
 CXXFLAGS = -O1 -std=c++0x
 CFLAGS = -O1
 LDLIBS = -lpthread
 LINK.o = $(LINK.cc)	#use g++ as linker
+Boost_lib = /opt/lib/boost.arm/lib
+Boost_include =/opt/lib/boost.arm/include
 
 TARGET = nvt
 Bm_objs = word_analyse.o util.o sys_os.o sys_log.o sys_buf.o ppstack.o base64.o sha1.o
@@ -19,7 +21,6 @@ Onvif_objs = xml_node.o soap.o onvif_probe.o onvif_pkt.o onvif.o hxml.o http_rx.
 	soap_parser.o onvif_device.o http_parse.o http_cln.o onvif_timer.o onvif_event.o \
 	onvif_api.o onvif_ptz.o onvif_util.o onvif_media.o onvif_image.o 
 Wgi_objs = ipc.o
-
 OBJS = $(addprefix bm/,$(Bm_objs)) $(addprefix onvif/,$(Onvif_objs)) \
 	$(addprefix wgi/,$(Wgi_objs)) $(TARGET).o
 
@@ -30,19 +31,15 @@ $(TARGET): $(OBJS)
 install: all
 	$(STRIP) $(TARGET) -o ../../../../build/bin/
 
+test: SRCS := $(OBJS:%.o=%.cpp)
 test:
-	echo $(TARGET)
+	$(CXX) $(CPPFLAGS:-MMD=) $(CXXFLAGS) -M $(SRCS)
 
 clean:
-	rm -f $(TARGET) $(OBJS)
+	rm -f $(TARGET) $(OBJS) $(OBJS:%.o=%.d)
 
 .PHONY: all install clean
 
-#make dependencies
-.deps: OBJS := $(OBJS:libproc.o=)
-.deps: SRCS := $(OBJS:%.o=%.cpp)
-.deps: Makefile
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -M $(SRCS) > .deps
-    
 #include dependencies if it exists.
--include .deps
+# -MMD option generate '~.d' file.
+-include $(OBJS:%.o=%.d)
