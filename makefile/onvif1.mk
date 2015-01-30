@@ -7,7 +7,7 @@ Dirs = OnvifServer
 
 all: $(Dirs)
 $(Dirs):
-	make -C $@ all
+	make -C $@
 
 install clean distclean:
 	$(Dirs:%=make $@ -C % &&) echo $@ done!
