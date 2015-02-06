@@ -30,13 +30,10 @@ $(TARGET): $(OBJS)
 install: all
 	$(STRIP) $(TARGET) -o ../../../../build/bin/$(TARGET)
 
-clean: cleandeps
-	rm -f $(TARGET) $(OBJS)
+clean:
+	rm -f $(TARGET) $(OBJS) $(DEPS)
 
-cleandeps:
-	rm -f $(DEPS)
-
-.PHONY: all install clean cleandeps
+.PHONY: all install clean
 
 #include dependencies if it exists.
 # -MMD cpp option generate '~.d' file.
