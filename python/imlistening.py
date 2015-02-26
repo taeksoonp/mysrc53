@@ -8,6 +8,7 @@ Created on 2014. 12. 12.
 import socket
 import os
 import subprocess
+import shutil
 
 UDP_IP = ""
 UDP_PORT = 6821
@@ -30,6 +31,12 @@ while True:
     cmd = cmd.replace(Home_path, 'n:')
     if 'explorer' in cmd:
         cmd = os.path.normpath(cmd)
+        print("->", subprocess.Popen(cmd).pid)
+
+    elif 'python ' == cmd[0:7]:
+        exec(cmd[7:])
+
+    else:
+        print("->", subprocess.Popen(cmd).pid)
 
     print('cmd: ', cmd)
-    print("->", subprocess.Popen(cmd).pid)

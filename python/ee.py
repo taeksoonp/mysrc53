@@ -18,13 +18,13 @@ if len(sys.argv) > 1:
     if sys.argv[1] == '--help' or sys.argv[1] == '?':
         usage()
     elif sys.argv[1] == 'l':
-        cmd += ' /command:log /path:' + os.getcwd()
+        cmd += '/command:log /path:' + os.getcwd()
     elif sys.argv[1] == 'm':
-        cmd += ' /command:diff /path:' + os.getcwd()
+        cmd += '/command:diff /path:' + os.getcwd()
     elif sys.argv[1] == 'r':
-        cmd += ' /command:repobrowser /path:' + os.getcwd()
+        cmd += '/command:repobrowser /path:' + os.getcwd()
     elif sys.argv[1] == 'ci':
-        cmd += ' /command:commit /path:' + os.getcwd()
+        cmd += '/command:commit /path:' + os.getcwd()
     else:
         usage()
 else:
