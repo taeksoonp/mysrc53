@@ -19,8 +19,7 @@ Onvif_objs = xml_node.o soap.o onvif_probe.o onvif_pkt.o onvif.o hxml.o http_rx.
 	soap_parser.o onvif_device.o http_parse.o http_cln.o onvif_timer.o onvif_event.o \
 	onvif_api.o onvif_ptz.o onvif_util.o onvif_media.o onvif_image.o onvif_cm.o
 Wgi_objs = ipc.o conf.o
-OBJS = $(addprefix bm/,$(Bm_objs)) $(addprefix onvif/,$(Onvif_objs)) \
-	$(addprefix wgi/,$(Wgi_objs)) $(TARGET).o
+OBJS = $(Bm_objs:%=bm/%) $(Onvif_objs:%=onvif/%) $(Wgi_objs:%=wgi/%) $(TARGET).o
 DEPS = $(OBJS:%.o=%.d)
 
 all: $(TARGET)

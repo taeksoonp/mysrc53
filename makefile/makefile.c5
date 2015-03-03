@@ -1,0 +1,12 @@
+Xml_files = consolestate_added consolestate_default dvrconfig_added\
+	dvrconfig_default dvrconfig_recordcapacity_added\
+	dvrconfig_recordcapacity_default systemlog_default
+XMLS = $(Xml_files:%=$(Target_path)/%.xml)
+Target_path = project_linux/webgate_$(WHBS_BUILD_MODEL_STR)
+
+all: xmlok
+	make -j4 -C $(Target_path)
+
+xmlok: $(XMLS)
+	-rm $@
+	xmllint --noout $^ && touch $@
