@@ -11,15 +11,13 @@ configg_path = 'C:/ProgramData/Digital Image World/Control Center/config/'
 
 
 def usage():
-    print("usage: eee l|m|r")
-    print("\tsendconfigg")
+    print("usage: eee s")
+    print("\ts:sendconfigg")
     exit(0)
 
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 if len(sys.argv) > 1:
-    if sys.argv[1] == '--help' or sys.argv[1] == '?':
-        usage()
-    elif sys.argv[1] == 'sendconfigg':
+    if sys.argv[1] == 's':
         cmd += 'shutil.copyfile("' + os.getcwd() + '/release/config.exe","' +\
             configg_path + 'config.exe")\n'
         s.sendto(cmd.encode(), 0, (HOST, PORT))

@@ -15,9 +15,7 @@ def usage():
 
 cmd = '"C:/Program Files/TortoiseSVN/bin/TortoiseProc.exe" '
 if len(sys.argv) > 1:
-    if sys.argv[1] == '--help' or sys.argv[1] == '?':
-        usage()
-    elif sys.argv[1] == 'l':
+    if sys.argv[1] == 'l':
         cmd += '/command:log /path:' + os.getcwd()
     elif sys.argv[1] == 'm':
         cmd += '/command:diff /path:' + os.getcwd()

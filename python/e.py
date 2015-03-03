@@ -5,15 +5,19 @@ import socket
 import sys
 import os
 
+def usage():
+    print('explorer & notepad client. v1.0')
+    print("usage: e [filename]")
+    exit(0)
+
 if os.path.basename(sys.argv[0]) == 'e':
     cmd = 'notepad '
 else:
     cmd = '"C:/Program Files/BowPad/BowPad.exe" '
 
 if len(sys.argv) > 1:
-    if sys.argv[1] == '--help' or sys.argv[1] == '?':
-        print('explorer & notepad client. v1.0')
-        exit(0)
+    if sys.argv[1] in ['--help', '-h', '?']:
+        usage()
     else:
         cmd += os.getcwd() + '/' + sys.argv[1]
 
