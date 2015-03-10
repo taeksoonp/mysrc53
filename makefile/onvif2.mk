@@ -8,8 +8,8 @@ AR = $(CROSS_COMPILE)ar
 STRIP = $(CROSS_COMPILE)strip
 
 CPPFLAGS = -Ibm -Ionvif -I. -Iwgi -MMD
-CXXFLAGS = -O1 -std=c++0x
-CFLAGS = -O1
+CXXFLAGS = -O1 -std=c++0x -g3
+CFLAGS = -O1 -g3
 LDLIBS = -lpthread
 LINK.o = $(LINK.cc)	#use g++ as linker
 
