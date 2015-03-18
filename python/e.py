@@ -10,6 +10,9 @@ def usage():
     print("usage: e [filename]")
     exit(0)
 
+print(sys.argv[0])
+print(sys.argv[1])
+
 if os.path.basename(sys.argv[0]) == 'e':
     cmd = 'notepad '
 else:
@@ -18,6 +21,8 @@ else:
 if len(sys.argv) > 1:
     if sys.argv[1] in ['--help', '-h', '?']:
         usage()
+    elif sys.argv[1][0] == '/': #절대 패스면
+        cmd += sys.argv[1]
     else:
         cmd += os.getcwd() + '/' + sys.argv[1]
 
@@ -30,5 +35,4 @@ s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 s.sendto(cmd.encode(), 0, (HOST, PORT))
 s.close()
 
-print(sys.argv[0])
 print('Sent:', cmd)
