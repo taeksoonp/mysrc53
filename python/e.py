@@ -10,14 +10,15 @@ def usage():
     print("usage: e [filename]")
     exit(0)
 
-print(sys.argv[0])
-print(sys.argv[1])
+print(sys.argv)
 
 if os.path.basename(sys.argv[0]) == 'e':
     cmd = 'notepad '
-else:
+elif os.path.basename(sys.argv[0]) == '3':     
     cmd = '"C:/Program Files/BowPad/BowPad.exe" '
-
+else:
+    cmd = '"C:/Program Files (x86)/Notepad++/Notepad++.exe" '
+    
 if len(sys.argv) > 1:
     if sys.argv[1] in ['--help', '-h', '?']:
         usage()
