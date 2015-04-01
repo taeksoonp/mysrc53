@@ -8,7 +8,6 @@ Created on 2014. 12. 12.
 import socket
 import os
 import subprocess
-import shutil
 
 UDP_IP = ""
 UDP_PORT = 6821
