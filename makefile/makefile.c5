@@ -1,12 +1,44 @@
 Xml_files = consolestate_added consolestate_default dvrconfig_added\
 	dvrconfig_default dvrconfig_recordcapacity_added\
 	dvrconfig_recordcapacity_default systemlog_default
-XMLS = $(Xml_files:%=$(Target_path)/%.xml)
-Target_path = project_linux/webgate_$(WHBS_BUILD_MODEL_STR)
 
-all: xmlok
-	make -j4 -C $(Target_path)
+#HS series
+Nobrand = hdr08m hdr16l hdr16m
+Webgate = hd1600fpdr hdc400f hdc801h hs1600fd hsc1601fd hsc801fd \
+	htc801f htc1601f hsc801hd hsc1601hd htc801h
+Dirs =  $(All_wgi) $(All_nobd) project_linux/grundig_grxk4416a
+All_wgi = $(Webgate:%=project_linux/webgate_%)
+All_nobd = $(Nobrand:%=project_linux/nobrand_%)
 
-xmlok: $(XMLS)
-	-rm $@
-	xmllint --noout $^ && touch $@
+Target = $(WHBS_BUILD_OEM_STR)_$(WHBS_BUILD_MODEL_STR)
+Target_path = project_linux/$(Target)/
+
+all clean:
+	time make -j4 -C $(Target_path) $@
+
+xmlok:
+	xmllint --noout $(Dirs:%=%/*.xml)
+
+qm: language/ml_korean.qm
+
+language/ml_korean.qm: project_linux/ts/ml_korean.ts
+	lrelease-qt4 project_linux/ts/*.ts
+	mv project_linux/ts/*.qm language
+ 
+install: all
+	$(CROSS_COMPILE)strip $(Target_path)/$(Target)	-o ../../../../bin/$(Target)/console_exe/conmain
+
+lswin:
+	ls -l ../../../../bin/$(Target)/cc_config
+
+#Batch build
+all~wgi: $(All_wgi)
+
+$(All_wgi):
+	time make -j4 -C $@
+
+# config
+all~qtconfig:
+	$(Dirs:%=pushd .&&cd % &&qmake-qt4&&popd&&) echo Done!
+
+.PHONY: all clean xmlok qm $(All_wgi) $(All_nobd) all~wgi all~qtconfig
