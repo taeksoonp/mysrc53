@@ -8,6 +8,7 @@ Created on 2014. 12. 12.
 import socket
 import os
 import subprocess
+import shutil  # eee가 쓴다.
 
 UDP_IP = ""
 UDP_PORT = 6821

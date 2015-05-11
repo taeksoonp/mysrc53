@@ -5,6 +5,7 @@ import socket
 import sys
 import os
 
+
 def usage():
     print('explorer & notepad client. v1.0')
     print("usage: e [filename]")
@@ -13,16 +14,14 @@ def usage():
 print(sys.argv)
 
 if os.path.basename(sys.argv[0]) == 'e':
-    cmd = 'notepad '
-elif os.path.basename(sys.argv[0]) == '3':     
-    cmd = '"C:/Program Files/BowPad/BowPad.exe" '
-else:
     cmd = '"C:/Program Files (x86)/Notepad++/Notepad++.exe" '
-    
+elif os.path.basename(sys.argv[0]) == '3':
+    cmd = 'notepad '
+
 if len(sys.argv) > 1:
     if sys.argv[1] in ['--help', '-h', '?']:
         usage()
-    elif sys.argv[1][0] == '/': #절대 패스면
+    elif sys.argv[1][0] == '/':  # 절대 패스면
         cmd += sys.argv[1]
     else:
         cmd += os.getcwd() + '/' + sys.argv[1]

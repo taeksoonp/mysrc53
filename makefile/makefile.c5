@@ -12,26 +12,55 @@ All_nobd = $(Nobrand:%=project_linux/nobrand_%)
 
 Target = $(WHBS_BUILD_OEM_STR)_$(WHBS_BUILD_MODEL_STR)
 Target_path = project_linux/$(Target)/
+Win_path = ../../../../console/project_window/$(Target)/
+Bin_path = ../../../../bin
 
+#To enable -j4 option, cd and make.
 all clean:
-	time make -j4 -C $(Target_path) $@
+	cd $(Target_path) && time make -j4 $@
 
 xmlok:
 	xmllint --noout $(Dirs:%=%/*.xml)
 
 qm: language/ml_korean.qm
 
-language/ml_korean.qm: project_linux/ts/ml_korean.ts
+language/ml_korean.qm: project_linux/ts/ml_korean.ts language
 	lrelease-qt4 project_linux/ts/*.ts
 	mv project_linux/ts/*.qm language
- 
+
+language:
+	mkdir language
+
 install: all
 	$(CROSS_COMPILE)strip $(Target_path)/$(Target)	-o ../../../../bin/$(Target)/console_exe/conmain
 
 lswin:
 	ls -l ../../../../bin/$(Target)/cc_config
 
-#Batch build
+ccconfig:
+	cd $(Win_path) && time make -j4
+
+build: all ccconfig qm bld.ccconfig
+	$(CROSS_COMPILE)strip $(Target_path)/$(Target) -o $(Bin_path)/$(Target)/console_exe/conmain
+	cp language/*.qm $(Bin_path)/$(Target)/lang_qm/ -f
+	cp $(Target_path)/*.xml $(Bin_path)/$(Target)/config_xml/ -f
+#ccconfig	
+	cp $(Target_path)/*.xml bld.ccconfig -f
+	cp $(Win_path)/release/config.exe bld.ccconfig -f
+	cp $(Target_path)/systemlog_default.xml bld.ccconfig/systemlog.xml -f
+	cp $(Target_path)/dvrconfig_default.xml bld.ccconfig/dvrconfig.xml -f
+	cp $(Target_path)/dvrconfig_added.xml bld.ccconfig/ -f
+	cp $(Target_path)/dvrconfig_recordcapacity_default.xml bld.ccconfig -f
+	cp $(Target_path)/consolestate_default.xml bld.ccconfig -f
+	cp language/*.qm bld.ccconfig
+	zip -j $(Bin_path)/$(Target)/cc_config/config.zip bld.ccconfig/*
+
+bld.ccconfig:
+	mkdir bld.ccconfig
+	
+#
+# Batch build
+#
 all~wgi: $(All_wgi)
 
 $(All_wgi):
@@ -41,4 +70,4 @@ $(All_wgi):
 all~qtconfig:
 	$(Dirs:%=pushd .&&cd % &&qmake-qt4&&popd&&) echo Done!
 
-.PHONY: all clean xmlok qm $(All_wgi) $(All_nobd) all~wgi all~qtconfig
+.PHONY: all clean xmlok qm ccconfig $(All_wgi) $(All_nobd) all~wgi all~qtconfig
