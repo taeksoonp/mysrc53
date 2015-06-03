@@ -27,6 +27,8 @@
 								<option id="gnu.cpp.compiler.option.preprocessor.def.1884759799" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="_HS_"/>
 									<listOptionValue builtIn="false" value="_WEBGATE_"/>
+									<listOptionValue builtIn="false" value="slots"/>
+									<listOptionValue builtIn="false" value="signals=public"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.323179511" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
@@ -34,6 +36,8 @@
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.260706319" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="_HS_"/>
 									<listOptionValue builtIn="false" value="_WEBGATE_"/>
+									<listOptionValue builtIn="false" value="slots"/>
+									<listOptionValue builtIn="false" value="signals=public"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1039598579" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
@@ -46,6 +50,7 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
+					<fileInfo id="cdt.managedbuild.toolchain.gnu.mingw.base.1641468586.741121213" name="build.Makefile" rcbsApplicability="disable" resourcePath="_etc/build.Makefile" toolsToInvoke=""/>
 					<sourceEntries>
 						<entry excluding="project_linux" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>

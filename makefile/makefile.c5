@@ -13,7 +13,6 @@ All_nobd = $(Nobrand:%=project_linux/nobrand_%)
 Target = $(WHBS_BUILD_OEM_STR)_$(WHBS_BUILD_MODEL_STR)
 Target_path = project_linux/$(Target)/
 Win_path = ../../../../console/project_window/$(Target)/
-Bin_path = ../../../../bin
 
 #To enable -j4 option, cd and make.
 all clean:
@@ -24,12 +23,15 @@ xmlok:
 
 qm: language/ml_korean.qm
 
-language/ml_korean.qm: project_linux/ts/ml_korean.ts language
+language/ml_korean.qm: project_linux/ts/ml_korean.ts language lupdate
 	lrelease-qt4 project_linux/ts/*.ts
 	mv project_linux/ts/*.qm language
 
 language:
 	mkdir language
+
+lupdate:
+	cd project_linux&&./lupdate.sh
 
 install: all
 	$(CROSS_COMPILE)strip $(Target_path)/$(Target)	-o ../../../../bin/$(Target)/console_exe/conmain
@@ -40,18 +42,24 @@ lswin:
 ccconfig:
 	cd $(Win_path) && time make -j4
 
+build:	Bin_path = ../../../../bin
+build:	Qt_lib = $(Bin_path)/$(Target)/qt_lib
 build: all ccconfig qm bld.ccconfig
+	mkdir -p $(Bin_path)/$(Target)/console_exe $(Bin_path)/$(Target)/config_xml $(Bin_path)/$(Target)/lang_qm $(Bin_path)/$(Target)/cc_config
+	if [ -d $(Qt_lib) ]; then echo qt_lib ok; else ln -s ../../qt/lib $(Qt_lib); fi
 	$(CROSS_COMPILE)strip $(Target_path)/$(Target) -o $(Bin_path)/$(Target)/console_exe/conmain
 	cp language/*.qm $(Bin_path)/$(Target)/lang_qm/ -f
 	cp $(Target_path)/*.xml $(Bin_path)/$(Target)/config_xml/ -f
+#version
+	cd $(Bin_path)/$(Target)/config_xml/&&\
+	sed -i '/general_fw_version/,/general_fw_version/ s:<string>.*</string>:<string>'${WHBS_BUILD_VERSION}'</string>:' dvrconfig_default.xml 
+	
 #ccconfig	
-	cp $(Target_path)/*.xml bld.ccconfig -f
 	cp $(Win_path)/release/config.exe bld.ccconfig -f
 	cp $(Target_path)/systemlog_default.xml bld.ccconfig/systemlog.xml -f
 	cp $(Target_path)/dvrconfig_default.xml bld.ccconfig/dvrconfig.xml -f
-	cp $(Target_path)/dvrconfig_added.xml bld.ccconfig/ -f
-	cp $(Target_path)/dvrconfig_recordcapacity_default.xml bld.ccconfig -f
-	cp $(Target_path)/consolestate_default.xml bld.ccconfig -f
+	cp $(Target_path)/dvrconfig_recordcapacity_default.xml bld.ccconfig/dvrconfig_recordcapacity.xml -f
+	cp $(Target_path)/consolestate_default.xml bld.ccconfig/consolestate.xml -f
 	cp language/*.qm bld.ccconfig
 	zip -j $(Bin_path)/$(Target)/cc_config/config.zip bld.ccconfig/*
 
