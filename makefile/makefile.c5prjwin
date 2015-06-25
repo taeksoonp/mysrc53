@@ -1,0 +1,44 @@
+#
+# cc config build
+#
+
+TOPDIR = .
+MODEL = l_model
+Target = config
+XMLDIR = l_xml
+QMDIR = l_qm
+QMFILES := $(wildcard $(QMDIR)/ml_*.qm)
+SYSTEMLOG_DFT = $(XMLDIR)/systemlog_default.xml
+DVRCONFIG_DFT = $(XMLDIR)/dvrconfig_default.xml
+DVRCONFIG_ADDED = $(XMLDIR)/dvrconfig_added.xml
+DVRCONFIG_REC_DFT = $(XMLDIR)/dvrconfig_recordcapacity_default.xml
+DVRCONFIG_CONST_DFT = $(XMLDIR)/consolestate_default.xml
+
+Hddist = qt_config
+
+all: $(Target).zip
+
+$(Target).zip: $(MODEL)/release/$(Target).exe $(SYSTEMLOG_DFT) $(DVRCONFIG_DFT) $(DVRCONFIG_ADDED) $(DVRCONFIG_REC_DFT) $(QMFILES)
+	-mkdir $(Target)
+	rm $(Target)/* -rf
+	cp $(SYSTEMLOG_DFT) $(Target)/systemlog.xml
+	cp $(DVRCONFIG_DFT) $(Target)/dvrconfig.xml
+	cp $(DVRCONFIG_ADDED) $(Target)/dvrconfig_added.xml
+	cp $(DVRCONFIG_REC_DFT) $(Target)/dvrconfig_recordcapacity.xml
+	cp $(DVRCONFIG_CONST_DFT) $(Target)/consolestate.xml
+	cp $(MODEL)/release/$(Target).exe $(Target)
+	cp $(QMFILES) $(Target)
+	zip -j $(Target).zip $(Target)/*
+	cp $(Target).zip $(Hddist) -f
+
+$(MODEL)/release/$(Target).exe: $(MODEL)/Makefile
+	make -C $(MODEL)
+	
+$(MODEL)/Makefile:
+	cd $(MODEL) && mingw32-qmake-qt4
+
+cleanall: clean
+	rm $(MODEL)/release/$(Target).exe $(MODEL)/Makefile*
+
+clean:
+	rm $(Target).zip $(Hddist)/config.zip $(Target) -r 

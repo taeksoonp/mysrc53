@@ -14,6 +14,9 @@ def usage():
     exit(0)
 
 cmd = '"C:/Program Files/TortoiseSVN/bin/TortoiseProc.exe" '
+c5con = '/home/ts.p/nfs/hidvr/console/qt/examples/qws/console'
+c5winprj = '/home/ts.p/nfs/hidvr/console/console/project_window'
+
 if len(sys.argv) > 1:
     if sys.argv[1] == 'l':
         cmd += '/command:log /path:' + os.getcwd()
@@ -23,6 +26,8 @@ if len(sys.argv) > 1:
         cmd += '/command:repobrowser /path:' + os.getcwd()
     elif sys.argv[1] == 'ci':
         cmd += '/command:commit /path:' + os.getcwd()
+    elif sys.argv[1] == 'cic5':
+        cmd += '/command:commit /path:' + c5con + '*' + c5winprj
     else:
         usage()
 else:
