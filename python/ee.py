@@ -11,6 +11,7 @@ def usage():
     print("\tm: modification")
     print("\tr: repository")
     print("\tci: ci")
+    print("\tcic5: ci hidvr~console")
     exit(0)
 
 cmd = '"C:/Program Files/TortoiseSVN/bin/TortoiseProc.exe" '

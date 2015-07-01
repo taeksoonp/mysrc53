@@ -1,0 +1,40 @@
+#!/bin/ash
+
+source /wgi_sys_vars_definition
+
+if [ ${vga_output_type} = ${VGA_OUTPUT_TYPE_0} ]; then
+FB_NO=1
+else
+FB_NO=0
+fi
+
+Mymodel=$1
+Oem=webgate
+
+if [[ "$2" && "$2" = "--initxml" ]]; then
+	Arg="$2 project_linux/${Oem}_$Mymodel" $3 $4 $5
+	echo
+	echo
+	echo xml 초기화 한다 한다 한다.
+	echo xml 초기화 한다 한다 한다.
+	echo xml 초기화 한다 한다 한다.
+	echo xml 초기화 한다 한다 한다.
+	echo xml 초기화 한다 한다 한다.
+	echo xml 초기화 한다 한다 한다.
+	echo xml 초기화 한다 한다 한다.
+	echo xml 초기화 한다 한다 한다.
+	echo xml 초기화 한다 한다 한다.
+	echo xml 초기화 한다 한다 한다.
+	echo xml 초기화 한다 한다 한다.
+	echo xml 초기화 한다 한다 한다.
+	echo xml 초기화 한다 한다 한다.
+	echo
+	echo
+elif [[ "$1" ]]; then
+	Arg=$2 $3 $4 $5
+else
+	echo 모델은?
+	exit 0
+fi
+
+../hidvr/console/qt/examples/qws/console/project_linux/${Oem}_$Mymodel/${Oem}_$Mymodel $Arg -qws -display linuxfb:/dev/fb${FB_NO}:size=1920x1080:qws_size=1920x1080:depth=32:mmWidth:480:mmHeight=270 -nokeyboard -font /usr/lib/qt/lib/fonts/arial.ttf

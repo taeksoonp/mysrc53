@@ -18,7 +18,11 @@
 					<folderInfo id="cdt.managedbuild.toolchain.gnu.mingw.base.1641468586.1752540342" name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.mingw.base.294243621" name="MinGW GCC" superClass="cdt.managedbuild.toolchain.gnu.mingw.base">
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.PE" id="cdt.managedbuild.target.gnu.platform.mingw.base.227217314" name="Debug Platform" osList="win32" superClass="cdt.managedbuild.target.gnu.platform.mingw.base"/>
-							<builder arguments="${ProjDirPath} make" command="plink.53.cmd" id="cdt.managedbuild.toolchain.gnu.mingw.base.1641468586.1233483722" keepEnvironmentInBuildfile="false" managedBuildOn="false" name="Gnu Make Builder" superClass="org.eclipse.cdt.build.core.settings.default.builder"/>
+							<builder arguments="${ProjDirPath} make" command="plink.53.cmd" id="cdt.managedbuild.toolchain.gnu.mingw.base.1641468586.1233483722" keepEnvironmentInBuildfile="false" managedBuildOn="false" name="Gnu Make Builder" superClass="org.eclipse.cdt.build.core.settings.default.builder">
+								<outputEntries>
+									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name=""/>
+								</outputEntries>
+							</builder>
 							<tool id="cdt.managedbuild.tool.gnu.assembler.mingw.base.111027663" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.mingw.base">
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.561800461" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -27,8 +31,6 @@
 								<option id="gnu.cpp.compiler.option.preprocessor.def.1884759799" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="_HS_"/>
 									<listOptionValue builtIn="false" value="_WEBGATE_"/>
-									<listOptionValue builtIn="false" value="slots"/>
-									<listOptionValue builtIn="false" value="signals=public"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.323179511" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
@@ -36,8 +38,6 @@
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.260706319" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="_HS_"/>
 									<listOptionValue builtIn="false" value="_WEBGATE_"/>
-									<listOptionValue builtIn="false" value="slots"/>
-									<listOptionValue builtIn="false" value="signals=public"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1039598579" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
@@ -50,6 +50,7 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
+					<fileInfo id="cdt.managedbuild.toolchain.gnu.mingw.base.1641468586.1037727455" name="systemlogdialog.h" rcbsApplicability="disable" resourcePath="ui/v5/systemlogdialog.h" toolsToInvoke=""/>
 					<fileInfo id="cdt.managedbuild.toolchain.gnu.mingw.base.1641468586.741121213" name="build.Makefile" rcbsApplicability="disable" resourcePath="_etc/build.Makefile" toolsToInvoke=""/>
 					<sourceEntries>
 						<entry excluding="project_linux" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>

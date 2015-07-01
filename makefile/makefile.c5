@@ -1,16 +1,20 @@
+#util
+mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
+current_dir := $(notdir $(patsubst %/,%,$(dir $(mkfile_path))))
+
 Target = $(WHBS_BUILD_OEM_STR)_$(WHBS_BUILD_MODEL_STR)
 Target_path = project_linux/$(Target)/
-Win_path = ../../../../console/project_window/$(Target)/
+WTarget_path = ../../../../console/project_window/$(Target)/
 
 #To enable -j4 option, cd and make.
 all clean distclean: $(Target_path)/Makefile
 	cd $(Target_path) && time make -j4 $@
+	@echo ~~~~~~~~~~~~~~~~~~~~~~~~~
+	@echo "	$(Target)"
+	@echo ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 $(Target_path)/Makefile: $(Target_path)/$(Target).pro
 	cd $(Target_path) && qmake-qt4
-
-xmlok:
-	xmllint --noout $(All_lxdir:%=%/*.xml)
 
 qm: language/ml_korean.qm
 
@@ -22,7 +26,10 @@ language:
 	mkdir language
 
 lupdate:
-	cd project_linux&&./lupdate.sh
+	lupdate-qt4 $(Dirs:%=%/*.pro) -ts project_linux/ts/*.ts -locations relative
+
+lupdate-no-obsolete:
+	lupdate-qt4 $(Dirs:%=%/*.pro) -ts project_linux/ts/*.ts -locations relative -no-obsolete
 
 install: all
 	$(CROSS_COMPILE)strip $(Target_path)/$(Target)	-o ../../../../bin/$(Target)/console_exe/conmain
@@ -31,16 +38,19 @@ lswin:
 	ls -l ../../../../bin/$(Target)/cc_config
 
 #ccconfig
-ccc: $(Win_path)/Makefile
-	cd $(Win_path) && make -j4
+ccc: $(WTarget_path)/Makefile
+	cd $(WTarget_path) && make -j4
+
+cccc: ccconfig
+	cd $(WTarget_path) && eee s
 
 #mingw32-qmake-qt4 needs distclean for it isn't perfect.
-$(Win_path)/Makefile: $(Win_path)/$(Target).pro
-	-make -C$(Win_path) distclean
-	cd $(Win_path) && mingw32-qmake-qt4 
+$(WTarget_path)/Makefile: $(WTarget_path)/$(Target).pro
+	-make -C$(WTarget_path) distclean
+	cd $(WTarget_path) && mingw32-qmake-qt4 
 	
-build:	Bin_path = ../../../../bin
-build:	Qt_lib = $(Bin_path)/$(Target)/qt_lib
+build: Bin_path = ../../../../bin
+build: Qt_lib = $(Bin_path)/$(Target)/qt_lib
 build: all ccc qm bld.ccconfig
 	mkdir -p $(Bin_path)/$(Target)/console_exe $(Bin_path)/$(Target)/config_xml $(Bin_path)/$(Target)/lang_qm $(Bin_path)/$(Target)/cc_config
 	if [ -d $(Qt_lib) ]; then echo qt_lib ok; else ln -s ../../qt/lib $(Qt_lib); fi
@@ -52,7 +62,7 @@ build: all ccc qm bld.ccconfig
 	sed -i '/general_fw_version/,/general_fw_version/ s:<string>.*</string>:<string>'${WHBS_BUILD_VERSION}'</string>:' dvrconfig_default.xml 
 	
 #ccconfig	
-	cp $(Win_path)/release/config.exe bld.ccconfig -f
+	cp $(WTarget_path)/release/config.exe bld.ccconfig -f
 	cp $(Target_path)/systemlog_default.xml bld.ccconfig/systemlog.xml -f
 	cp $(Target_path)/dvrconfig_default.xml bld.ccconfig/dvrconfig.xml -f
 	cp $(Target_path)/dvrconfig_recordcapacity_default.xml bld.ccconfig/dvrconfig_recordcapacity.xml -f
@@ -62,44 +72,41 @@ build: all ccc qm bld.ccconfig
 
 bld.ccconfig:
 	mkdir bld.ccconfig
+
+#
+# Checking xmls
+#
+xmlok:Xml_files = consolestate_added consolestate_default dvrconfig_added\
+	dvrconfig_default dvrconfig_recordcapacity_added\
+	dvrconfig_recordcapacity_default systemlog_default
+xmlok:
+	xmllint --noout $(Dirs:%=%/*.xml)
 	
 #
 # Batch build
 #
-Xml_files = consolestate_added consolestate_default dvrconfig_added\
-	dvrconfig_default dvrconfig_recordcapacity_added\
-	dvrconfig_recordcapacity_default systemlog_default
+Dirs := $(filter-out %.pro,$(wildcard project_linux/[nw]*_*))
+Models = $(Dirs:project_linux/%=%)
+WDirs = $(addprefix ../../../../console/project_window/,$(Models))
 
-#HS series + 2 HD
-Nobrand = hdr08m hdr16l hdr16m
-Webgate = hd1600fpdr hdc400f hs1620fpd hsc1601fd hsc801fd hsc821fpd\
-	hsc801hd hsc1601hd \
-	htc801f htc1601f htc810h htc1610h\
-	wdc0108fe wdc0116fe wdc0216fe
-Wdc = wdc0108fe wdc0116fe wdc0216fe
+~~all: $(Dirs) $(WDirs)
+	echo $(Dirs) done!
 
-#util
-lxdir = $(addprefix project_linux/$(1)_,$(2))
-wndir = $(addprefix ../../../../console/project_window/$(1)_,$(2))
-All_lxdir = $(call lxdir,webgate,$(Webgate)) $(call lxdir,nobrand,$(Nobrand))
-All_wndir = $(call wndir,webgate,$(Webgate)) $(call wndir,nobrand,$(Nobrand))
-All_dir =  $(All_lxdir) $(All_wndir)
-
-~~all: $(All_dir)
-
-$(All_dir):
+$(All_dir) $(WDirs):
 	make -j4 -C $@
 
 ~~distclean:
-	$(All_lxdir:%=pushd .&&cd %&&qmake-qt4&&make distclean&&qmake-qt4;popd&&) echo Done!
-	$(All_wndir:%=pushd .&&cd %&&mingw32-qmake-qt4&&make distclean&&mingw32-qmake-qt4;popd&&) echo Done!
-	
-#
-# 임시
-#
-~~wdc: $(call lxdir,webgate,$(Wdc)) $(call wndir,webgate,$(Wdc))
+	$(Dirs:%=pushd .&&cd %&&qmake-qt4&&make distclean&&qmake-qt4;popd&&) echo Done!
+	$(WDirs:%=pushd .&&cd %&&mingw32-qmake-qt4&&make distclean&&mingw32-qmake-qt4;popd&&) echo Done!
 
+.PHONY: all clean xmlok qm ccconfig $(Dirs) $(WDirs) ~~all ~~distclean
+
+#
+# tests
+#
 test:
-	echo $(call lxdir,webgate,$(Webgate))
-	
-.PHONY: all clean xmlok qm ccconfig $(All_dir) ~~all ~~distclean ~~wdc
+	@echo $(Dirs)
+	@echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	@echo $(Models)
+	@echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	@echo $(Dirs:%=%/*.pro)
