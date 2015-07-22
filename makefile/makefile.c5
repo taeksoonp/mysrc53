@@ -2,35 +2,48 @@
 mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
 current_dir := $(notdir $(patsubst %/,%,$(dir $(mkfile_path))))
 
-Target = $(WHBS_BUILD_OEM_STR)_$(WHBS_BUILD_MODEL_STR)
-Target_path = project_linux/$(Target)/
-WTarget_path = ../../../../console/project_window/$(Target)/
+Target ?= $(WHBS_BUILD_OEM_STR)_$(WHBS_BUILD_MODEL_STR)
+Target_path = project_linux/$(Target)
+WTarget_path = ../../../../console/project_window/$(Target)
 
 #To enable -j4 option, cd and make.
-all clean distclean: $(Target_path)/Makefile
-	cd $(Target_path) && time make -j4 $@
-	@echo ~~~~~~~~~~~~~~~~~~~~~~~~~
-	@echo "	$(Target)"
-	@echo ~~~~~~~~~~~~~~~~~~~~~~~~~
+all: $(Target_path)
+
+clean distclean:
+	cd $(Target_path) && make $@
+
+$(Target_path) $(WTarget_path): %$(Target): %$(Target)/Makefile
+	time make -j4 -C$@
+	@echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	@echo "	$(Target) done."
+	@echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 $(Target_path)/Makefile: $(Target_path)/$(Target).pro
-	cd $(Target_path) && qmake-qt4
+	cd $(dir $@) && qmake-qt4
+
+$(WTarget_path)/Makefile: $(WTarget_path)/$(Target).pro
+	cd $(dir $@) && mingw32-qmake-qt4
 
 qm: language/ml_korean.qm
 
-language/ml_korean.qm: project_linux/ts/ml_korean.ts language lupdate
+language/ml_korean.qm: project_linux/ts/ml_korean.ts lupdate
+	[ -d language ] || mkdir language
 	lrelease-qt4 project_linux/ts/*.ts
 	mv project_linux/ts/*.qm language
 
-language:
-	mkdir language
-
 lupdate:
-	lupdate-qt4 $(Dirs:%=%/*.pro) -ts project_linux/ts/*.ts -locations relative
+	lupdate-qt4 $(Dirs:%=%/*.pro) -ts project_linux/ts/*.ts -locations none -no-obsolete
 
-lupdate-no-obsolete:
-	lupdate-qt4 $(Dirs:%=%/*.pro) -ts project_linux/ts/*.ts -locations relative -no-obsolete
+lupdate.loc: Ts = project_linux/ts
+lupdate.loc: Loc = project_linux/ts/loc
+lupdate.loc:
+	[ -d $(Loc) ] || mkdir $(Loc)
+	cp $(Ts)/*.ts $(Loc)
+	lupdate-qt4 $(Dirs:%=%/*.pro) -ts $(Loc)/*.ts -locations relative -no-obsolete
 
+lupdate.obsolete:
+	lupdate-qt4 $(Dirs:%=%/*.pro) -ts project_linux/ts/*.ts -locations none
+	
 install: all
 	$(CROSS_COMPILE)strip $(Target_path)/$(Target)	-o ../../../../bin/$(Target)/console_exe/conmain
 
@@ -38,17 +51,11 @@ lswin:
 	ls -l ../../../../bin/$(Target)/cc_config
 
 #ccconfig
-ccc: $(WTarget_path)/Makefile
-	cd $(WTarget_path) && make -j4
+ccc: $(WTarget_path)
 
-cccc: ccconfig
+cccc: ccc
 	cd $(WTarget_path) && eee s
 
-#mingw32-qmake-qt4 needs distclean for it isn't perfect.
-$(WTarget_path)/Makefile: $(WTarget_path)/$(Target).pro
-	-make -C$(WTarget_path) distclean
-	cd $(WTarget_path) && mingw32-qmake-qt4 
-	
 build: Bin_path = ../../../../bin
 build: Qt_lib = $(Bin_path)/$(Target)/qt_lib
 build: all ccc qm bld.ccconfig
@@ -89,24 +96,30 @@ Dirs := $(filter-out %.pro,$(wildcard project_linux/[nw]*_*))
 Models = $(Dirs:project_linux/%=%)
 WDirs = $(addprefix ../../../../console/project_window/,$(Models))
 
-~~all: $(Dirs) $(WDirs)
+~~all: $(Models)
 	echo $(Dirs) done!
 
-$(All_dir) $(WDirs):
-	make -j4 -C $@
+$(Models):
+	make Target=$@
+	make ccc Target=$@
 
 ~~distclean:
 	$(Dirs:%=pushd .&&cd %&&qmake-qt4&&make distclean&&qmake-qt4;popd&&) echo Done!
 	$(WDirs:%=pushd .&&cd %&&mingw32-qmake-qt4&&make distclean&&mingw32-qmake-qt4;popd&&) echo Done!
 
-.PHONY: all clean xmlok qm ccconfig $(Dirs) $(WDirs) ~~all ~~distclean
+.PHONY: all clean xmlok qm ccconfig $(Models) $(Target_path) $(WTarget_path) ~~all ~~distclean
 
 #
 # tests
 #
 test:
-	@echo $(Dirs)
-	@echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	@echo $(Models)
-	@echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	@echo $(Dirs:%=%/*.pro)
+	echo $(CURDIR)
+	@echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	echo $(MAKEFLAGS)
+	echo $(MAKELEVEL)
+	make ttt -C tt -f ../Makefile
+
+ttt:
+	echo ~~~ttt~~~
+	echo $(MAKEFLAGS)
+	echo $(MAKELEVEL)
