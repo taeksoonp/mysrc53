@@ -12,6 +12,11 @@ Oem=webgate
 OModel=${Oem}_$1
 Version=`awk -F: '{print $2}' /version`
 
+if [[ ! "$1" ]]; then
+	echo 모델은?
+	exit 0
+fi
+
 if [[ "$2" && "$2" = "--initxml" ]]; then
 	for i in . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 	do
@@ -21,10 +26,6 @@ if [[ "$2" && "$2" = "--initxml" ]]; then
 
 	cp project_linux/$OModel/*.xml /usr/edvr -f
 	sed -i '/general_fw_version/,/general_fw_version/ s:<string>.*</string>:<string>'${Version}'</string>:' /usr/edvr/dvrconfig_default.xml
-	 
-elif [[ ! "$1" ]]; then
-	echo 모델은?
-	exit 0
 fi
 
 Arg=$2 $3 $4 $5
