@@ -10,31 +10,22 @@ fi
 
 Mymodel=$1
 Oem=webgate
+Version=`awk -F: '{print $2}' /version`
 
 if [[ "$2" && "$2" = "--initxml" ]]; then
-	Arg="$2 project_linux/${Oem}_$Mymodel" $3 $4 $5
-	echo
-	echo
-	echo xml 초기화 한다 한다 한다.
-	echo xml 초기화 한다 한다 한다.
-	echo xml 초기화 한다 한다 한다.
-	echo xml 초기화 한다 한다 한다.
-	echo xml 초기화 한다 한다 한다.
-	echo xml 초기화 한다 한다 한다.
-	echo xml 초기화 한다 한다 한다.
-	echo xml 초기화 한다 한다 한다.
-	echo xml 초기화 한다 한다 한다.
-	echo xml 초기화 한다 한다 한다.
-	echo xml 초기화 한다 한다 한다.
-	echo xml 초기화 한다 한다 한다.
-	echo xml 초기화 한다 한다 한다.
-	echo
-	echo
-elif [[ "$1" ]]; then
-	Arg=$2 $3 $4 $5
-else
+	for i in . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
+	do
+		echo -e "xml 초기화 한다 한다 한다.\a"
+	done
+	sleep 1
+
+	cp project_linux/${Oem}_$Mymodel/*.xml /usr/edvr -f
+	sed -i '/general_fw_version/,/general_fw_version/ s:<string>.*</string>:<string>'${Version}'</string>:' /usr/edvr/dvrconfig_default.xml
+	 
+elif [[ ! "$1" ]]; then
 	echo 모델은?
 	exit 0
 fi
 
+Arg=$2 $3 $4 $5
 ../hidvr/console/qt/examples/qws/console/project_linux/${Oem}_$Mymodel/${Oem}_$Mymodel $Arg -qws -display linuxfb:/dev/fb${FB_NO}:size=1920x1080:qws_size=1920x1080:depth=32:mmWidth:480:mmHeight=270 -nokeyboard -font /usr/lib/qt/lib/fonts/arial.ttf

@@ -96,7 +96,7 @@ Dirs := $(filter-out %.pro,$(wildcard project_linux/[nw]*_*))
 Models = $(Dirs:project_linux/%=%)
 WDirs = $(addprefix ../../../../console/project_window/,$(Models))
 
-~~all: $(Models)
+~~all: xmlok $(Models)
 	echo $(Dirs) done!
 
 $(Models):
