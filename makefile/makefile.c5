@@ -26,7 +26,7 @@ $(WTarget_path)/Makefile: $(WTarget_path)/$(Target).pro
 
 qm: language/ml_korean.qm
 
-language/ml_korean.qm: project_linux/ts/ml_korean.ts lupdate
+language/ml_korean.qm: lupdate project_linux/ts/ml_korean.ts
 	[ -d language ] || mkdir language
 	lrelease-qt4 project_linux/ts/*.ts
 	mv project_linux/ts/*.qm language
@@ -56,9 +56,12 @@ ccc: $(WTarget_path)
 cccc: ccc
 	cd $(WTarget_path) && eee s
 
+#
+#	build console
+#
 build: Bin_path = ../../../../bin
 build: Qt_lib = $(Bin_path)/$(Target)/qt_lib
-build: all ccc qm bld.ccconfig
+build: all ccc qm
 	mkdir -p $(Bin_path)/$(Target)/console_exe $(Bin_path)/$(Target)/config_xml $(Bin_path)/$(Target)/lang_qm $(Bin_path)/$(Target)/cc_config
 	if [ -d $(Qt_lib) ]; then echo qt_lib ok; else ln -s ../../qt/lib $(Qt_lib); fi
 	$(CROSS_COMPILE)strip $(Target_path)/$(Target) -o $(Bin_path)/$(Target)/console_exe/conmain
@@ -68,7 +71,8 @@ build: all ccc qm bld.ccconfig
 	cd $(Bin_path)/$(Target)/config_xml/&&\
 	sed -i '/general_fw_version/,/general_fw_version/ s:<string>.*</string>:<string>'${WHBS_BUILD_VERSION}'</string>:' dvrconfig_default.xml 
 	
-#ccconfig	
+#ccconfig
+	[ -d bld.ccconfig ] || mkdir bld.cconfig
 	cp $(WTarget_path)/release/config.exe bld.ccconfig -f
 	cp $(Target_path)/systemlog_default.xml bld.ccconfig/systemlog.xml -f
 	cp $(Target_path)/dvrconfig_default.xml bld.ccconfig/dvrconfig.xml -f
@@ -76,9 +80,6 @@ build: all ccc qm bld.ccconfig
 	cp $(Target_path)/consolestate_default.xml bld.ccconfig/consolestate.xml -f
 	cp language/*.qm bld.ccconfig
 	zip -j $(Bin_path)/$(Target)/cc_config/config.zip bld.ccconfig/*
-
-bld.ccconfig:
-	mkdir bld.ccconfig
 
 #
 # Checking xmls
