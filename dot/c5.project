@@ -24,22 +24,5 @@
 		<nature>org.eclipse.cdt.managedbuilder.core.managedBuildNature</nature>
 		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
 		<nature>org.eclipse.cdt.qt.core.qtNature</nature>
-		</natures>
-	<linkedResources>
-		<link>
-			<name>_etc/build.Makefile</name>
-			<type>1</type>
-			<location>N:/nfs/hidvr/root/build/Makefile</location>
-		</link>
-		<link>
-			<name>_etc/build_v5_console.sh</name>
-			<type>1</type>
-			<location>N:/nfs/hidvr/console/build_v5_console.sh</location>
-		</link>
-		<link>
-			<name>_etc/prjwin.Makefile</name>
-			<type>1</type>
-			<location>N:/nfs/hidvr/console/console/project_window/Makefile</location>
-		</link>
-	</linkedResources>
+	</natures>
 </projectDescription>

@@ -8,15 +8,16 @@ WTarget_path = ../../../../console/project_window/$(Target)
 
 #To enable -j4 option, cd and make.
 all: $(Target_path)
-
+alll: all ccc
+ 
 clean distclean:
 	cd $(Target_path) && make $@
 
 $(Target_path) $(WTarget_path): %$(Target): %$(Target)/Makefile
 	time make -j4 -C$@
-	@echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	@echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	@echo "	$(Target) done."
-	@echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	@echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 $(Target_path)/Makefile: $(Target_path)/$(Target).pro
 	cd $(dir $@) && qmake-qt4
@@ -89,7 +90,8 @@ xmlok:Xml_files = consolestate_added consolestate_default dvrconfig_added\
 	dvrconfig_recordcapacity_default systemlog_default
 xmlok:
 	xmllint --noout $(Dirs:%=%/*.xml)
-	
+	@echo -e "\ntodo: event source에서 raid 검사\n"
+
 #
 # Batch build
 #
