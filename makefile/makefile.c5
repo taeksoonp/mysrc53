@@ -105,13 +105,12 @@ xml.etc:
 	@echo " -> OK"
 	
 	@echo "2. The ptz port of coc dvr is 3, the othres is 0."
-	@for i in $(Dirs); do\
-		ptzport=`xmltt -t camera_ptzport $$i/dvrconfig_default.xml`;\
-		correct=`xmltt -q -t general_cocdvr $$i/dvrconfig_added.xml && echo 3 || echo 0`;\
+	@$(foreach dir,$(Dirs),\
+		ptzport=`xmltt -t camera_ptzport $(dir)/dvrconfig_default.xml`;\
+		correct=`xmltt -q -t general_cocdvr $(dir)/dvrconfig_added.xml && echo 3 || echo 0`;\
 		echo -n "ptz port is $$ptzport and must be $$correct -> ";\
 		[[ "$$ptzport" = "$$correct" ]] || exit 1;\
-		echo OK;\
-	done
+		echo OK;)
 	@echo
 	
 	@echo "3. Checking general_raiddvr tag with model name"
