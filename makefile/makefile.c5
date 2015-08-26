@@ -85,12 +85,42 @@ build: all ccc qm
 #
 # Checking xmls
 #
-xmlok:Xml_files = consolestate_added consolestate_default dvrconfig_added\
-	dvrconfig_default dvrconfig_recordcapacity_added\
-	dvrconfig_recordcapacity_default systemlog_default
-xmlok:
+xmlok: xml.syntax xml.etc
+	@echo -e "\nXMLs are good.\n"
+
+xml.syntax:
+	@echo ~~~~~~ The XML inspections begins ~~~~~~
 	xmllint --noout $(Dirs:%=%/*.xml)
-	@echo -e "\ntodo: event source에서 raid 검사\n"
+	@echo -e "XML syntax -> OK\n\n"
+
+xml.etc: Pocdvrs = $(filter %pd %pdr,$(Dirs))
+xml.etc: Cocdvrs = $(sort $(filter project_linux/webgate_ht%,$(Dirs)) $(Pocdvrs))
+xml.etc: tt1=$(shell find project_linux -name *.xml|xargs grep general_cocdvr|gawk -F: '{print $$1}'|sort)
+xml.etc: Raiddvrs = $(filter %r,$(Dirs))
+xml.etc: tt3=$(shell find project_linux -name *.xml|xargs grep general_raiddvr|gawk -F: '{print $$1}'|sort)
+xml.etc: tt4=$(shell find project_linux -name *.xml|xargs grep "raid\sfail"|gawk -F: '{print $$1}'|uniq|sort)
+xml.etc:
+	@echo "1. Checking general_cocdvr tag with model name"
+	@[[ "$(Cocdvrs:%=%/dvrconfig_added.xml)" = "$(tt1)" ]]
+	@echo " -> OK"
+	
+	@echo "2. The ptz port of coc dvr is 3, the othres is 0."
+	@for i in $(Dirs); do\
+		ptzport=`xmltt -t camera_ptzport $$i/dvrconfig_default.xml`;\
+		correct=`xmltt -q -t general_cocdvr $$i/dvrconfig_added.xml && echo 3 || echo 0`;\
+		echo -n "ptz port is $$ptzport and must be $$correct -> ";\
+		[[ "$$ptzport" = "$$correct" ]] || exit 1;\
+		echo OK;\
+	done
+	@echo
+	
+	@echo "3. Checking general_raiddvr tag with model name"
+	@[[ "$(Raiddvrs:%=%/dvrconfig_added.xml)" = "$(tt3)" ]]
+	@echo -e " -> OK\n\n"
+
+	@echo "4. Checking event_actions_sourcesystem tag~'raid fail' attribute with general_raiddvr tag"
+	@[[ "$(tt3)" = "$(tt4)" ]]
+	@echo -e " -> OK\n\n"
 
 #
 # Batch build
@@ -110,7 +140,16 @@ $(Models):
 	$(Dirs:%=pushd .&&cd %&&qmake-qt4&&make distclean&&qmake-qt4;popd&&) echo Done!
 	$(WDirs:%=pushd .&&cd %&&mingw32-qmake-qt4&&make distclean&&mingw32-qmake-qt4;popd&&) echo Done!
 
-.PHONY: all clean xmlok qm ccconfig $(Models) $(Target_path) $(WTarget_path) ~~all ~~distclean
+.PHONY: all clean xmlok xml.syntax xml.etc qm ccconfig $(Models) $(Target_path) $(WTarget_path)\
+	~~all ~~distclean
+
+#
+# Appendix: Derivatives
+#
+Derivatives = $(Nobrands) $(WDCs)
+Nobrands = hdr08m~hsc801fd hdr16l~hs1600fd hdr16m~hsc1601fd		#same h/w, f/w
+WDCs = wdc0108fe~hsc801fd wdc0116fe~hsc1601fd wdc0216fe~hs1600fd	#same h/w
+Grundigs = grxk4416a~hs1600fd										#fossil	model
 
 #
 # tests
