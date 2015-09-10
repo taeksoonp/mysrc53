@@ -55,7 +55,7 @@ Testing xml node. v1.0
 notice("usage: testxml -t tag <filename>
 -h, --help:\tThis message
 -t, --tag:\tTag name is mandatory.
--s, --silence:\tDon't print out result.
+-s, --silence:\tDon't print out the result.
 ''')
 
 def main(argv):
