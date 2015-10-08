@@ -4,7 +4,6 @@ import socket
 import sys
 import os
 
-
 def usage():
     print("usage: ee l|m|r")
     print("\tl: log")
@@ -12,6 +11,7 @@ def usage():
     print("\tr: repository")
     print("\tci: ci")
     print("\tcic5: ci hidvr~console")
+    print("\tcibr: ci br~console")
     exit(0)
 
 cmd = '"C:/Program Files/TortoiseSVN/bin/TortoiseProc.exe" '

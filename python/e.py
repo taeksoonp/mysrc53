@@ -13,12 +13,13 @@ def usage():
 print(sys.argv)
 
 if len(sys.argv) > 1:
-    if os.path.basename(sys.argv[1][-3:]) == '.ui':
-        cmd = '"D:/Qt/4.8.6/bin/designer.exe" '
-    elif os.path.basename(sys.argv[1][-3:]) == '.ts':
-        cmd = '"D:/Qt/4.8.6/bin/linguist.exe" '
-    elif os.path.basename(sys.argv[0]) == 'e':
-        cmd = '"C:/Program Files (x86)/Notepad++/Notepad++.exe" '
+    if os.path.basename(sys.argv[0]) == 'e':
+        if os.path.basename(sys.argv[1][-3:]) == '.ui':
+            cmd = '"D:/Qt/4.8.6/bin/designer.exe" '
+        elif os.path.basename(sys.argv[1][-3:]) == '.ts':
+            cmd = '"D:/Qt/4.8.6/bin/linguist.exe" '
+        else:
+            cmd = '"C:/Program Files (x86)/Notepad++/Notepad++.exe" '
     elif sys.argv[1] in ['--help', '-h', '?']:
         usage()
     else:

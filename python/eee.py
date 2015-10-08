@@ -6,28 +6,35 @@ import os
 
 HOST = '192.168.217.41'  # The remote host
 PORT = 6821  # The same port as used by the server
-cmd = 'python '
-configg_path = 'C:/ProgramData/Digital Image World/Control Center/config/'
-
+config_base = 'C:/ProgramData/Digital Image World/Control Center/config/'
 
 def usage():
-    print("usage: eee s")
-    print("\ts:sendconfigg")
-    exit(0)
+    print("usage: eee <sendconfig[-showme] model version | byebye>")
+    exit(1)
+
+def sendit(where):
+    cmd = 'python shutil.copyfile("' + os.getcwd() + '/release/config.exe","' \
+        + where + '/config.exe")\n'
+    s.sendto(cmd.encode(), 0, (HOST, PORT))
+    print('Sent:', cmd)
 
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-if len(sys.argv) > 1:
-    if sys.argv[1] == 's':
-        cmd += 'shutil.copyfile("' + os.getcwd() + '/release/config.exe","' +\
-            configg_path + 'config.exe")\n'
-        s.sendto(cmd.encode(), 0, (HOST, PORT))
-        print('Sent:', cmd)
+if len(sys.argv) > 3:
+    config_path = config_base + 'Config(W)(%s)(%s)' % (sys.argv[2], sys.argv[3])
+    if sys.argv[1] == 'sendconfig':  # + model, version
+        sendit(config_path)
 
-        cmd = 'explorer ' + configg_path
+    elif sys.argv[1] == 'sendconfig-showme':
+        sendit(config_path)
+        cmd = 'explorer ' + config_path
         s.sendto(cmd.encode(), 0, (HOST, PORT))
-        print('Sent:', cmd)
     else:
         usage()
+
+elif len(sys.argv) > 1 and sys.argv[1] == 'byebye':
+    cmd = 'byebye'
+    s.sendto(cmd.encode(), 0, (HOST, PORT))
+
 else:
     usage()
 

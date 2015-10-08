@@ -53,9 +53,15 @@ lswin:
 
 #ccconfig
 ccc: $(WTarget_path)
+ccc.distclean:
+	cd $(WTarget_path) && make distclean
+ccc.clean:
+	cd $(WTarget_path) && make clean
 
 cccc: ccc
-	cd $(WTarget_path) && eee s
+	cd $(WTarget_path) && eee sendconfig $(WHBS_BUILD_MODEL_ID) $(WHBS_BUILD_VERSION)
+ccccs: ccc
+	cd $(WTarget_path) && eee sendconfig-showme $(WHBS_BUILD_MODEL_ID) $(WHBS_BUILD_VERSION)
 
 #
 #	build console
@@ -73,8 +79,8 @@ build: all ccc qm
 	sed -i '/general_fw_version/,/general_fw_version/ s:<string>.*</string>:<string>'${WHBS_BUILD_VERSION}'</string>:' dvrconfig_default.xml 
 	
 #ccconfig
-	[ -d bld.ccconfig ] || mkdir bld.cconfig
-	cp $(WTarget_path)/release/config.exe bld.ccconfig -f
+	[ -d bld.ccconfig ] || mkdir bld.ccconfig
+	cp $(WTarget_path)/release/config.exe bld.ccconfig/ -f
 	cp $(Target_path)/systemlog_default.xml bld.ccconfig/systemlog.xml -f
 	cp $(Target_path)/dvrconfig_default.xml bld.ccconfig/dvrconfig.xml -f
 	cp $(Target_path)/dvrconfig_recordcapacity_default.xml bld.ccconfig/dvrconfig_recordcapacity.xml -f
@@ -96,29 +102,40 @@ xml.syntax:
 xml.etc: Pocdvrs = $(filter %pd %pdr,$(Dirs))
 xml.etc: Cocdvrs = $(sort $(filter project_linux/webgate_ht%,$(Dirs)) $(Pocdvrs))
 xml.etc: tt1=$(shell find project_linux -name *.xml|xargs grep general_cocdvr|gawk -F: '{print $$1}'|sort)
+xml.etc: Htch=$(filter project_linux/webgate_htc%h,$(Dirs))
+xml.etc: Not_Htch=$(filter-out project_linux/webgate_htc%h,$(Dirs))
 xml.etc: Raiddvrs = $(filter %r,$(Dirs))
-xml.etc: tt3=$(shell find project_linux -name *.xml|xargs grep general_raiddvr|gawk -F: '{print $$1}'|sort)
-xml.etc: tt4=$(shell find project_linux -name *.xml|xargs grep "raid\sfail"|gawk -F: '{print $$1}'|uniq|sort)
+xml.etc: tt4=$(shell find project_linux -name *.xml|xargs grep general_raiddvr|gawk -F: '{print $$1}'|sort)
 xml.etc:
 	@echo "1. Checking general_cocdvr tag with model name"
 	@[[ "$(Cocdvrs:%=%/dvrconfig_added.xml)" = "$(tt1)" ]]
 	@echo " -> OK"
 	
-	@echo "2. The ptz port of coc dvr is 3, the othres is 0."
+	@echo "2. Checking general_comport_number tag with model name"
+	@$(foreach dir,$(Htch),\
+		comport_num=`xmltt -t general_comport_number $(dir)/dvrconfig_default.xml`;\
+		[[ "$$comport_num" = "1" ]] || exit 1;)
+	@$(foreach dir,$(Not_Htch),\
+		comport_num=`xmltt -t general_comport_number $(dir)/dvrconfig_default.xml`;\
+		[[ "$$comport_num" = "3" ]] || exit 1;)	
+	@echo " -> OK"
+	
+	@echo "3. The ptz port of coc dvr is 2 if general_comport_number == 1,"
+	@echo "	   The ptz port of coc dvr is 3,"
+	@echo "    And the othres is 0."
 	@$(foreach dir,$(Dirs),\
 		ptzport=`xmltt -t camera_ptzport $(dir)/dvrconfig_default.xml`;\
-		correct=`xmltt -q -t general_cocdvr $(dir)/dvrconfig_added.xml && echo 3 || echo 0`;\
+		comport_num=`xmltt -t general_comport_number $(dir)/dvrconfig_default.xml`;\
+		echo "comport_num: $$comport_num";\
+		lastport=`[[ "$$comport_num" = "1" ]] && echo 2 || echo 3`;\
+		correct=`xmltt -s -t general_cocdvr $(dir)/dvrconfig_added.xml && echo $$lastport || echo 0`;\
 		echo -n "ptz port is $$ptzport and must be $$correct -> ";\
 		[[ "$$ptzport" = "$$correct" ]] || exit 1;\
 		echo OK;)
 	@echo
 	
-	@echo "3. Checking general_raiddvr tag with model name"
-	@[[ "$(Raiddvrs:%=%/dvrconfig_added.xml)" = "$(tt3)" ]]
-	@echo -e " -> OK\n\n"
-
-	@echo "4. Checking event_actions_sourcesystem tag~'raid fail' attribute with general_raiddvr tag"
-	@[[ "$(tt3)" = "$(tt4)" ]]
+	@echo "4. Checking general_raiddvr tag with model name"
+	@[[ "$(Raiddvrs:%=%/dvrconfig_added.xml)" = "$(tt4)" ]]
 	@echo -e " -> OK\n\n"
 
 #
@@ -160,7 +177,7 @@ test:
 	echo $(MAKELEVEL)
 	make ttt -C tt -f ../Makefile
 
+ttt: Htc~h=$(sort $(filter project_linux/webgate_htc%h,$(Dirs)))
 ttt:
-	echo ~~~ttt~~~
-	echo $(MAKEFLAGS)
-	echo $(MAKELEVEL)
+#	echo $(Htc~h)
+	@echo $(Dirs:%h=1)
