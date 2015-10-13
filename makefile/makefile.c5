@@ -141,7 +141,7 @@ xml.etc:
 #
 # Batch build
 #
-Dirs := $(filter-out %.pro,$(wildcard project_linux/[nw]*_*))
+Dirs := $(filter-out %.pro,$(wildcard project_linux/[nwg]*_*))
 Models = $(Dirs:project_linux/%=%)
 WDirs = $(addprefix ../../../../console/project_window/,$(Models))
 
