@@ -1,0 +1,16 @@
+http://www.cnx-software.com/2011/10/03/cross-compiling-boost-c-libraries-for-arm/
+
+1. Bootstrap the code:
+./bootstrap.sh
+
+2. Modify the configuration file (project-build.jam) to use the ARM toolchain by replacing the line with “using gcc” by:
+using gcc : arm : arm-linux-gnueabi-g++ ;
+
+3. Install the python development package: (optional)
+sudo apt-get install python-dev
+
+4. Build and install the boost libraries:
+./bjam install toolset=gcc-arm --prefix=~/edev/beagleboard/libs --disable-long-double -sNO_ZLIB=1 -sNO_BZIP2=1
+
+pts----> removed last 3 option
+./bjam install toolset=gcc-arm --prefix=/opt/lib/boost.arm

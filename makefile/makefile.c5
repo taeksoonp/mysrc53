@@ -1,171 +1,39 @@
-#util
-mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
-current_dir := $(notdir $(patsubst %/,%,$(dir $(mkfile_path))))
-
-Target ?= $(WHBS_BUILD_OEM_STR)_$(WHBS_BUILD_MODEL_STR)
-Target_path = project_linux/$(Target)
-WTarget_path = ../../../../console/project_window/$(Target)
-
-#To enable -j4 option, cd and make.
-all: $(Target_path)
-alll: all ccc
+Target = ${WHBS_CONSOLE_TARGETID}
+Winprj = ../../../../console/project_window/
  
-clean distclean:
-	cd $(Target_path) && make $@
-
-$(Target_path) $(WTarget_path): %$(Target): %$(Target)/Makefile
-	time make -j4 -C$@
+all clean distclean lupdate:
+	make -Cproject_linux $@
 	@echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	@echo "	$(Target) done."
 	@echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-$(Target_path)/Makefile: $(Target_path)/$(Target).pro
-	cd $(dir $@) && qmake-qt4
-
-$(WTarget_path)/Makefile: $(WTarget_path)/$(Target).pro
-	cd $(dir $@) && mingw32-qmake-qt4
+	
+alll: all cccexe
 
 qm: language/ml_korean.qm
 
-language/ml_korean.qm: lupdate project_linux/ts/ml_korean.ts
+language/ml_korean.qm: project_linux/ts/ml_korean.ts
 	[ -d language ] || mkdir language
 	lrelease-qt4 project_linux/ts/*.ts
 	mv project_linux/ts/*.qm language
 
-lupdate:
-	lupdate-qt4 $(Dirs:%=%/*.pro) -ts project_linux/ts/*.ts -locations none -no-obsolete
-
-lupdate.loc: Ts = project_linux/ts
-lupdate.loc: Loc = project_linux/ts/loc
-lupdate.loc:
-	[ -d $(Loc) ] || mkdir $(Loc)
-	cp $(Ts)/*.ts $(Loc)
-	lupdate-qt4 $(Dirs:%=%/*.pro) -ts $(Loc)/*.ts -locations relative -no-obsolete
-
-lupdate.obsolete:
-	lupdate-qt4 $(Dirs:%=%/*.pro) -ts project_linux/ts/*.ts -locations none
-	
-install: all
-	$(CROSS_COMPILE)strip $(Target_path)/$(Target)	-o ../../../../bin/$(Target)/console_exe/conmain
-
-lswin:
-	ls -l ../../../../bin/$(Target)/cc_config
-
 #ccconfig
-ccc: $(WTarget_path)
-ccc.distclean:
-	cd $(WTarget_path) && make distclean
-ccc.clean:
-	cd $(WTarget_path) && make clean
+ccc cccexe cccclean:
+	make -C$(Winprj) $(@:ccc%=%)
 
-cccc: ccc
-	cd $(WTarget_path) && eee sendconfig $(WHBS_BUILD_MODEL_ID) $(WHBS_BUILD_VERSION)
-ccccs: ccc
-	cd $(WTarget_path) && eee sendconfig-showme $(WHBS_BUILD_MODEL_ID) $(WHBS_BUILD_VERSION)
-
-#
-#	build console
-#
-build: Bin_path = ../../../../bin
-build: Qt_lib = $(Bin_path)/$(Target)/qt_lib
-build: all ccc qm
-	mkdir -p $(Bin_path)/$(Target)/console_exe $(Bin_path)/$(Target)/config_xml $(Bin_path)/$(Target)/lang_qm $(Bin_path)/$(Target)/cc_config
-	if [ -d $(Qt_lib) ]; then echo qt_lib ok; else ln -s ../../qt/lib $(Qt_lib); fi
-	$(CROSS_COMPILE)strip $(Target_path)/$(Target) -o $(Bin_path)/$(Target)/console_exe/conmain
-	cp language/*.qm $(Bin_path)/$(Target)/lang_qm/ -f
-	cp $(Target_path)/*.xml $(Bin_path)/$(Target)/config_xml/ -f
-#version
-	cd $(Bin_path)/$(Target)/config_xml/&&\
-	sed -i '/general_fw_version/,/general_fw_version/ s:<string>.*</string>:<string>'${WHBS_BUILD_VERSION}'</string>:' dvrconfig_default.xml 
-	
-#ccconfig
-	[ -d bld.ccconfig ] || mkdir bld.ccconfig
-	cp $(WTarget_path)/release/config.exe bld.ccconfig/ -f
-	cp $(Target_path)/systemlog_default.xml bld.ccconfig/systemlog.xml -f
-	cp $(Target_path)/dvrconfig_default.xml bld.ccconfig/dvrconfig.xml -f
-	cp $(Target_path)/dvrconfig_recordcapacity_default.xml bld.ccconfig/dvrconfig_recordcapacity.xml -f
-	cp $(Target_path)/consolestate_default.xml bld.ccconfig/consolestate.xml -f
-	cp language/*.qm bld.ccconfig
-	zip -j $(Bin_path)/$(Target)/cc_config/config.zip bld.ccconfig/*
-
-#
-# Checking xmls
-#
-xmlok: xml.syntax xml.etc
-	@echo -e "\nXMLs are good.\n"
-
-xml.syntax:
-	@echo ~~~~~~ The XML inspections begins ~~~~~~
-	xmllint --noout $(Dirs:%=%/*.xml)
-	@echo -e "XML syntax -> OK\n\n"
-
-xml.etc: Pocdvrs = $(filter %pd %pdr,$(Dirs))
-xml.etc: Cocdvrs = $(sort $(filter project_linux/webgate_ht%,$(Dirs)) $(Pocdvrs))
-xml.etc: tt1=$(shell find project_linux -name *.xml|xargs grep general_cocdvr|gawk -F: '{print $$1}'|sort)
-xml.etc: Htch=$(filter project_linux/webgate_htc%h,$(Dirs))
-xml.etc: Not_Htch=$(filter-out project_linux/webgate_htc%h,$(Dirs))
-xml.etc: Raiddvrs = $(filter %r,$(Dirs))
-xml.etc: tt4=$(shell find project_linux -name *.xml|xargs grep general_raiddvr|gawk -F: '{print $$1}'|sort)
-xml.etc:
-	@echo "1. Checking general_cocdvr tag with model name"
-	@[[ "$(Cocdvrs:%=%/dvrconfig_added.xml)" = "$(tt1)" ]]
-	@echo " -> OK"
-	
-	@echo "2. Checking general_comport_number tag with model name"
-	@$(foreach dir,$(Htch),\
-		comport_num=`xmltt -t general_comport_number $(dir)/dvrconfig_default.xml`;\
-		[[ "$$comport_num" = "1" ]] || exit 1;)
-	@$(foreach dir,$(Not_Htch),\
-		comport_num=`xmltt -t general_comport_number $(dir)/dvrconfig_default.xml`;\
-		[[ "$$comport_num" = "3" ]] || exit 1;)	
-	@echo " -> OK"
-	
-	@echo "3. The ptz port of coc dvr is 2 if general_comport_number == 1,"
-	@echo "	   The ptz port of coc dvr is 3,"
-	@echo "    And the othres is 0."
-	@$(foreach dir,$(Dirs),\
-		ptzport=`xmltt -t camera_ptzport $(dir)/dvrconfig_default.xml`;\
-		comport_num=`xmltt -t general_comport_number $(dir)/dvrconfig_default.xml`;\
-		echo "comport_num: $$comport_num";\
-		lastport=`[[ "$$comport_num" = "1" ]] && echo 2 || echo 3`;\
-		correct=`xmltt -s -t general_cocdvr $(dir)/dvrconfig_added.xml && echo $$lastport || echo 0`;\
-		echo -n "ptz port is $$ptzport and must be $$correct -> ";\
-		[[ "$$ptzport" = "$$correct" ]] || exit 1;\
-		echo OK;)
-	@echo
-	
-	@echo "4. Checking general_raiddvr tag with model name"
-	@[[ "$(Raiddvrs:%=%/dvrconfig_added.xml)" = "$(tt4)" ]]
-	@echo -e " -> OK\n\n"
+cccc: cccexe
+	cd $(Winprj)/$(Target) && eee sendconfig $(WHBS_BUILD_MODEL_ID) $(WHBS_BUILD_VERSION)
 
 #
 # Batch build
 #
-Dirs := $(filter-out %.pro,$(wildcard project_linux/[nwg]*_*))
-Models = $(Dirs:project_linux/%=%)
-WDirs = $(addprefix ../../../../console/project_window/,$(Models))
+# hd4a hd8a hd16a hs4a hs8a hs16a hd4b hs4b
+All_models = HDC400F HD800F-PDR HD1600F-PDR HTC410H HSC821F-D HSC1601F-D
+My_version = 7.9.999pts
+~~all: Make_all = $(All_models:%=source ../../../../../edvr_hddvr_hisilicon_env.sh % $(My_version);make -Cproject_linux &&)
+~~all:
+	time ($(Make_all) echo $(All_models) done!)
 
-~~all: xmlok $(Models)
-	echo $(Dirs) done!
-
-$(Models):
-	make Target=$@
-	make ccc Target=$@
-
-~~distclean:
-	$(Dirs:%=pushd .&&cd %&&qmake-qt4&&make distclean&&qmake-qt4;popd&&) echo Done!
-	$(WDirs:%=pushd .&&cd %&&mingw32-qmake-qt4&&make distclean&&mingw32-qmake-qt4;popd&&) echo Done!
-
-.PHONY: all clean xmlok xml.syntax xml.etc qm ccconfig $(Models) $(Target_path) $(WTarget_path)\
-	~~all ~~distclean
-
-#
-# Appendix: Derivatives
-#
-Derivatives = $(Nobrands) $(WDCs)
-Nobrands = hdr08m~hsc801fd hdr16l~hs1600fd hdr16m~hsc1601fd		#same h/w, f/w
-WDCs = wdc0108fe~hsc801fd wdc0116fe~hsc1601fd wdc0216fe~hs1600fd	#same h/w
-Grundigs = grxk4416a~hs1600fd										#fossil	model
+.PHONY: all alll clean distclean lupdate qm ccc cccexe cccclean cccc ~~all
 
 #
 # tests
@@ -177,7 +45,10 @@ test:
 	echo $(MAKELEVEL)
 	make ttt -C tt -f ../Makefile
 
-ttt: Htc~h=$(sort $(filter project_linux/webgate_htc%h,$(Dirs)))
 ttt:
-#	echo $(Htc~h)
-	@echo $(Dirs:%h=1)
+	echo 1 $(My_version)
+
+#util
+mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
+current_dir := $(notdir $(patsubst %/,%,$(dir $(mkfile_path))))
+lc = $(subst A,a,$(subst B,b,$(subst C,c,$(subst D,d,$(subst E,e,$(subst F,f,$(subst G,g,$(subst H,h,$(subst I,i,$(subst J,j,$(subst K,k,$(subst L,l,$(subst M,m,$(subst N,n,$(subst O,o,$(subst P,p,$(subst Q,q,$(subst R,r,$(subst S,s,$(subst T,t,$(subst U,u,$(subst V,v,$(subst W,w,$(subst X,x,$(subst Y,y,$(subst Z,z,$1))))))))))))))))))))))))))

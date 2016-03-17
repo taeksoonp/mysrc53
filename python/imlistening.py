@@ -14,7 +14,8 @@ from PyQt4.QtGui import *
 
 UDP_IP = ''
 UDP_PORT = 6821
-Gigacity = '192.168.217.53'
+Gigacitys = ['192.168.217.53', '192.168.217.165']
+Network_drive = ['n:', 'q:']
 Home_path = '/home/ts.p'
 sock = socket.socket(socket.AF_INET,  # Internet
                      socket.SOCK_DGRAM)  # UDP
@@ -28,12 +29,13 @@ while True:
     data, (ip, port) = sock.recvfrom(1024)  # buffer size is 1024 bytes
     print("received message:", data)
     print("from:", ip)
-    if ip != Gigacity:
+    if ip not in Gigacitys:
         print('Warning! Strange ip:', ip)
         continue
 
     cmd = data.decode('utf8')
-    cmd = cmd.replace(Home_path, 'n:')
+    netdrv = Network_drive[Gigacitys.index(ip)]
+    cmd = cmd.replace(Home_path, netdrv)
     if 'explorer' in cmd:
         cmd = os.path.normpath(cmd)
         print("->", subprocess.Popen(cmd).pid)

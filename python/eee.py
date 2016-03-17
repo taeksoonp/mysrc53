@@ -25,8 +25,8 @@ if len(sys.argv) > 3:
         sendit(config_path)
 
     elif sys.argv[1] == 'sendconfig-showme':
-        sendit(config_path)
-        cmd = 'explorer ' + config_path
+        sendit(config_base)
+        cmd = 'explorer ' + config_base
         s.sendto(cmd.encode(), 0, (HOST, PORT))
     else:
         usage()
