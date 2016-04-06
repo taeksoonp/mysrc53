@@ -13,15 +13,24 @@ def usage():
 print(sys.argv)
 
 if len(sys.argv) > 1:
-    if os.path.basename(sys.argv[0]) == 'e':
-        if os.path.basename(sys.argv[1][-3:]) == '.ui':
+    if sys.argv[1] in ['--help', '-h', '?']:
+        usage()
+
+    request = os.path.basename(sys.argv[0])
+    filename = os.path.basename(sys.argv[1])
+    if request == 'e':
+        if filename[-3:] == '.ui':
             cmd = '"D:/Qt/4.8.6/bin/designer.exe" '
-        elif os.path.basename(sys.argv[1][-3:]) == '.ts':
+        elif filename[-3:] == '.ts':
             cmd = '"D:/Qt/4.8.6/bin/linguist.exe" '
         else:
             cmd = '"C:/Program Files (x86)/Notepad++/Notepad++.exe" '
-    elif sys.argv[1] in ['--help', '-h', '?']:
-        usage()
+
+# d: eclipse for c
+    elif filename[-4:] == '.cpp' or filename[-2:] == '.c':
+        cmd = 'C:/bin2/eclipse-cpp-mars-R-win32-x86_64/eclipse/eclipse.exe '
+
+# d: default
     else:
         cmd = 'notepad '
 

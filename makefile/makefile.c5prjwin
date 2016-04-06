@@ -22,10 +22,11 @@ all: $(Target).zip
 #
 # config.zip
 #
-$(Target).zip: exe $(XMLFILES) $(QMFILES)
+$(Target).zip: exe $(XMLFILES) $(QMFILES) dllversion.txt
 	[ -d $(Target) ] || mkdir $(Target)
 	rm $(Target)/* -f
 
+	cp dllversion.txt $(Target)/
 	cp $(SYSTEMLOG_DFT) $(Target)/systemlog.xml
 	cp $(DVRCONFIG_DFT) $(Target)/dvrconfig.xml
 	cp $(DVRCONFIG_REC_DFT) $(Target)/dvrconfig_recordcapacity.xml
@@ -40,7 +41,7 @@ $(Target).zip: exe $(XMLFILES) $(QMFILES)
 # config.exe
 #
 exe $(Model)/release/config.exe: $(Model)/Makefile
-	make -j2 -C$(Model)
+	make -j4 -C$(Model)
 
 $(Model)/Makefile: $(Pro_files)
 #'make distclean' is ng. Sometimes doesn't work.
@@ -51,8 +52,25 @@ $(Model)/Makefile: $(Pro_files)
 #$(QMake) conmain.pro -o $@ ~ doesn't work.	
 	cd $(Model) && $(QMake)
 
+#
+# dll version
+#
+ifeq "$(shell rpm -q mingw32-qt)" "mingw32-qt-4.7.1-3.fc14.noarch"
+DLLVersion = 0
+else
+ifeq "$(shell rpm -q mingw32-qt)" "mingw32-qt-4.8.6-8.el7.noarch"
+DLLVersion = 1
+else
+$(error Unkown mingw32-qt version. please ask sysop)
+endif
+endif
+
+dllversion.txt:
+	echo $(DLLVersion) > $@
+	echo >> $@
+
 clean distclean:
 	-rm $(Model) -rf
-	-rm $(Target).zip $(Target) -r
+	-rm $(Target).zip $(Target) dllversion.txt -r
 
 .PHONY: all clean distclean exe
