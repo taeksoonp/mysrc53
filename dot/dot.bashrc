@@ -24,15 +24,17 @@ function hiprj()
 {
 alias r='cd `cat $Myprj`/root'
 alias k='cd `cat $Myprj`/linux'
-alias s='cd `cat $Myprj`/root/src'
+alias gsss='cd `cat $Myprj`/root/src'
+alias ghi3532src='cd `cat $Myprj`/hi3532_src'
+alias s='cd `cat $Myprj`/console/qt/examples/qws/spotosd'
 alias c='cd `cat $Myprj`/console/qt/examples/qws/console'
-alias ccc="cd `cat $Myprj`/console/qt/examples/qws/console/project_linux/${WHBS_BUILD_OEM_STR}_${WHBS_BUILD_MODEL_STR}"
-alias cccc="cd `cat $Myprj`/console/console/project_window/${WHBS_BUILD_OEM_STR}_${WHBS_BUILD_MODEL_STR}"
+alias v='cd `cat $Myprj`/console/qt/examples/qws/console/etc/vm'
+alias ccc="cd `cat $Myprj`/console/qt/examples/qws/console/project_linux/${WHBS_CONSOLE_TARGETID}"
+alias cccc="cd `cat $Myprj`/console/console/project_window/${WHBS_CONSOLE_TARGETID}"
 alias bb="cd `cat $Myprj`/console/qt/examples/qws/console/project_linux"
 alias bbb="cd `cat $Myprj`/console/console/project_window/"
 alias n='cd `cat $Myprj`/root/src/edvrcore_v6'
 alias nn='cd `cat $Myprj`/root/src/edvrcore'
-alias v='cd `cat $Myprj`/root/src/vfs'
 alias b='cd `cat $Myprj`/root/build'
 alias t='cd `cat $Myprj`'
 alias tt='cd `cat $Myprj`'/console
@@ -40,6 +42,8 @@ alias ts="cd `cat $Myprj`/console/qt/examples/qws/console/project_linux/ts"
 alias dist='cd `cat $Myprj`/root/dist'
 alias uv="cd `cat $Myprj`/console/qt/examples/qws/console/ui/v5"
 alias uh="cd `cat $Myprj`/console/qt/examples/qws/console/ui/hs"
+alias xx="cd `cat $Myprj`/console/qt/examples/qws/console/project_linux/xml"
+alias xxx="cd `cat $Myprj`/console/console/project_window/xml"
 
 #br
 Brprj=~/nfs/br
@@ -117,7 +121,6 @@ function model_id() {
 	sed '
 s/h/h-/g
 s/f/f-/g
-s/m/m-/g
 s/x/x-/g
 
 s/h-$/h/
@@ -174,8 +177,8 @@ function sprj () {
 function setprj () {
 if [ "$2" ]; then
 	echo "$HOME/nfs/$1" > $Myprj
-	model_id $2 > $HOME/nfs/myetc/hi.conf
-	echo $Myver > $HOME/nfs/myetc/hi.ver
+	model_id $2 > $HOME/etc/hi.conf
+	echo $Myver > $HOME/etc/hi.ver
 else
 	echo "what model? 어떤거?"
 	echo currently, `cat $Myprj`, $Model
@@ -211,19 +214,21 @@ fi
 
 #pts prj
 Myprj=~/etc/myprj
-Myver=7.1.99pts
+Myver=7.11.99pts
 WebeyeVer=1.1.99pts
 function sprjenv()
 {
 	#pts hidvr env
-	myprjname=`cat $Myprj` 
+	myprjname=`cat $Myprj`
 	if [ "$myprjname" = "$HOME/nfs/hidvr" -o\
 	 "$myprjname" = "$HOME/nfs/hinew" -o\
 	 "$myprjname" = "$HOME/nfs/br" -o\
 	 "$myprjname" = "$HOME/nfs/r1752_R6.X" ]; then
 		pushd .
 		cd $myprjname
-		. $myprjname/edvr_hddvr_hisilicon_env.sh `cat $HOME/nfs/myetc/hi.conf $HOME/nfs/myetc/hi.ver`
+		pwd
+		echo edvr_hddvr_hisilicon_env.sh `cat $HOME/etc/hi.conf $HOME/etc/hi.ver` 한다.
+		. $myprjname/edvr_hddvr_hisilicon_env.sh `cat $HOME/etc/hi.conf $HOME/etc/hi.ver`
 		echo "^^^^^^^^^^^^^^^^^^^^^^^^^^ 설정 끝"
 		popd
     hiprj
@@ -264,14 +269,14 @@ echo $WHBS_FPGA_FILE
 
 #etc
 export PATH=~/bin/cross:~/bin:~/opt/bin:~/local/bin:$PATH
-export EDITOR=eemacs
-#export EDITOR=vim
+export SVN_EDITOR=gedit
 export PS1='\w\$ '
 #emacs client
 export EMACS_SERVER_FILE=~/etc/server/server
 export LD_LIBRARY_PATH=$HOME/local/lib:/usr/local/lib:/usr/local/gcc491/lib:/usr/lib
 export LD_RUN_PATH=/usr/local/gcc491/lib
-export CDPATH=.:~:~/nfs:~/prj:~/mysrc53/trunk
+#.이 맨 앞에 있어야 한다.
+export CDPATH=.:~:~/nfs:~/nfs/hidvr:~/prjwork:~/mysrc53/trunk
 export LANG=ko_KR.UTF-8
 export TERM=xterm-256color
 export Ga_hih="[가-힣]"

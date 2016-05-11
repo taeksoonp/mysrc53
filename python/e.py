@@ -23,12 +23,10 @@ if len(sys.argv) > 1:
             cmd = '"D:/Qt/4.8.6/bin/designer.exe" '
         elif filename[-3:] == '.ts':
             cmd = '"D:/Qt/4.8.6/bin/linguist.exe" '
+        elif filename[-4:] == '.cpp' or filename[-2:] == '.c' or filename == 'Makefile':
+            cmd = 'C:/bin2/eclipse-cpp-mars-R-win32-x86_64/eclipse/eclipse.exe '
         else:
             cmd = '"C:/Program Files (x86)/Notepad++/Notepad++.exe" '
-
-# d: eclipse for c
-    elif filename[-4:] == '.cpp' or filename[-2:] == '.c':
-        cmd = 'C:/bin2/eclipse-cpp-mars-R-win32-x86_64/eclipse/eclipse.exe '
 
 # d: default
     else:
