@@ -14,9 +14,14 @@ from PyQt4.QtGui import *
 
 UDP_IP = ''
 UDP_PORT = 6821
-Gigacitys = ['192.168.217.53', '192.168.217.165']
-Network_drive = ['n:', 'q:']
-Home_path = '/home/ts.p'
+Gigacitys = ['192.168.56.101', '192.168.217.53', '192.168.217.165']
+Network_drive = ['n:', '~Network~192.168.217.53/ts.p', '~Network~192.168.217.165/ts.p']
+Home_path = '/home/tsp'
+Home_path2 = '/home/ts.p'
+Share_foler = 'd:/Backup'
+Shared_foler = '/media/sf_Backup'
+Eclipse_home = os.environ['Eclipse_home']
+
 sock = socket.socket(socket.AF_INET,  # Internet
                      socket.SOCK_DGRAM)  # UDP
 sock.bind((UDP_IP, UDP_PORT))
@@ -25,6 +30,7 @@ sock.bind((UDP_IP, UDP_PORT))
 # PySide 에러 메시지가 좀 친절해서 알게됨
 app = QApplication(sys.argv)
 
+print('한다.\n')
 while True:
     data, (ip, port) = sock.recvfrom(1024)  # buffer size is 1024 bytes
     print("received message:", data)
@@ -36,8 +42,14 @@ while True:
     cmd = data.decode('utf8')
     netdrv = Network_drive[Gigacitys.index(ip)]
     cmd = cmd.replace(Home_path, netdrv)
+    cmd = cmd.replace(Home_path2, netdrv)
+    cmd = cmd.replace(Shared_foler, Share_foler)
+    cmd = cmd.replace('`~Eclipse_home`~', Eclipse_home)
+    
+    print('cmd는 %s' % cmd)
     if 'explorer' in cmd:
         cmd = os.path.normpath(cmd)
+        cmd = cmd.replace('~Network~', '\\\\')
         print("->", subprocess.Popen(cmd).pid)
 
     elif 'python ' == cmd[0:7]:

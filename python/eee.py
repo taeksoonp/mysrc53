@@ -4,7 +4,7 @@ import socket
 import sys
 import os
 
-HOST = '192.168.217.41'  # The remote host
+HOST = '192.168.56.1'  # The remote host
 PORT = 6821  # The same port as used by the server
 config_base = 'C:/ProgramData/Digital Image World/Control Center/config/'
 

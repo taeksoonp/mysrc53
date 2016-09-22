@@ -24,7 +24,7 @@ if len(sys.argv) > 1:
         elif filename[-3:] == '.ts':
             cmd = '"D:/Qt/4.8.6/bin/linguist.exe" '
         elif filename[-4:] == '.cpp' or filename[-2:] == '.c' or filename == 'Makefile':
-            cmd = 'C:/bin2/eclipse-cpp-mars-R-win32-x86_64/eclipse/eclipse.exe '
+            cmd = '`~Eclipse_home`~/eclipse.exe '
         else:
             cmd = '"C:/Program Files (x86)/Notepad++/Notepad++.exe" '
 
@@ -40,7 +40,7 @@ if len(sys.argv) > 1:
 else:
     cmd = 'explorer ' + os.getcwd()
 
-HOST = '192.168.217.41'  # The remote host
+HOST = '192.168.56.1'  # The remote host
 PORT = 6821  # The same port as used by the server
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 s.sendto(cmd.encode(), 0, (HOST, PORT))

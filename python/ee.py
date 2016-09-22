@@ -16,11 +16,11 @@ def usage():
     exit(0)
 
 cmd = '"C:/Program Files/TortoiseSVN/bin/TortoiseProc.exe" '
-c5con = '/home/ts.p/nfs/hidvr/console/qt/examples/qws/console'
-c5winprj = '/home/ts.p/nfs/hidvr/console/console/project_window'
-brcon = '/home/ts.p/nfs/br/console/qt/examples/qws/console'
-brwinprj = '/home/ts.p/nfs/br/console/console/project_window'
-hienvsh = '/home/ts.p/nfs/hidvr/edvr_hddvr_hisilicon_env.sh'
+c5con = '/home/tsp/prj/hidvr/console/qt/examples/qws/console'
+c5winprj = '/home/tsp/prj/hidvr/console/console/project_window'
+brcon = '/home/tsp/prj/br/console/qt/examples/qws/console'
+brwinprj = '/home/tsp/prj/br/console/console/project_window'
+hienvsh = '/home/tsp/prj/hidvr/edvr_hddvr_hisilicon_env.sh'
 
 if len(sys.argv) > 1:
     if sys.argv[1] == 'l':
@@ -42,7 +42,7 @@ if len(sys.argv) > 1:
 else:
     usage()
 
-HOST = '192.168.217.41'  # The remote host
+HOST = '192.168.56.1'  # The remote host
 PORT = 6821  # The same port as used by the server
 
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
