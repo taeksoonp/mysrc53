@@ -15,7 +15,7 @@ from PyQt4.QtGui import *
 UDP_IP = ''
 UDP_PORT = 6821
 Gigacitys = ['192.168.56.101', '192.168.217.53', '192.168.217.165']
-Network_drive = ['n:', '~Network~192.168.217.53/ts.p', '~Network~192.168.217.165/ts.p']
+Network_drive = ['n:', 'p:', 'o:']
 Home_path = '/home/tsp'
 Home_path2 = '/home/ts.p'
 Share_foler = 'd:/Backup'
@@ -46,7 +46,7 @@ while True:
     cmd = cmd.replace(Shared_foler, Share_foler)
     cmd = cmd.replace('`~Eclipse_home`~', Eclipse_home)
     
-    print('cmd는 %s' % cmd)
+    print('cmd??%s' % cmd)
     if 'explorer' in cmd:
         cmd = os.path.normpath(cmd)
         cmd = cmd.replace('~Network~', '\\\\')

@@ -42,8 +42,14 @@ if len(sys.argv) > 1:
 else:
     usage()
 
-HOST = '192.168.56.1'  # The remote host
-PORT = 6821  # The same port as used by the server
+Hostnm = os.environ['HOSTNAME'];
+if (Hostnm.startswith('ptslinux'):
+    HOST = '192.168.56.1'
+elif (Hostnm.startswith('gigacity'):
+    HOST = '192.168.217.41'
+else:
+    HOST = '192.168.217.41'
+PORT = 6821
 
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 s.sendto(cmd.encode(), 0, (HOST, PORT))
