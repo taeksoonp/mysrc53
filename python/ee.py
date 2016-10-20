@@ -43,9 +43,9 @@ else:
     usage()
 
 Hostnm = os.environ['HOSTNAME'];
-if (Hostnm.startswith('ptslinux'):
+if Hostnm.startswith('ptslinux'):
     HOST = '192.168.56.1'
-elif (Hostnm.startswith('gigacity'):
+elif Hostnm.startswith('gigacity'):
     HOST = '192.168.217.41'
 else:
     HOST = '192.168.217.41'
