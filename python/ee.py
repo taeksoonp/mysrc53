@@ -21,7 +21,8 @@ c5winprj = '/home/tsp/prj/hidvr/console/console/project_window'
 brcon = '/home/tsp/prj/br/console/qt/examples/qws/console'
 brwinprj = '/home/tsp/prj/br/console/console/project_window'
 hienvsh = '/home/tsp/prj/hidvr/edvr_hddvr_hisilicon_env.sh'
-
+c5topmk = '/home/tsp/prj/hidvr/console/Makefile'
+ 
 if len(sys.argv) > 1:
     if sys.argv[1] == 'l':
         cmd += '/command:log /path:' + os.getcwd()
@@ -34,7 +35,7 @@ if len(sys.argv) > 1:
     elif sys.argv[1] == 'ci':
         cmd += '/command:commit /path:' + os.getcwd()
     elif sys.argv[1] == 'cic5':
-        cmd += '/command:commit /path:' + c5con + '*' + c5winprj + '*' + hienvsh
+        cmd += '/command:commit /path:' + c5con + '*' + c5winprj + '*' + hienvsh + '*' + c5topmk
     elif sys.argv[1] == 'cibr':
         cmd += '/command:commit /path:' + brcon + '*' + brwinprj + '*' + hienvsh
     else:
