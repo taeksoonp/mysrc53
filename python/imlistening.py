@@ -1,8 +1,8 @@
 '''
 I am listening.
 Created on 2014. 12. 12.
-
 @author: ts.p
+
 '''
 
 import socket
@@ -10,29 +10,31 @@ import os
 import subprocess
 import shutil  # eee가 쓴다.
 import sys
-from PyQt4.QtGui import *
+from PyQt5.QtWidgets import *
+#from PyQt4.QtGui import *
 
 UDP_IP = ''
 UDP_PORT = 6821
-Gigacitys = ['192.168.56.101', '192.168.217.53', '192.168.217.165']
+Gigacitys = ['192.168.137.80', '192.168.217.53', '192.168.217.165']
 Network_drive = ['n:', 'p:', 'o:']
 Home_path = '/home/tsp'
 Home_path2 = '/home/ts.p'
-Share_foler = 'd:/Backup'
-Shared_foler = '/media/sf_Backup'
-Share_foler2 = 'd:/Qt'
-Shared_foler2 = '/media/sf_Qt'
+Share_foler = 'd:'
+Shared_foler = '/home/tsp/d'
 Eclipse_home = os.environ['Eclipse_home']
 
+#
+# 잊지말고 "제어판\시스템 및 보안\Windows 방화벽" 에 가서 풀어 줘라(고생했다)
+#
 sock = socket.socket(socket.AF_INET,  # Internet
                      socket.SOCK_DGRAM)  # UDP
 sock.bind((UDP_IP, UDP_PORT))
 
 # QApplication은 global로 써야 재사용 할 수 있다.
 # PySide 에러 메시지가 좀 친절해서 알게됨
-app = QApplication(sys.argv)
+app =  QApplication(sys.argv)
 
-print('한다.\n')
+print('되라\n')
 while True:
     data, (ip, port) = sock.recvfrom(1024)  # buffer size is 1024 bytes
     print("received message:", data)
@@ -43,10 +45,9 @@ while True:
 
     cmd = data.decode('utf8')
     netdrv = Network_drive[Gigacitys.index(ip)]
+    cmd = cmd.replace(Shared_foler, Share_foler)
     cmd = cmd.replace(Home_path, netdrv)
     cmd = cmd.replace(Home_path2, netdrv)
-    cmd = cmd.replace(Shared_foler, Share_foler)
-    cmd = cmd.replace(Shared_foler2, Share_foler2)
     cmd = cmd.replace('`~Eclipse_home`~', Eclipse_home)
     
     print('cmd??%s' % cmd)
