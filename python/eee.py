@@ -21,7 +21,7 @@ s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 if len(sys.argv) == 1:
     usage()
 else:
-    cmd = os.getcwd() + '/' + sys.argv[1] + ''.join(sys.argv[2:]);
+    cmd = os.getcwd() + '/' + sys.argv[1] + ' '.join(sys.argv[2:]);
     s.sendto(cmd.encode(), 0, (HOST, PORT))
     print(cmd)
 
