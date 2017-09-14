@@ -53,7 +53,7 @@ else:
     usage()
 
 if Hostnm.startswith('ptslinux'):
-    HOST = '192.168.137.1'
+    HOST = '169.254.156.11'
 elif Hostnm.startswith('gigacity'):
     HOST = '192.168.217.41'
 else:
