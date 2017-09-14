@@ -16,12 +16,18 @@ def usage():
     exit(0)
 
 cmd = '"C:/Program Files/TortoiseSVN/bin/TortoiseProc.exe" '
+jjcon = '/home/tsp/prj/console/qt/examples/qws/console'
+jjwinprj = '/home/tsp/prj/console/console/project_window'
+jjtopmk = '/home/tsp/prj/console/Makefile'
+jjspotosd = '/home/tsp/prj/console/qt/examples/qws/spotosd'
+
 c5con = '/home/tsp/prj/hidvr/console/qt/examples/qws/console'
 c5winprj = '/home/tsp/prj/hidvr/console/console/project_window'
-brcon = '/home/tsp/prj/br/console/qt/examples/qws/console'
-brwinprj = '/home/tsp/prj/br/console/console/project_window'
-hienvsh = '/home/tsp/prj/hidvr/edvr_hddvr_hisilicon_env.sh'
 c5topmk = '/home/tsp/prj/hidvr/console/Makefile'
+c5spotosd = '/home/tsp/prj/hidvr/console/qt/examples/qws/spotosd'
+
+hienvsh = '/home/tsp/prj/hidvr/edvr_hddvr_hisilicon_env.sh'
+Hostnm = os.environ['HOSTNAME'];
  
 if len(sys.argv) > 1:
     if sys.argv[1] == 'l':
@@ -35,15 +41,17 @@ if len(sys.argv) > 1:
     elif sys.argv[1] == 'ci':
         cmd += '/command:commit /path:' + os.getcwd()
     elif sys.argv[1] == 'cic5':
-        cmd += '/command:commit /path:' + c5con + '*' + c5winprj + '*' + hienvsh + '*' + c5topmk
-    elif sys.argv[1] == 'cibr':
-        cmd += '/command:commit /path:' + brcon + '*' + brwinprj + '*' + hienvsh
+        if Hostnm.startswith('ptslinux'):
+            cmd += '/command:commit /path:' + jjcon + '*' + jjwinprj + '*' + hienvsh +\
+            '*' + jjtopmk + '*' + jjspotosd
+        else:
+            cmd += '/command:commit /path:' + c5con + '*' + c5winprj + '*' + hienvsh +\
+            '*' + c5topmk + '*' + c5spotosd
     else:
         usage()
 else:
     usage()
 
-Hostnm = os.environ['HOSTNAME'];
 if Hostnm.startswith('ptslinux'):
     HOST = '192.168.137.1'
 elif Hostnm.startswith('gigacity'):
