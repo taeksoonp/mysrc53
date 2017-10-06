@@ -1,0 +1,165 @@
+# User specific aliases and functions
+
+function hiprj()
+{
+Console_top=~/prj/console
+Console_src=~/prj/console/src
+Consrc1=$Console_top/qt/examples/qws/console
+Consrc2=$Console_top/src/console4k
+
+hivprj
+}
+
+function vprj()
+{
+Console_top=~/prj/nvrcon2
+Console_src=~/prj/nvrcon2/src
+Consrc1=$Console_top
+
+hivprj
+}
+
+function hivprj()
+{
+alias r='cd `cat $Myprj`/root'
+alias k='cd `cat $Myprj`/linux'
+alias s='cd `cat $Myprj`/root/src'
+
+alias c='cd $Consrc1'
+alias x='cd $Consrc1/project_linux/xml'
+alias ts='cd $Consrc1/project_linux/ts'
+alias u='cd $Consrc1/ui/v5'
+alias bb='cd $Consrc1/project_linux'
+alias ccc='cd $Consrc1/project_linux/${WHBS_CONSOLE_TARGETID}'
+alias bbb='cd $Console_top/console/project_window/'
+alias cccc='cd $Console_top/console/project_window/${WHBS_CONSOLE_TARGETID}'
+alias v="cd $Consrc1/etc/vm"
+alias sss='cd $Consrc1/../spotosd'
+
+alias ffc="cd $Consrc2"
+alias ffccc="cd $Console_src/project_linux/${WHBS_CONSOLE_TARGETID}"
+alias ffcccc="cd $Console_src/project_window/${WHBS_CONSOLE_TARGETID}"
+alias ffbb="cd $Console_src/project_linux"
+alias ffbbb="cd $Console_src/project_window/"
+alias ffts="cd $Console_src/project_linux/ts"
+alias ffu="cd $Consrc2/ui/v5"
+alias ffxx="cd $Console_src/project_linux/xml"
+
+alias t='cd `cat $Myprj`'
+alias tt='cd `cat $Myprj`'/console
+alias ttt='cd `cat $Myprj`'/console/src
+alias n='cd `cat $Myprj`/root/src/edvrcore_v6'
+alias b='cd `cat $Myprj`/root/build'
+alias dist='cd `cat $Myprj`/root/dist'
+}
+
+alias showwhbs='env|egrep "(WHBS|CROSS)"|sort'
+alias ccargs='find $Path -name \*.[hc] -or -name \*.cpp |xargs'
+
+function findcc () {
+  if [ $# -eq 0 ]; then
+  echo "Usage: findcc [path] <pattern>"
+  echo "Tip: If you want space in pattern, you can do it like this 'findcc abc\sxyz'"
+  return
+  elif [ $# -gt 1 ]; then
+  Path=$1
+  Target=$2
+  else
+  Path=.
+  Target=$1
+  fi
+  
+  find $Path -name \*.[hc] -or -name \*.cpp |xargs egrep -n --exclude .uic* --exclude .moc* $Target $3 $4 $5
+}
+
+#
+#	Model ID 찾기
+#
+function model_id() {
+	sed '
+s/f/f-/g
+s/x/x-/g
+
+s/h-$/h/
+s/f-$/f/
+s/m-$/m/
+s/x-$/x/
+s/^h-/h/
+s/^f-/f/
+s/^m-/m/
+s/^x-/x/
+
+s/\(.*\)/\U\1/
+
+' <<< $1
+}
+
+function setprj () {
+if [ "$2" ]; then
+	echo "$HOME/prj/$1" > $Myprj
+	model_id $2 > $HOME/etc/hi.conf
+
+else
+	echo "what model? 어떤거?"
+	echo currently, `cat $Myprj`, `cat $HOME/etc/hi.conf`
+	return
+fi
+
+sprjenv
+}
+
+function hprj () {
+if [ "$1" ]; then
+setprj hidvr $1
+else
+setprj
+fi
+}
+
+function brprj () {
+if [ "$1" ]; then
+setprj br $1
+else
+setprj
+fi
+}
+
+#pts prj
+Myprj=~/etc/myprj
+function sprjenv()
+{
+	#pts hidvr env
+	myprjname=`cat $Myprj`
+	if [ "$myprjname" = "$HOME/prj/hidvr" -o\
+	 "$myprjname" = "$HOME/prj/br" -o\
+	 "$myprjname" = "$HOME/prj/brr"	 ]; then
+		pushd .
+		cd $myprjname
+		pwd
+		echo edvr_hddvr_hisilicon_env.sh `cat $HOME/etc/hi.conf $HOME/etc/hi.ver` 한다.
+		cd $myprjname &&. ./edvr_hddvr_hisilicon_env.sh `cat $HOME/etc/hi.conf $HOME/etc/hi.ver`
+		echo "^^^^^^^^^^^^^^^^^^^^^^^^^^ 설정 끝"
+		popd
+		
+		Model=`cat $HOME/etc/hi.conf`
+		if [ "$Model" = VVR ]; then
+			vprj
+		else
+			hiprj
+		fi
+    
+	elif [ "$myprjname" = "$HOME/prj/webeye" ]; then
+		pushd .
+		cd $myprjname
+		. $myprjname/env_hi_ipcam.sh <<The_end
+$WebeyeVer
+1
+The_end
+		echo "^^^^^^^^^^^^^^^^^^^^^^^^^^ webeye 설정 끝"
+		popd
+		
+		webiprj
+	fi
+}
+
+sprjenv	#set my project env.
