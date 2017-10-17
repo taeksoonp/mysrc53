@@ -9,12 +9,15 @@ fi
 # export SYSTEMD_PAGER=
 
 # User specific aliases and functions
-
 export PKG_CONFIG_PATH=/usr/local/lib64/pkgconfig
 export PATH=$PATH:/opt/hisi-linux/x86-arm/arm-hisiv200-linux/target/bin:/opt/hisi-linux/x86-arm/arm-hisiv400-linux/target/bin:~/d/Backup/prj/bin
 #alias l='ls -lF --time-style=long-iso'
 alias bank="cd ~/nfs/bank"
 export PS1='\w\$ '
+
+#gcc5
+echo "gcc5 쓴다."
+source scl_source enable devtoolset-4
 
 #etc
 export SVN_EDITOR=gedit
@@ -22,7 +25,7 @@ export EMACS_SERVER_FILE=~/etc/server/server
 export TERM=xterm-256color
 export Ga_hih="[가-힣]"
 alias euckr='export LANG=ko_KR.euckr'
-alias mysrc='cd ~/rrj/mysrc53/trunk'
+alias mysrc='cd ~/mysrc53'
 alias prj='cd ~/prj'
 alias prjbin='cd ~/prj/bin'
 alias prjqt='cd ~/prj/qt5trunk'
@@ -31,7 +34,7 @@ alias prjroots='cd ~/prj/sdb/trunkroots'
 alias qmlbook='cd /media/sf_Qt/qmlbook'
 
 #hidvr
-. ~/d/Backup/prj/dot/hidvr.aliases
+. ~/mysrc53/dot/hidvr.aliases
 
 #119~sw_prod 마운트 검사
 if file /home/119rnd/MiniPlayer |grep broken

@@ -2,8 +2,8 @@
 
 function hiprj()
 {
-Console_top=~/prj/console
-Console_src=~/prj/console/src
+Console_top=`cat $Mycon`
+Console_src=$Console_top/src
 Consrc1=$Console_top/qt/examples/qws/console
 Consrc2=$Console_top/src/console4k
 
@@ -12,8 +12,8 @@ hivprj
 
 function vprj()
 {
-Console_top=~/prj/nvrcon2
-Console_src=~/prj/nvrcon2/src
+Console_top=~/prj/vvrcon
+Console_src=~/prj/vvrcon/src
 Consrc1=$Console_top
 
 hivprj
@@ -25,6 +25,7 @@ alias r='cd `cat $Myprj`/root'
 alias k='cd `cat $Myprj`/linux'
 alias s='cd `cat $Myprj`/root/src'
 
+alias tt='cd $Console_top'
 alias c='cd $Consrc1'
 alias x='cd $Consrc1/project_linux/xml'
 alias ts='cd $Consrc1/project_linux/ts'
@@ -46,8 +47,6 @@ alias ffu="cd $Consrc2/ui/v5"
 alias ffxx="cd $Console_src/project_linux/xml"
 
 alias t='cd `cat $Myprj`'
-alias tt='cd `cat $Myprj`'/console
-alias ttt='cd `cat $Myprj`'/console/src
 alias n='cd `cat $Myprj`/root/src/edvrcore_v6'
 alias b='cd `cat $Myprj`/root/build'
 alias dist='cd `cat $Myprj`/root/dist'
@@ -94,11 +93,20 @@ s/\(.*\)/\U\1/
 ' <<< $1
 }
 
+#
+# prj. 환경 저장
+#
 function setprj () {
 if [ "$2" ]; then
 	echo "$HOME/prj/$1" > $Myprj
 	model_id $2 > $HOME/etc/hi.conf
-
+	
+	myprjname=`cat $Myprj`
+	if [ "$(basename $myprjname)" = br ]; then
+		echo "$HOME/prj/console7331" > $Mycon
+	else
+		echo "$HOME/prj/console" > $Mycon 
+	fi
 else
 	echo "what model? 어떤거?"
 	echo currently, `cat $Myprj`, `cat $HOME/etc/hi.conf`
@@ -126,6 +134,7 @@ fi
 
 #pts prj
 Myprj=~/etc/myprj
+Mycon=~/etc/mycon
 function sprjenv()
 {
 	#pts hidvr env
