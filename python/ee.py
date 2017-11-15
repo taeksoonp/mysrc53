@@ -47,6 +47,10 @@ if len(sys.argv) > 1:
         else:
             cmd += '/command:commit /path:' + c5con + '*' + c5winprj + '*' + hienvsh +\
             '*' + c5topmk + '*' + c5spotosd
+    elif sys.argv[1] == 'cic7550':
+        jjcon += '7550'
+        cmd += '/command:commit /path:' + jjcon + '*' + jjwinprj + '*' + hienvsh +\
+        '*' + jjtopmk + '*' + jjspotosd
     else:
         usage()
 else:

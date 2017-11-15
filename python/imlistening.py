@@ -19,10 +19,6 @@ Gigacitys = ['169.254.156.1', '192.168.217.53', '192.168.217.165']
 Network_drive = ['n:', 'p:', 'o:']
 Home_path = '/home/tsp'
 Home_path2 = '/home/ts.p'
-Share_foler = 'd:'
-Shared_foler = '/home/tsp/d'
-Share_foler2 = 'e:'
-Shared_foler2 = '/home/tsp/e'
 Eclipse_home = os.environ['Eclipse_home']
 
 #
@@ -47,8 +43,6 @@ while True:
 
     cmd = data.decode('utf8')
     netdrv = Network_drive[Gigacitys.index(ip)]
-    cmd = cmd.replace(Shared_foler, Share_foler)
-    cmd = cmd.replace(Shared_foler2, Share_foler2)
     cmd = cmd.replace(Home_path, netdrv)
     cmd = cmd.replace(Home_path2, netdrv)
     cmd = cmd.replace('`~Eclipse_home`~', Eclipse_home)
