@@ -1,20 +1,90 @@
-# User specific aliases and functions
+#
+# Util
+#
+alias showwhbs='env|egrep "(WHBS|CROSS)"|sort'
+#alias ccargs='find $Path -name \*.[hc] -or -name \*.cpp |xargs'
+function findcc()
+{
+  if [ $# -eq 0 ]; then
+  echo "Usage: findcc [path] <pattern>"
+  echo "Tip: If you want space in pattern, you can do it like this 'findcc abc\sxyz'"
+  return
+  elif [ $# -gt 1 ]; then
+  Path=$1
+  Target=$2
+  else
+  Path=.
+  Target=$1
+  fi
+  
+  find $Path -name \*.[hc] -or -name \*.cpp |xargs egrep -n --exclude .uic* --exclude .moc* $Target $3 $4 $5
+}
 
-function hiprj()
+# Model ID 찾기
+function model_id() {
+	sed '
+s/f/f-/g
+s/x/x-/g
+
+s/h-$/h/
+s/f-$/f/
+s/m-$/m/
+s/x-$/x/
+s/^h-/h/
+s/^f-/f/
+s/^m-/m/
+s/^x-/x/
+
+s/\(.*\)/\U\1/
+
+' <<< $1
+}
+
+#
+# prj. 환경 설정
+#
+function config_prj() {
+if [ "$3" ]; then
+	echo "Mycon=$1" > ~/prj/bin/mycon
+	echo "Myprj=$2" > ~/prj/bin/myprj
+	model_id $3 > $HOME/etc/hi.conf
+	echo model은 $3 임
+	
+else
+	echo "what model? 어떤거?"
+	echo currently, $Myprj, `cat $HOME/etc/hi.conf`
+	return
+fi
+
+source ~/prj/bin/myprj
+source ~/prj/bin/mycon
+sprjenv
+}
+
+#trunk
+alias hprja='config_prj console trunka'
+alias hprjc='config_prj console trunkc'
+alias hprjd='config_prj console trunkd'
+alias hprje='config_prj console trunke'
+#br
+alias br7550a='config_prj console7550 r7550_R9.2a'
+alias br7550d='config_prj console7550 r7550_R9.2d'
+
+#
+# pts prj 환경: 매번. eclipse 공용.
+#
+function hiprj_aliases()
 {
 Console_top=~/prj/$Mycon
 Console_src=$Console_top/src
 Consrc1=$Console_top/qt/examples/qws/console
 Consrc2=$Console_top/src/console4k
+Myprj_top=~/prj/sdb1/$Myprj
 
-hiprj1
-}
-
-function hiprj1()
-{
-alias r='cd `cat $Myprj`/root'
-alias k='cd `cat $Myprj`/linux'
-alias s='cd `cat $Myprj`/root/src'
+#aliases
+alias r='cd $Myprj_top/root'
+alias k='cd $Myprj_top/linux'
+alias s='cd $Myprj_top/root/src'
 
 alias tt='cd $Console_top'
 alias c='cd $Consrc1'
@@ -37,124 +107,26 @@ alias ffts="cd $Console_src/project_linux/ts"
 alias ffu="cd $Consrc2/ui/v5"
 alias ffxx="cd $Console_src/project_linux/xml"
 
-alias t='cd `cat $Myprj`'
-alias n='cd `cat $Myprj`/root/src/edvrcore_v6'
-alias b='cd `cat $Myprj`/root/build'
-alias dist='cd `cat $Myprj`/root/dist'
-}
-
-alias showwhbs='env|egrep "(WHBS|CROSS)"|sort'
-alias ccargs='find $Path -name \*.[hc] -or -name \*.cpp |xargs'
-
-function findcc()
-{
-  if [ $# -eq 0 ]; then
-  echo "Usage: findcc [path] <pattern>"
-  echo "Tip: If you want space in pattern, you can do it like this 'findcc abc\sxyz'"
-  return
-  elif [ $# -gt 1 ]; then
-  Path=$1
-  Target=$2
-  else
-  Path=.
-  Target=$1
-  fi
-  
-  find $Path -name \*.[hc] -or -name \*.cpp |xargs egrep -n --exclude .uic* --exclude .moc* $Target $3 $4 $5
+alias t='cd $Myprj_top'
+alias n='cd $Myprj_top/root/src/edvrcore_v6'
+alias b='cd $Myprj_top/root/build'
+alias dist='cd $Myprj_top/root/dist'
 }
 
 #
-#	Model ID 찾기
+# pts prj 환경: main
 #
-function model_id() {
-	sed '
-s/f/f-/g
-s/x/x-/g
-
-s/h-$/h/
-s/f-$/f/
-s/m-$/m/
-s/x-$/x/
-s/^h-/h/
-s/^f-/f/
-s/^m-/m/
-s/^x-/x/
-
-s/\(.*\)/\U\1/
-
-' <<< $1
-}
-
-#
-# prj. 환경 저장
-#
-function setprj() {
-if [ "$2" ]; then
-	echo "$HOME/prj/$1" > $Myprj
-	model_id $2 > $HOME/etc/hi.conf
-	
-else
-	echo "what model? 어떤거?"
-	echo currently, `cat $Myprj`, `cat $HOME/etc/hi.conf`
-	return
-fi
-source ~/prj/bin/mycon
-sprjenv
-}
-
-function hprj() {
-if [ "$1" ]; then
-	echo "Mycon=console" > ~/prj/bin/mycon
-	setprj hidvr $1
-else
-	setprj
-fi
-}
-
-function br6205() {
-	[ $1 ] && echo "$1"임
-	echo "Mycon=console6205" > ~/prj/bin/mycon
-	setprj br $1
-}
-
-function br7550() {
-	[ $1 ] && echo "$1"임
-	echo "Mycon=console7550" > ~/prj/bin/mycon
-	setprj br $1
-}
-
-#pts prj
-Myprj=~/etc/myprj
+source ~/prj/bin/myprj
 source ~/prj/bin/mycon
 function sprjenv()
 {
-	#pts hidvr env
-	myprjname=`cat $Myprj`
-	if [ "$myprjname" = "$HOME/prj/hidvr" -o\
-	 "$myprjname" = "$HOME/prj/br" -o\
-	 "$myprjname" = "$HOME/prj/brr"	 ]; then
-		pushd .
-		cd $myprjname
-		pwd
-		echo edvr_hddvr_hisilicon_env.sh `cat $HOME/etc/hi.conf $HOME/etc/hi.ver` 한다.
-		cd $myprjname &&. ./edvr_hddvr_hisilicon_env.sh `cat $HOME/etc/hi.conf $HOME/etc/hi.ver`
-		echo "^^^^^^^^^^^^^^^^^^^^^^^^^^ 설정 끝"
-		popd
-		
-		hiprj
-    
-	elif [ "$myprjname" = "$HOME/prj/webeye" ]; then
-		pushd .
-		cd $myprjname
-		. $myprjname/env_hi_ipcam.sh <<The_end
-$WebeyeVer
-1
-The_end
-		echo "^^^^^^^^^^^^^^^^^^^^^^^^^^ webeye 설정 끝"
-		popd
-		
-		webiprj
-	fi
+	hiprj_aliases
+	
+	pushd .
+	echo edvr_hddvr_hisilicon_env.sh `cat $HOME/etc/hi.conf $HOME/etc/hi.ver` 한다.
+	cd $Myprj_top &&. ./edvr_hddvr_hisilicon_env.sh `cat $HOME/etc/hi.conf $HOME/etc/hi.ver`
+	echo "^^^^^^^^^^^^^^^^^^^^^^^^^^ 설정 끝"
+	popd
 }
 
 sprjenv	#set my project env.
