@@ -2,24 +2,15 @@
 
 function hiprj()
 {
-Console_top=`cat $Mycon`
+Console_top=~/prj/$Mycon
 Console_src=$Console_top/src
 Consrc1=$Console_top/qt/examples/qws/console
 Consrc2=$Console_top/src/console4k
 
-hivprj
+hiprj1
 }
 
-function vprj()
-{
-Console_top=~/prj/vvrcon
-Console_src=~/prj/vvrcon/src
-Consrc1=$Console_top
-
-hivprj
-}
-
-function hivprj()
+function hiprj1()
 {
 alias r='cd `cat $Myprj`/root'
 alias k='cd `cat $Myprj`/linux'
@@ -55,7 +46,8 @@ alias dist='cd `cat $Myprj`/root/dist'
 alias showwhbs='env|egrep "(WHBS|CROSS)"|sort'
 alias ccargs='find $Path -name \*.[hc] -or -name \*.cpp |xargs'
 
-function findcc () {
+function findcc()
+{
   if [ $# -eq 0 ]; then
   echo "Usage: findcc [path] <pattern>"
   echo "Tip: If you want space in pattern, you can do it like this 'findcc abc\sxyz'"
@@ -96,45 +88,44 @@ s/\(.*\)/\U\1/
 #
 # prj. 환경 저장
 #
-function setprj () {
+function setprj() {
 if [ "$2" ]; then
 	echo "$HOME/prj/$1" > $Myprj
 	model_id $2 > $HOME/etc/hi.conf
 	
-	myprjname=`cat $Myprj`
-	if [ "$(basename $myprjname)" = br ]; then
-		echo "$HOME/prj/console7331" > $Mycon
-	else
-		echo "$HOME/prj/console" > $Mycon 
-	fi
 else
 	echo "what model? 어떤거?"
 	echo currently, `cat $Myprj`, `cat $HOME/etc/hi.conf`
 	return
 fi
-
+source ~/prj/bin/mycon
 sprjenv
 }
 
-function hprj () {
+function hprj() {
 if [ "$1" ]; then
-setprj hidvr $1
+	echo "Mycon=console" > ~/prj/bin/mycon
+	setprj hidvr $1
 else
-setprj
+	setprj
 fi
 }
 
-function brprj () {
-if [ "$1" ]; then
-setprj br $1
-else
-setprj
-fi
+function br6205() {
+	[ $1 ] && echo "$1"임
+	echo "Mycon=console6205" > ~/prj/bin/mycon
+	setprj br $1
+}
+
+function br7550() {
+	[ $1 ] && echo "$1"임
+	echo "Mycon=console7550" > ~/prj/bin/mycon
+	setprj br $1
 }
 
 #pts prj
 Myprj=~/etc/myprj
-Mycon=~/etc/mycon
+source ~/prj/bin/mycon
 function sprjenv()
 {
 	#pts hidvr env
@@ -150,12 +141,7 @@ function sprjenv()
 		echo "^^^^^^^^^^^^^^^^^^^^^^^^^^ 설정 끝"
 		popd
 		
-		Model=`cat $HOME/etc/hi.conf`
-		if [ "$Model" = VVR ]; then
-			vprj
-		else
-			hiprj
-		fi
+		hiprj
     
 	elif [ "$myprjname" = "$HOME/prj/webeye" ]; then
 		pushd .

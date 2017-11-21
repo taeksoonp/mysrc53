@@ -18,6 +18,7 @@ export PS1='\w\$ '
 #gcc5
 echo "gcc5 쓴다."
 source scl_source enable devtoolset-4
+#source scl_source enable devtoolset-7
 
 #etc
 export SVN_EDITOR=gedit
