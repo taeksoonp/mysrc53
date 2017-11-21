@@ -49,7 +49,18 @@ if [ "$3" ]; then
 	echo "Myprj=$2" > ~/prj/bin/myprj
 	model_id $3 > $HOME/etc/hi.conf
 	echo model은 $3 임
-	
+#
+# 문제의 root/src/include
+#
+	pushd .
+	cd ~/prj/root/src
+	rm include
+	ln -s ~/prj/sdb1/$2/root/src/include .
+	echo 'root/src/include' 심볼릭링크 만들었다.
+	pwd
+	ls -l include
+	popd
+
 else
 	echo "what model? 어떤거?"
 	echo currently, $Myprj, `cat $HOME/etc/hi.conf`
