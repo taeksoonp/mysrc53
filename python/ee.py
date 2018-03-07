@@ -21,6 +21,11 @@ jjwinprj = '/home/tsp/prj/console/console/project_window'
 jjtopmk = '/home/tsp/prj/console/Makefile'
 jjspotosd = '/home/tsp/prj/console/qt/examples/qws/spotosd'
 
+kkcon = '/home/tsp/prj/console7550/qt/examples/qws/console'
+kkwinprj = '/home/tsp/prj/console7550/console/project_window'
+kktopmk = '/home/tsp/prj/console7550/Makefile'
+kkspotosd = '/home/tsp/prj/console7550/qt/examples/qws/spotosd'
+
 c5con = '/home/tsp/prj/hidvr/console/qt/examples/qws/console'
 c5winprj = '/home/tsp/prj/hidvr/console/console/project_window'
 c5topmk = '/home/tsp/prj/hidvr/console/Makefile'
@@ -48,9 +53,7 @@ if len(sys.argv) > 1:
             cmd += '/command:commit /path:' + c5con + '*' + c5winprj + '*' + hienvsh +\
             '*' + c5topmk + '*' + c5spotosd
     elif sys.argv[1] == 'cic7550':
-        jjcon += '7550'
-        cmd += '/command:commit /path:' + jjcon + '*' + jjwinprj + '*' + hienvsh +\
-        '*' + jjtopmk + '*' + jjspotosd
+        cmd += '/command:commit /path:' + kkcon + '*' + kkwinprj + '*' + kktopmk + '*' + kkspotosd
     else:
         usage()
 else:

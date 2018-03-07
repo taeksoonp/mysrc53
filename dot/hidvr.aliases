@@ -23,20 +23,10 @@ function findcc()
 # Model ID 찾기
 function model_id() {
 	sed '
-s/f/f-/g
-s/x/x-/g
-
-s/h-$/h/
-s/f-$/f/
-s/m-$/m/
-s/x-$/x/
-s/^h-/h/
-s/^f-/f/
-s/^m-/m/
-s/^x-/x/
+s/\([0-9]\)f\([a-z]\)/\1f-\2/g
+s/h\([0-9]\)$/-h\1/g
 
 s/\(.*\)/\U\1/
-
 ' <<< $1
 }
 
@@ -79,7 +69,10 @@ alias hprjd='config_prj console trunkd'
 alias hprje='config_prj console trunke'
 #br
 alias br7550a='config_prj console7550 r7550_R9.2a'
+alias br7550b='config_prj console7550 r7550_R9.2b'
 alias br7550d='config_prj console7550 r7550_R9.2d'
+alias br6205a='config_prj console6205 r6205_R8.8a'
+alias br6205b='config_prj console6205 r6205_R8.8b'
 
 #
 # pts prj 환경: 매번. eclipse 공용.

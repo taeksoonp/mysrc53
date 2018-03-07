@@ -26,7 +26,7 @@ if len(sys.argv) > 1:
 #        elif filename[-4:] == '.cpp' or filename[-2:] == '.c' or filename == 'Makefile':
 #            cmd = '`~Eclipse_home`~/eclipse.exe '
         else:
-            cmd = '"C:/Program Files (x86)/Notepad++/Notepad++.exe" '
+            cmd = '"C:/Program Files/Notepad++/Notepad++.exe" '
 
 # d: default
     else:

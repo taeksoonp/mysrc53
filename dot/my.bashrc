@@ -10,7 +10,7 @@ fi
 
 # User specific aliases and functions
 export PKG_CONFIG_PATH=/usr/local/lib64/pkgconfig
-export PATH=$PATH:/opt/hisi-linux/x86-arm/arm-hisiv200-linux/target/bin:/opt/hisi-linux/x86-arm/arm-hisiv400-linux/target/bin:~/d/Backup/prj/bin
+export PATH=$PATH:/opt/hisi-linux/x86-arm/arm-hisiv200-linux/target/bin:/opt/hisi-linux/x86-arm/arm-hisiv400-linux/target/bin
 #alias l='ls -lF --time-style=long-iso'
 alias bank="cd ~/nfs/bank"
 export PS1='\w\$ '
@@ -31,8 +31,6 @@ alias prj='cd ~/prj'
 alias prjbin='cd ~/prj/bin'
 alias prjqt='cd ~/prj/qt5trunk'
 alias sdb='cd ~/prj/sdb1'
-alias prjroots='cd ~/prj/sdb/trunkroots'
-alias qmlbook='cd /media/sf_Qt/qmlbook'
 
 #hidvr
 . ~/mysrc53/dot/hidvr.aliases

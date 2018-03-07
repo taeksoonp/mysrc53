@@ -23,8 +23,8 @@ if len(sys.argv) == 1:
 elif sys.argv[1] == '-c':
     cmd = ' '.join(sys.argv[2:]);   
 else:
-    cmd = os.getcwd() + '/' + sys.argv[1] + ' '.join(sys.argv[2:]);
-    
+    cmd = os.getcwd() + '/' + sys.argv[1] + '~'.join(sys.argv[2:]);
+
+print(cmd)    
 s.sendto(cmd.encode(), 0, (HOST, PORT))
-print(cmd)
 s.close()
