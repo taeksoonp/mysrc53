@@ -60,6 +60,14 @@ fi
 source ~/prj/bin/myprj
 source ~/prj/bin/mycon
 sprjenv
+
+#
+# soc id 검사
+#
+if [ "$WHBS_BUILD_SOCID" = "${Myprj_top: -1}" ]
+then echo 좋아.
+else echo "$Myprj_top 하고 socid-$WHBS_BUILD_SOCID 하고 안 맞는다?"
+fi
 }
 
 #trunk
@@ -68,11 +76,12 @@ alias hprjc='config_prj console trunkc'
 alias hprjd='config_prj console trunkd'
 alias hprje='config_prj console trunke'
 #br
-alias br7550a='config_prj console7550 r7550_R9.2a'
 alias br7550b='config_prj console7550 r7550_R9.2b'
+alias br7550c='config_prj console7550 r7550_R9.2c'
 alias br7550d='config_prj console7550 r7550_R9.2d'
-alias br6205a='config_prj console6205 r6205_R8.8a'
+
 alias br6205b='config_prj console6205 r6205_R8.8b'
+alias br6205c='config_prj console6205 r6205_R8.8c'
 
 #
 # pts prj 환경: 매번. eclipse 공용.

@@ -2,31 +2,61 @@
 
 source /wgi_sys_vars_definition
 
-if [ ${vga_output_type} = ${VGA_OUTPUT_TYPE_0} ]; then
-FB_NO=1
+#vga_output_type
+FB_NO=`cat /proc/wgi_sys_vars/console_fb_dev_num`
+Vfb_no=`cat /proc/wgi_sys_vars/virtual_fb_dev_num`
+Scale=`/usr/edvr/vgaparam -r h`
+
+if [[ "$Vfb_no" -gt "0" && "$Scale" = "3840x2160" ]]; then
+FB_NO=$Vfb_no
+Wgi_vfb=wgi_vfb
+fi
+
+#soc_type
+if [ ${soc_type} = ${SOC_TYPE_3531} ]; then
+Soctype=a
+elif [ ${soc_type} = ${SOC_TYPE_3521} ]; then
+Soctype=b
+elif [ ${soc_type} = ${SOC_TYPE_3520DV300} ]; then
+Soctype=c
+elif [ ${soc_type} = ${SOC_TYPE_3521A} ]; then
+Soctype=c
+elif [ ${soc_type} = ${SOC_TYPE_3531A} ]; then
+Soctype=d
+elif [ ${soc_type} = ${SOC_TYPE_3536} ]; then
+Soctype=e
 else
-FB_NO=0
+echo error! soctype $Soctype?
+exit 1
 fi
 
-Oem=webgate
-OModel=${Oem}_$1
 Version=`awk -F: '{print $2}' /version`
+Targetid=hs`cat /proc/wgi_sys_vars/video_ch_cnt`$Soctype
 
-if [[ ! "$1" ]]; then
-	echo 모델은?
-	exit 0
+if [[ "$1" && "$1" = "--gdb" ]]; then
+	Gdb="./gdbserver.hi --once :10000"
+
+elif [[ "$1" && "$1" = "--callgrind" ]]; then
+	export VALGRIND_LIB=/mnt/nfs/local/lib/valgrind
+	Gdb="./valgrind --tool=callgrind"
+	
+elif [[ "$1" && "$1" = "--valgrind" ]]; then
+	export VALGRIND_LIB=/mnt/nfs/local/lib/valgrind
+	Gdb="./valgrind"
+	
+elif [[ "$1" && "$1" = "--target" ]]; then
+	Targetid=$2
 fi
 
-if [[ "$2" && "$2" = "--initxml" ]]; then
-	for i in . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
-	do
-		echo -e "xml 초기화 한다 한다 한다.\a"
-	done
-	sleep 1
+for var in "$@"; do
+	# Ignore known bad arguments
+	[ "$var" != '--gdb' ] &&\
+	[ "$var" != '--callgrind' ] &&\
+	[ "$var" != '--valgrind' ] &&\
+	[ "$var" != '--target' ] &&\
+	Args="$Args $var"
+done
 
-	cp project_linux/$OModel/*.xml /usr/edvr -f
-	sed -i '/general_fw_version/,/general_fw_version/ s:<string>.*</string>:<string>'${Version}'</string>:' /usr/edvr/dvrconfig_default.xml
-fi
-
-Arg=$2 $3 $4 $5
-../hidvr/console/qt/examples/qws/console/project_linux/$OModel/$OModel $Arg -qws -display linuxfb:/dev/fb${FB_NO}:size=1920x1080:qws_size=1920x1080:depth=32:mmWidth:480:mmHeight=270 -nokeyboard -font /usr/lib/qt/lib/fonts/arial.ttf
+Fullname=project_linux/$Targetid/$Targetid
+# touch $Fullname
+$Gdb $Fullname $Args -qws -display linuxfb:/dev/fb${FB_NO}:$Wgi_vfb:size=1920x1080:qws_size=1920x1080:depth=32:mmWidth:480:mmHeight=270 -nokeyboard -font /usr/lib/qt/lib/fonts/arial.ttf
