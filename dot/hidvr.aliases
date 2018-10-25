@@ -66,20 +66,32 @@ sprjenv
 #
 if [ "$WHBS_BUILD_SOCID" = "${Myprj_top: -1}" ]
 then echo 좋아.
-else echo "$Myprj_top 하고 socid-$WHBS_BUILD_SOCID 하고 안 맞는다?"
+else 
+	echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+	echo "$Myprj_top 하고 socid-$WHBS_BUILD_SOCID 하고 안 맞는다?"
 fi
 }
 
 #trunk
 alias hprja='config_prj console trunka'
+alias hprjb='config_prj console trunkb'
 alias hprjc='config_prj console trunkc'
 alias hprjd='config_prj console trunkd'
 alias hprje='config_prj console trunke'
-#br
+alias hprjf='config_prj console trunkf'
+#9707 atsumi
+alias br9707c='config_prj console9707a b8822_r9707_atsumic'
+
+#8822
+alias br8822a='config_prj console8822 b8822_R9.4a'
+alias br8822c='config_prj console8822 b8822_R9.4c'
+alias br8822d='config_prj console8822 b8822_R9.4d'
+alias br8822e='config_prj console8822 b8822_R9.4e'
+#7550
 alias br7550b='config_prj console7550 r7550_R9.2b'
 alias br7550c='config_prj console7550 r7550_R9.2c'
 alias br7550d='config_prj console7550 r7550_R9.2d'
-
+#6205
 alias br6205b='config_prj console6205 r6205_R8.8b'
 alias br6205c='config_prj console6205 r6205_R8.8c'
 
@@ -110,6 +122,11 @@ alias bbb='cd $Console_top/console/project_window/'
 alias cccc='cd $Console_top/console/project_window/${WHBS_CONSOLE_TARGETID}'
 alias v="cd $Consrc1/etc/vm"
 alias sss='cd $Consrc1/../spotosd'
+
+alias trunk='cd ~/prj/console/qt/examples/qws/console'
+alias 8822='cd ~/prj/console8822/qt/examples/qws/console'
+alias 7550='cd ~/prj/console7550/qt/examples/qws/console'
+alias 6205='cd ~/prj/console6205/qt/examples/qws/console'
 
 alias ffc="cd $Consrc2"
 alias ffccc="cd $Console_src/project_linux/${WHBS_CONSOLE_TARGETID}"

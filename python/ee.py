@@ -15,25 +15,30 @@ def usage():
     print("\tcibr: ci br~console")
     exit(0)
 
-cmd = '"C:/Program Files/TortoiseSVN/bin/TortoiseProc.exe" '
-jjcon = '/home/tsp/prj/console/qt/examples/qws/console'
-jjwinprj = '/home/tsp/prj/console/console/project_window'
-jjtopmk = '/home/tsp/prj/console/Makefile'
-jjspotosd = '/home/tsp/prj/console/qt/examples/qws/spotosd'
+def con(br):
+    return '/home/tsp/prj/console' + br + '/qt/examples/qws/console' 
 
-kkcon = '/home/tsp/prj/console7550/qt/examples/qws/console'
-kkwinprj = '/home/tsp/prj/console7550/console/project_window'
-kktopmk = '/home/tsp/prj/console7550/Makefile'
-kkspotosd = '/home/tsp/prj/console7550/qt/examples/qws/spotosd'
+def winprj(br):
+    return '/home/tsp/prj/console' + br + '/console/project_window'    
+    
+def topmk(br):
+    return '/home/tsp/prj/console' + br + '/Makefile'
 
-c5con = '/home/tsp/prj/hidvr/console/qt/examples/qws/console'
-c5winprj = '/home/tsp/prj/hidvr/console/console/project_window'
-c5topmk = '/home/tsp/prj/hidvr/console/Makefile'
-c5spotosd = '/home/tsp/prj/hidvr/console/qt/examples/qws/spotosd'
+def spotosd(br):
+    return '/home/tsp/prj/console' + br + '/qt/examples/qws/spotosd' 
 
 hienvsh = '/home/tsp/prj/hidvr/edvr_hddvr_hisilicon_env.sh'
+def cic5(n):    
+    if (n <= 0):
+        br = ''
+    else:
+        br = str(n)
+    return con(br) + '*' + winprj(br) + '*' + topmk(br) + '*' + \
+        spotosd(br) + '*' + hienvsh 
+cmd = '"C:/Program Files/TortoiseSVN/bin/TortoiseProc.exe" '
 Hostnm = os.environ['HOSTNAME'];
- 
+
+#todo:        if Hostnm.startswith('ptslinux'):
 if len(sys.argv) > 1:
     if sys.argv[1] == 'l':
         cmd += '/command:log /path:' + os.getcwd()
@@ -46,21 +51,20 @@ if len(sys.argv) > 1:
     elif sys.argv[1] == 'ci':
         cmd += '/command:commit /path:' + os.getcwd()
     elif sys.argv[1] == 'cic5':
-        if Hostnm.startswith('ptslinux'):
-            cmd += '/command:commit /path:' + jjcon + '*' + jjwinprj + '*' + hienvsh +\
-            '*' + jjtopmk + '*' + jjspotosd
-        else:
-            cmd += '/command:commit /path:' + c5con + '*' + c5winprj + '*' + hienvsh +\
-            '*' + c5topmk + '*' + c5spotosd
+        cmd += '/command:commit /path:' + cic5(0)
+    elif sys.argv[1] == 'cic8822':
+        cmd += '/command:commit /path:' + cic5(8822)
     elif sys.argv[1] == 'cic7550':
-        cmd += '/command:commit /path:' + kkcon + '*' + kkwinprj + '*' + kktopmk + '*' + kkspotosd
+        cmd += '/command:commit /path:' + cic5(7550)
+    elif sys.argv[1] == 'cic6205':
+        cmd += '/command:commit /path:' + cic5(6205)
     else:
         usage()
 else:
     usage()
 
 if Hostnm.startswith('ptslinux'):
-    HOST = '169.254.156.11'
+    HOST = '172.23.162.209'
 elif Hostnm.startswith('gigacity'):
     HOST = '192.168.217.41'
 else:

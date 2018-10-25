@@ -10,15 +10,14 @@ fi
 
 # User specific aliases and functions
 export PKG_CONFIG_PATH=/usr/local/lib64/pkgconfig
-export PATH=$PATH:/opt/hisi-linux/x86-arm/arm-hisiv200-linux/target/bin:/opt/hisi-linux/x86-arm/arm-hisiv400-linux/target/bin
+export PATH=$PATH:/opt/hisi-linux/x86-arm/arm-hisiv200-linux/target/bin:/opt/hisi-linux/x86-arm/arm-hisiv400-linux/target/bin::/opt/hisi-linux/x86-arm/arm-hisiv600-linux/target/bin:$HOME/prj/sdb1/PostgreSQL/10/bin
 #alias l='ls -lF --time-style=long-iso'
 alias bank="cd ~/nfs/bank"
 export PS1='\w\$ '
 
-#gcc5
-echo "gcc5 쓴다."
-source scl_source enable devtoolset-4
-#source scl_source enable devtoolset-7
+echo "gcc7 쓴다."
+#source scl_source enable devtoolset-4
+source scl_source enable devtoolset-7
 
 #etc
 export SVN_EDITOR=gedit
@@ -29,6 +28,7 @@ alias euckr='export LANG=ko_KR.euckr'
 alias mysrc='cd ~/mysrc53'
 alias prj='cd ~/prj'
 alias prjbin='cd ~/prj/bin'
+alias prjtt='cd ~/prj/tests64'
 alias prjqt='cd ~/prj/qt5trunk'
 alias sdb='cd ~/prj/sdb1'
 

@@ -6,7 +6,7 @@ import os
 
 Hostnm = os.environ['HOSTNAME'];
 if Hostnm.startswith('ptslinux'):
-    HOST = '169.254.156.11'
+    HOST = '172.23.162.209'
 elif Hostnm.startswith('gigacity'):
     HOST = '192.168.217.41'
 else:

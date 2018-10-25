@@ -15,7 +15,7 @@ from PyQt5.QtWidgets import *
 
 UDP_IP = ''
 UDP_PORT = 6821
-Gigacitys = ['169.254.156.1', '192.168.217.53', '192.168.217.165']
+Gigacitys = ['172.23.162.210', '192.168.217.53', '192.168.217.165']
 Network_drive = ['n:', 'p:', 'o:']
 Home_path = '/home/tsp'
 Home_path2 = '/home/ts.p'
