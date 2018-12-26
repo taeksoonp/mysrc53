@@ -1,8 +1,7 @@
 #!/bin/env python3
 
-import socket
-import sys
-import os
+import socket, sys, os
+import fcntl, struct #to get eth0pc
 
 def usage():
     print("usage: ee l|m|r")
@@ -14,6 +13,18 @@ def usage():
     print("\tcic5: ci hidvr~console")
     print("\tcibr: ci br~console")
     exit(0)
+
+#
+# get eth0 gw ipaddr
+#
+Hostnm = socket.gethostname()
+ipaddr = socket.gethostbyname(Hostnm)
+iface = 'eth0'
+nmask = fcntl.ioctl(socket.socket(socket.AF_INET, socket.SOCK_DGRAM), 35099,\
+                     struct.pack('256s', iface.encode('utf-8')))[20:24]
+ipaddr1 = bytearray(socket.inet_aton(ipaddr))
+ipaddr1[3] = (ipaddr1[3] & nmask[3]) + 1 
+eth0pc = socket.inet_ntoa(ipaddr1)
 
 def con(br):
     return '/home/tsp/prj/console' + br + '/qt/examples/qws/console' 
@@ -36,9 +47,7 @@ def cic5(n):
     return con(br) + '*' + winprj(br) + '*' + topmk(br) + '*' + \
         spotosd(br) + '*' + hienvsh 
 cmd = '"C:/Program Files/TortoiseSVN/bin/TortoiseProc.exe" '
-Hostnm = os.environ['HOSTNAME'];
 
-#todo:        if Hostnm.startswith('ptslinux'):
 if len(sys.argv) > 1:
     if sys.argv[1] == 'l':
         cmd += '/command:log /path:' + os.getcwd()
@@ -64,9 +73,7 @@ else:
     usage()
 
 if Hostnm.startswith('ptslinux'):
-    HOST = '172.23.162.209'
-elif Hostnm.startswith('gigacity'):
-    HOST = '192.168.217.41'
+    HOST = eth0pc
 else:
     HOST = '192.168.217.41'
 PORT = 6821

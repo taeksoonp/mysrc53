@@ -15,11 +15,8 @@ from PyQt5.QtWidgets import *
 
 UDP_IP = ''
 UDP_PORT = 6821
-Gigacitys = ['172.23.162.210', '192.168.217.53', '192.168.217.165']
-Network_drive = ['n:', 'p:', 'o:']
-Home_path = '/home/tsp'
-Home_path2 = '/home/ts.p'
-Eclipse_home = os.environ['Eclipse_home']
+ptslinux = socket.gethostbyname('ptslinux.mshome.net')
+Gigacitys = [ptslinux, '192.168.217.53', '192.168.217.165']
 
 #
 # 잊지말고 "제어판\시스템 및 보안\Windows 방화벽" 에 가서 풀어 줘라(고생했다)
@@ -40,20 +37,19 @@ while True:
     if ip not in Gigacitys:
         print('Warning! Strange ip:', ip)
         continue
-
+    
+    if ip == Gigacitys[0]:
+        ip = 'ptslinux.mshome.net'
     cmd = data.decode('utf8')
-    netdrv = Network_drive[Gigacitys.index(ip)]
-    cmd = cmd.replace(Home_path, netdrv)
-    cmd = cmd.replace(Home_path2, netdrv)
-    cmd = cmd.replace('`~Eclipse_home`~', Eclipse_home)
     
     print('cmd??%s' % cmd)
     if 'explorer' in cmd:
-        cmd = os.path.normpath(cmd)
-        cmd = cmd.replace('~Network~', '\\\\')
+        cmd = os.path.normpath(cmd) #netdrive는 안된다.
+        cmd = cmd.replace('\\home\\', '\\\\' + ip + '\\')
         print("->", subprocess.Popen(cmd).pid)
 
     elif 'python ' == cmd[0:7]:
+        cmd = cmd.replace('/home/', '\\\\' + ip + '\\')
         try:
             exec(cmd[7:])
         except Exception as inst:
@@ -70,6 +66,7 @@ while True:
     elif 'byebye' == cmd:
         break
     else:
-        print("->", subprocess.Popen(cmd).pid)
+        cmd = cmd.replace('/home/', '\\\\' + ip + '\\')
+        print("->>", subprocess.Popen(cmd).pid)
 
     print('cmd: ', cmd)
