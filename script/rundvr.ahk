@@ -18,5 +18,5 @@ IfWinExist, run-
 }
 else
 {
-	msgbox, Where is it?
+	msgbox, Where is it? 'run-' 어딨냐?
 }
