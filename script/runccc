@@ -1,0 +1,16 @@
+#!/bin/sh
+#rem config <ip> <port> <id> passwd> <xml folder>
+
+Argc=$#
+Configexe=/home/tsp/prj/console/console/project_window/$WHBS_CONSOLE_TARGETID/release/config.exe
+
+if [ $Argc -lt 1 ]; then
+	echo ip는?
+	exit 0
+fi
+if [ ! -f "$Configexe" ]; then
+	echo config.exe가 없는 거 같다
+	exit 0
+fi
+
+eee $Configexe 192.168.217.$1 80 admin 123456 --path:ttt

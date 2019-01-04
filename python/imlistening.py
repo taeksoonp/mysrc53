@@ -3,7 +3,8 @@ I am listening.
 Created on 2014. 12. 12.
 @author: ts.p
 ConEmu 설정
-D:\python\WPy-3670\python-3.6.7.amd64\python.exe \\ptslinux.mshome.net\tsp\mysrc53\python\imlistening.py
+ 인자: /dir d:\runccc
+ 명령: D:\python\WPy-3670\python-3.6.7.amd64\python.exe \\ptslinux.mshome.net\tsp\mysrc53\python\imlistening.py
 '''
 
 import socket

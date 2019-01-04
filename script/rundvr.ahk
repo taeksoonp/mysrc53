@@ -1,8 +1,8 @@
 ; kill `cat /tmp/console.pid` {enter} ./w& {enter}
-;ì‚¬ìš©ë²•:
-;ë‹¤ìŒì„ ë°°ì¹˜ íŒŒì¼ë¡œ ë§Œë“¤ì–´ì„œ
+;»ç¿ë¹ı:
+;´ÙÀ½À» ¹èÄ¡ ÆÄÀÏ·Î ¸¸µé¾î¼­
 ; "C:\Program Files\AutoHotkey\AutoHotkey.exe" rundvr.ahk
-;ctrl-f11ë¡œ ì‹¤í–‰
+;ctrl-f11·Î ½ÇÇà
 
 ;ahk_class SWT_Window0
 ;154hac430f - SecureCRT
@@ -18,5 +18,5 @@ IfWinExist, run-
 }
 else
 {
-	msgbox, Where is it? 'run-' ì–´ë”¨ëƒ?
+	msgbox, Where is it? 'run-' ¾îµø³Ä?
 }

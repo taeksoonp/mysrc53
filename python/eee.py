@@ -22,7 +22,7 @@ else:
 PORT = 6821
 
 def usage():
-    print("usage: eee [-c(그대로)] <cmd args...>")
+    print("usage(있는 그대로 원격 명령): eee <cmd args...>")
     exit(1)
 
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -30,13 +30,9 @@ s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 #arg1 cmd, arg2 args
 if len(sys.argv) == 1:
     usage()
-elif sys.argv[1] == '-c':
-    cmd = ' '.join(sys.argv[2:]);
-elif sys.argv[1][0] == '/':  # 절대 패스면
-    cmd = sys.argv[1] + ' ' +' '.join(sys.argv[2:]);
 else:
-    cmd = os.getcwd() + '/' + sys.argv[1] + ' ' +' '.join(sys.argv[2:]);
+    cmd = ' '.join(sys.argv[1:]);
 
-print(cmd)    
+print(cmd)
 s.sendto(cmd.encode(), 0, (HOST, PORT))
 s.close()
