@@ -17,7 +17,7 @@ print(sys.argv)
 Hostnm = socket.gethostname()
 ipaddr = socket.gethostbyname(Hostnm)
 
-if Hostnm == ptslinux:
+if Hostnm == 'ptslinux':
     iface = 'eth0'
 else:
     iface = 'enp2s0f0'
