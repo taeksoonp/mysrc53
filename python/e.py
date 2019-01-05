@@ -16,7 +16,11 @@ print(sys.argv)
 #
 Hostnm = socket.gethostname()
 ipaddr = socket.gethostbyname(Hostnm)
-iface = 'eth0'
+
+if Hostnm == ptslinux:
+    iface = 'eth0'
+else:
+    iface = 'enp2s0f0'
 nmask = fcntl.ioctl(socket.socket(socket.AF_INET, socket.SOCK_DGRAM), 35099,\
                      struct.pack('256s', iface.encode('utf-8')))[20:24]
 ipaddr1 = bytearray(socket.inet_aton(ipaddr))
