@@ -19,12 +19,17 @@ def usage():
 #
 Hostnm = socket.gethostname()
 ipaddr = socket.gethostbyname(Hostnm)
-iface = 'eth0'
-nmask = fcntl.ioctl(socket.socket(socket.AF_INET, socket.SOCK_DGRAM), 35099,\
-                     struct.pack('256s', iface.encode('utf-8')))[20:24]
-ipaddr1 = bytearray(socket.inet_aton(ipaddr))
-ipaddr1[3] = (ipaddr1[3] & nmask[3]) + 1 
-eth0pc = socket.inet_ntoa(ipaddr1)
+
+if Hostnm.startswith('ptslinux'):
+    iface = 'eth0'
+    nmask = fcntl.ioctl(socket.socket(socket.AF_INET, socket.SOCK_DGRAM), 35099,\
+                         struct.pack('256s', iface.encode('utf-8')))[20:24]
+    ipaddr1 = bytearray(socket.inet_aton(ipaddr))
+    ipaddr1[3] = (ipaddr1[3] & nmask[3]) + 1 
+    HOST = socket.inet_ntoa(ipaddr1)
+else:
+    HOST = '192.168.217.41'
+PORT = 6821
 
 def con(br):
     return '/home/tsp/prj/console' + br + '/qt/examples/qws/console' 
@@ -71,12 +76,6 @@ if len(sys.argv) > 1:
         usage()
 else:
     usage()
-
-if Hostnm.startswith('ptslinux'):
-    HOST = eth0pc
-else:
-    HOST = '192.168.217.41'
-PORT = 6821
 
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 s.sendto(cmd.encode(), 0, (HOST, PORT))
