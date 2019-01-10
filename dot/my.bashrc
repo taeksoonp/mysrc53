@@ -14,7 +14,7 @@ export PATH=$PATH:/opt/hisi-linux/x86-arm/arm-hisiv200-linux/target/bin:/opt/his
 #alias l='ls -lF --time-style=long-iso'
 alias bank="cd ~/prj/sdb1/bank"
 if [ "$HOSTNAME" = ptslinux ]; then
-	export PS1='\w '
+	export PS1='\w) '
 elif [ "$HOSTNAME" = "gigacity6.localdomain" ]; then
 	export PS1='\w] '
 else

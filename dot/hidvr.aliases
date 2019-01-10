@@ -81,7 +81,8 @@ alias hprje='config_prj console trunke'
 alias hprjf='config_prj console trunkf'
 
 #br 10241, 9707 atsumi, 8822, 7550, 6205
-alias b10241d='config_prj console10241 b10241_R9.6d'
+alias b10241e='config_prj console10241 b10241_R9.6e'
+alias b10241f='config_prj console10241 b10241_R9.6f'
 alias batsumic='config_prj console9707a b8822_r9707_atsumic'
 alias b8822a='config_prj console8822 b8822_R9.4a'
 alias b7550a='config_prj console7550 r7550_R9.2a'
@@ -132,6 +133,7 @@ alias ffxx="cd $Console_src/project_linux/xml"
 
 alias t='cd $Myprj_top'
 alias n='cd $Myprj_top/root/src/edvrcore_v6'
+alias o='cd $Myprj_top/root/src/onvif_client'
 alias b='cd $Myprj_top/root/build'
 alias dist='cd $Myprj_top/root/dist'
 }
