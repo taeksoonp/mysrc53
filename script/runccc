@@ -5,7 +5,7 @@ Argc=$#
 Configexe=/home/tsp/prj/console/console/project_window/$WHBS_CONSOLE_TARGETID/release/config.exe
 
 if [ $Argc -lt 1 ]; then
-	echo ip는?
+	echo ip 끝자리는?
 	exit 0
 fi
 if [ ! -f "$Configexe" ]; then
@@ -13,4 +13,4 @@ if [ ! -f "$Configexe" ]; then
 	exit 0
 fi
 
-eee $Configexe 192.168.217.$1 80 admin 123456 --path:ttt
+eee $Configexe 192.168.217.$1 80 admin 12345 --path:ttt

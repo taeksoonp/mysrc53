@@ -81,9 +81,10 @@ alias hprje='config_prj console trunke'
 alias hprjf='config_prj console trunkf'
 
 #br 10241, 9707 atsumi, 8822, 7550, 6205
+alias b10241d='config_prj console10241 b10241_R9.6d'
 alias b10241e='config_prj console10241 b10241_R9.6e'
 alias b10241f='config_prj console10241 b10241_R9.6f'
-alias batsumic='config_prj console9707a b8822_r9707_atsumic'
+alias batsumic='config_prj consoleatsumi b8822_r9707_atsumic'
 alias b8822a='config_prj console8822 b8822_R9.4a'
 alias b7550a='config_prj console7550 r7550_R9.2a'
 alias b6205a='config_prj console6205 r6205_R8.8a'
@@ -100,10 +101,6 @@ Consrc2=$Console_top/src/console4k
 Myprj_top=~/prj/sdb1/$Myprj
 
 #aliases
-alias r='cd $Myprj_top/root'
-alias k='cd $Myprj_top/linux'
-alias s='cd $Myprj_top/root/src'
-
 alias tt='cd $Console_top'
 alias c='cd $Consrc1'
 alias x='cd $Consrc1/project_linux/xml'
@@ -116,26 +113,26 @@ alias cccc='cd $Console_top/console/project_window/${WHBS_CONSOLE_TARGETID}'
 alias v="cd $Consrc1/etc/vm"
 alias sss='cd $Consrc1/../spotosd'
 
-alias trunk='cd ~/prj/console/qt/examples/qws/console'
-alias 10241='cd ~/prj/console10241/qt/examples/qws/console'
-alias 8822='cd ~/prj/console8822/qt/examples/qws/console'
-alias 7550='cd ~/prj/console7550/qt/examples/qws/console'
-alias 6205='cd ~/prj/console6205/qt/examples/qws/console'
-
-alias ffc="cd $Consrc2"
-alias ffccc="cd $Console_src/project_linux/${WHBS_CONSOLE_TARGETID}"
-alias ffcccc="cd $Console_src/project_window/${WHBS_CONSOLE_TARGETID}"
-alias ffbb="cd $Console_src/project_linux"
-alias ffbbb="cd $Console_src/project_window/"
-alias ffts="cd $Console_src/project_linux/ts"
-alias ffu="cd $Consrc2/ui/v5"
-alias ffxx="cd $Console_src/project_linux/xml"
-
 alias t='cd $Myprj_top'
+alias r='cd $Myprj_top/root'
+alias k='cd $Myprj_top/linux'
+alias s='cd $Myprj_top/root/src'
 alias n='cd $Myprj_top/root/src/edvrcore_v6'
 alias o='cd $Myprj_top/root/src/onvif_client'
 alias b='cd $Myprj_top/root/build'
 alias dist='cd $Myprj_top/root/dist'
+
+alias trunk='cd ~/prj/console/qt/examples/qws/console'
+alias 10241='cd ~/prj/console10241/qt/examples/qws/console'
+B10241_top=~/prj/sdb1/trunke
+alias 10241r='cd $B10241_top/root'
+alias 10241k='cd $B10241_top/linux'
+alias 10241s='cd $B10241_top/root/src'
+alias 10241n='cd $B10241_top/root/src/edvrcore_v6'
+alias 10241o='cd $B10241_top/root/src/onvif_client'
+alias 8822='cd ~/prj/console8822/qt/examples/qws/console'
+alias 7550='cd ~/prj/console7550/qt/examples/qws/console'
+alias 6205='cd ~/prj/console6205/qt/examples/qws/console'
 }
 
 #
