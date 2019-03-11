@@ -43,17 +43,8 @@ alias sdb='cd ~/prj/sdb1'
 #hidvr
 . ~/mysrc53/dot/hidvr.aliases
 
-#119~sw_prod 마운트 검사
-if file /home/119rnd/MiniPlayer |grep broken
-then
-echo 경고! 119rnd mount 해라.
-echo 경고! 119rnd mount 해라.
-echo 경고! 119rnd mount 해라.
-echo 경고! 119rnd mount 해라.
-echo 경고! 119rnd mount 해라.
-echo 경고! 119rnd mount 해라.
-cd bin
-fi
+#rust
+. .cargo/env
 
 #dircolors -b mycolors임
 #di=00;30 -> DIR

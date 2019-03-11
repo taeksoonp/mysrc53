@@ -17,7 +17,7 @@ function findcc()
   Target=$1
   fi
   
-  find $Path -name \*.[hc] -or -name \*.cpp |xargs egrep -n --exclude .uic* --exclude .moc* $Target $3 $4 $5
+  find $Path -name \*.[hc] -or -name \*.cpp |xargs egrep -n --exclude project_linux/* $Target $3 $4 $5
 }
 
 # Model ID 찾기
@@ -51,6 +51,10 @@ if [ "$3" ]; then
 	ls -l include
 	popd
 
+elif [ "$2" = wrns ]; then
+	echo "Mycon=wrns/wrs2" > ~/prj/bin/mycon
+	echo "Myprj=../wrns" > ~/prj/bin/myprj
+	echo PC > $HOME/etc/hi.conf
 else
 	echo "what model? 어떤거?"
 	echo currently, $Myprj, `cat $HOME/etc/hi.conf`
@@ -72,6 +76,9 @@ else
 fi
 }
 
+#wrns
+alias wprj='config_prj wrns'
+
 #trunk
 alias hprja='config_prj console trunka'
 alias hprjb='config_prj console trunkb'
@@ -90,6 +97,7 @@ alias batsumic='config_prj consoleatsumi b8822_r9707_atsumic'
 alias b8822a='config_prj console8822 b8822_R9.4a'
 alias b7550a='config_prj console7550 r7550_R9.2a'
 alias b6205a='config_prj console6205 r6205_R8.8a'
+alias b4223a='config_prj console4223 r4223_R7.8.10'
 
 #wns
 alias wprj='config_prj wrns/wrs2 wrns'
@@ -129,15 +137,6 @@ alias dist='cd $Myprj_top/root/dist'
 
 alias trunk='cd ~/prj/console/qt/examples/qws/console'
 alias 10241='cd ~/prj/console10241/qt/examples/qws/console'
-B10241_top=~/prj/sdb1/trunke
-alias 10241r='cd $B10241_top/root'
-alias 10241k='cd $B10241_top/linux'
-alias 10241s='cd $B10241_top/root/src'
-alias 10241n='cd $B10241_top/root/src/edvrcore_v6'
-alias 10241o='cd $B10241_top/root/src/onvif_client'
-alias 8822='cd ~/prj/console8822/qt/examples/qws/console'
-alias 7550='cd ~/prj/console7550/qt/examples/qws/console'
-alias 6205='cd ~/prj/console6205/qt/examples/qws/console'
 }
 
 #
@@ -156,8 +155,10 @@ function sprjenv()
 		echo edvr_hddvr_hisilicon_env.sh `cat $HOME/etc/hi.conf $HOME/etc/hi.ver` 한다.
 		if [ -a $Myprj_top/edvr_hddvr_hisilicon_env.sh ];then
 			cd $Myprj_top &&. ./edvr_hddvr_hisilicon_env.sh `cat $HOME/etc/hi.conf $HOME/etc/hi.ver`
-		else
+		elif [ -a cd ~/prj/sdb1/default ];then
 			cd ~/prj/sdb1/default &&. ./edvr_hddvr_hisilicon_env.sh `cat $HOME/etc/hi.conf $HOME/etc/hi.ver`
+		else
+			echo $Myprj_top/edvr_hddvr_hisilicon_env.sh 없는데?
 		fi
 		echo "^^^^^^^^^^^^^^^^^^^^^^^^^^ 설정 끝"
 		popd
