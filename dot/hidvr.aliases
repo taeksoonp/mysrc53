@@ -17,7 +17,7 @@ function findcc()
   Target=$1
   fi
   
-  find $Path -name \*.[hc] -or -name \*.cpp |xargs egrep -n --exclude project_linux/* $Target $3 $4 $5
+  find $Path -type f -not -path "*/project_linux/*" -name \*.[hc] -or -name \*.cpp |xargs egrep -n $Target $3 $4 $5
 }
 
 # Model ID 찾기
@@ -98,6 +98,7 @@ alias b8822a='config_prj console8822 b8822_R9.4a'
 alias b7550a='config_prj console7550 r7550_R9.2a'
 alias b6205a='config_prj console6205 r6205_R8.8a'
 alias b4223a='config_prj console4223 r4223_R7.8.10'
+alias b3679a='config_prj console3679 r3679_R7.4.2'
 
 #wns
 alias wprj='config_prj wrns/wrs2 wrns'
