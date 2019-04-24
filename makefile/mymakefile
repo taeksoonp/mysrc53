@@ -2,13 +2,14 @@
 #	pts makefile
 #
 CPPFLAGS = -isystem $(Boost_include) -MMD
-CFLAGS = -O -g
-CXXFLAGS = $(CFLAGS) -std=c++11
-LDLIBS = -llua
+CFLAGS = -O -g $(Sanitizer_flags)
+CXXFLAGS = $(CFLAGS) -std=c++11 
+LDLIBS = $(Sanitizer_flags)
 LINK.o = $(LINK.cc)	#use g++ as linker
 DEPS = $(TARGET:%=%.d)
+#Sanitizer_flags = -fsanitize=address -fno-omit-frame-pointer
 
-TARGET = mylua
+TARGET = globalbufferoverflow
 
 all: $(TARGET)
 

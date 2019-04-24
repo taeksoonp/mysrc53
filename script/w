@@ -1,6 +1,8 @@
 #!/bin/ash
 
 source /wgi_sys_vars_definition
+source mycon
+source myprj
 
 #vga_output_type
 FB_NO=`cat /proc/wgi_sys_vars/console_fb_dev_num`
@@ -25,6 +27,15 @@ elif [ ${soc_type} = ${SOC_TYPE_3531A} ]; then
 Soctype=d
 elif [ ${soc_type} = ${SOC_TYPE_3536} ]; then
 Soctype=e
+elif [ ${soc_type} = ${SOC_TYPE_3536C} ]; then
+Soctype=f
+elif [ ${soc_type} = ${SOC_TYPE_3521D} ]; then
+Soctype=g
+elif [ ${soc_type} = ${SOC_TYPE_3531D} ]; then
+Soctype=h
+elif [ ${soc_type} = ${SOC_TYPE_3516CV300} ]; then
+Soctype=i
+
 else
 echo error! soctype $Soctype?
 exit 1
@@ -57,6 +68,14 @@ for var in "$@"; do
 	Args="$Args $var"
 done
 
-Fullname=project_linux/$Targetid/$Targetid
-# touch $Fullname
+if [[ "$0" == ./tt ]]; then
+	Fullname=ttlinux/$Targetid/$Targetid
+if [[ "$0" == ./jj ]]; then
+	Fullname=jjlinux/$Targetid/$Targetid
+else
+	Fullname=../$Mycon/qt/examples/qws/console/project_linux/$Targetid/$Targetid
+	echo 이름: "$0"
+	echo "console: $Mycon, prj: $Myprj 임"
+fi
+
 $Gdb $Fullname $Args -qws -display linuxfb:/dev/fb${FB_NO}:$Wgi_vfb:size=1920x1080:qws_size=1920x1080:depth=32:mmWidth:480:mmHeight=270 -nokeyboard -font /usr/lib/qt/lib/fonts/arial.ttf

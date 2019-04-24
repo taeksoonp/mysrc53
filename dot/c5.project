@@ -3,6 +3,9 @@
 	<name>c5</name>
 	<comment></comment>
 	<projects>
+		<project>zqtinclude473</project>
+		<project>zqtsrc473</project>
+		<project>srcinclude</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
