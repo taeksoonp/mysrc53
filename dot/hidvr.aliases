@@ -105,11 +105,11 @@ alias hprje='config_prj console trunke'
 alias hprjf='config_prj console trunkf'
 
 #br 11104, 10241, 9707 atsumi, 8822, 7550, 6205
-alias b11104a='config_prj console11104 b11104_R9.6a'
-alias b11104c='config_prj console11104 b11104_R9.6c'
-alias b11104d='config_prj console11104 b11104_R9.6d'
-alias b11104e='config_prj console11104 b11104_R9.6e'
-alias b11104f='config_prj console11104 b11104_R9.6f'
+alias b11104a='config_prj console11104 b11104_R10.0a'
+alias b11104c='config_prj console11104 b11104_R10.0c'
+alias b11104d='config_prj console11104 b11104_R10.0d'
+alias b11104e='config_prj console11104 b11104_R10.0e'
+alias b11104f='config_prj console11104 b11104_R10.0f'
 
 alias b10241a='config_prj console10241 b10241_R9.6a'
 alias b10241c='config_prj console10241 b10241_R9.6c'
