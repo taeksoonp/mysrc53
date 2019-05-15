@@ -6,7 +6,7 @@
 Mytop = $(notdir $(shell pwd)) #make 실행경로임
 
 all:
-	@python -c "print '$(Mytop)'[0:-1]" > tmp.var
+	@python -c "print '$(Mytop)'.strip()[0:-1]" > tmp.var
 	ln -s ../../`cat tmp.var`/console
 	ln -s ../../dist root/
 		
@@ -19,6 +19,7 @@ distclean:
 
 tt:
 	echo $(shell pwd)
+	@python -c "print len('$(Mytop)'), '$(Mytop)'.strip()[0:-1]"
 
 .PHONY: all clean distclean tt
 

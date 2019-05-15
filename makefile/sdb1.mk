@@ -3,7 +3,7 @@
 # https://stackoverflow.com/questions/17834582/run-make-in-each-subdirectory
 #
 Top_targets := all clean distclean
-Subdirs := $(wildcard trunk?/) $(wildcard [br][0-1]*[a-z]/)
+Subdirs := $(wildcard trunk?/) $(wildcard [br][0-9]*[a-z]/)
 
 $(Top_targets): $(Subdirs)
 
@@ -11,10 +11,11 @@ $(Subdirs):
 	$(MAKE) -C $@ -f ../worker.mk $(MAKECMDGOALS)
 
 list:
-	-ls -ld trunk?/console [br]*?/console
-	-ls -ld trunk?/root/dist [br]*?/root/dist
+	-ls -ld --color=tty trunk?/console [br]*?/console
+	-ls -ld --color=tty trunk?/root/dist [br]*?/root/dist
 
 tt:
+	@echo $(Subdirs)
 	@echo '$(Mytop)'
 	@echo $(MAKECMDGOALS)
 	
