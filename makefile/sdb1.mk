@@ -2,13 +2,17 @@
 # sdb1 작업용 makefile
 # https://stackoverflow.com/questions/17834582/run-make-in-each-subdirectory
 #
-Top_targets := all clean tt
+Top_targets := all clean
 Subdirs := $(wildcard trunk?/) $(wildcard [br][0-1]*[a-z]/)
 
 $(Top_targets): $(Subdirs)
 
 $(Subdirs):
 	$(MAKE) -C $@ -f ../worker.mk $(MAKECMDGOALS)
+
+list:
+	ls -ld trunk?/console [br]*?/console
+	ls -ld trunk?/root/dist [br]*?/root/dist
 
 tt:
 	@echo '$(Mytop)'
@@ -17,13 +21,7 @@ tt:
 ttt:
 	echo $(MAKECMDGOALS)
     
-clean:
-	rm console root/dist
-	
-distclean:
-	rm console root/dist -r
-	
-.PHONY: $(Top_targets) $(Subdirs)
+.PHONY: $(Top_targets) $(Subdirs) list tt
 
 #util
 mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))

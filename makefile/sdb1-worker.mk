@@ -6,16 +6,16 @@
 Mytop = $(notdir $(shell pwd)) #make 실행경로임
 
 all:
-	@python -c "print '$(Mytop)'[0:-1]" > mycon
-	ln -s ../../`cat mycon`/console
+	@python -c "print '$(Mytop)'[0:-1]" > tmp.var
+	ln -s ../../`cat tmp.var`/console
 	ln -s ../../dist root/
 		
 clean:
-	rm console root/dist
+	-rm console root/dist
 	
 distclean:
 	read -p "정말 지울거니?" 
-	rm console root/dist -r
+	-rm console root/dist -r
 
 tt:
 	echo $(shell pwd)
