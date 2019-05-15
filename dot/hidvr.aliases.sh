@@ -113,9 +113,8 @@ Console_src=$Console_top/src
 Consrc1=$Console_top/qt/examples/qws/console
 Consrc2=$Console_top/src/console4k
 Myprj_top=~/prj/$Myprj
-Myprj_bld=~/prj/sdb1/$Myprj$WHBS_BUILD_SOCID
 
-#aliases
+#aliases들은 lazy 변수임
 alias tt='cd $Console_top'
 alias c='cd $Consrc1'
 alias x='cd $Consrc1/project_linux/xml'
@@ -130,8 +129,8 @@ alias sss='cd $Consrc1/../spotosd'
 alias qws='cd $Consrc1/..'
 alias i='cd $Consrc1/../oemskin2'
 
-alias t='cd $Myprj_top'
 alias bld='cd $Myprj_bld'
+alias t='cd $Myprj_top'
 alias r='cd $Myprj_bld/root'
 alias k='cd $Myprj_bld/linux'
 alias s='cd $Myprj_bld/root/src'
@@ -162,7 +161,11 @@ function sprjenv()
 		echo "^^^^^^^^^^^^^^^^^^^^^^^^^^ 설정 끝"
 		popd
 	fi
+	
+	#lazy var
+	Myprj_bld=~/prj/sdb1/$Myprj$WHBS_BUILD_SOCID
 }
+
 function sbldenv()
 {
 	hiprj_aliases
