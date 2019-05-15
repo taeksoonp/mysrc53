@@ -11,8 +11,8 @@ $(Subdirs):
 	$(MAKE) -C $@ -f ../worker.mk $(MAKECMDGOALS)
 
 list:
-	ls -ld trunk?/console [br]*?/console
-	ls -ld trunk?/root/dist [br]*?/root/dist
+	-ls -ld trunk?/console [br]*?/console
+	-ls -ld trunk?/root/dist [br]*?/root/dist
 
 tt:
 	@echo '$(Mytop)'
