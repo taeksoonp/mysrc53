@@ -2,7 +2,7 @@
 # sdb1 작업용 makefile
 # https://stackoverflow.com/questions/17834582/run-make-in-each-subdirectory
 #
-Top_targets := all clean
+Top_targets := all clean distclean
 Subdirs := $(wildcard trunk?/) $(wildcard [br][0-1]*[a-z]/)
 
 $(Top_targets): $(Subdirs)
