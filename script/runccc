@@ -13,8 +13,8 @@ if [ ! -f "$Configexe" ]; then
 	exit 0
 fi
 
-if [ "$0" = ./runccc ]; then
-	eee $Configexe 192.168.217.$1 80 admin 12345 --path:ttt
-else
+if [ "${1:0:1}" = "0" ]; then
 	eee $Configexe 192.168.110.$1 80 admin 12345 --path:ttt
+else
+	eee $Configexe 192.168.217.$1 80 admin 12345 --path:ttt
 fi

@@ -34,7 +34,7 @@ function findui()
 		Target=$1
 	fi
 
-  find $Path -type f -name \*.qss -or -name \*.ui |xargs egrep -n $Target $3 $4 $5
+  find $Path -type f -name \*.qss -or -name \*.ini -or -name hd_factory.cpp -or -name \*.ui |xargs egrep -n $Target $3 $4 $5
 }
 
 # Model ID 찾기
@@ -50,28 +50,19 @@ s/\(.*\)/\U\1/
 #
 # prj. 환경 설정
 #
+# 190515 $1 Mycon 퇴출
+# $1 Myprj, $2 model_id
+#
 function config_prj() {
-if [ "$3" ]; then
-	echo "Mycon=$1" > ~/prj/bin/mycon
-	echo "Myprj=$2" > ~/prj/bin/myprj
-	model_id $3 > $HOME/etc/hi.conf
-	echo model은 $3 임
-#
-# 문제의 root/src/include
-#
-	pushd .
-	cd ~/prj/root/src
-	rm include
-	ln -s ~/prj/sdb1/$2/root/src/include .
-	echo 'root/src/include' 심볼릭링크 만들었다.
-	pwd
-	ls -l include
-	popd
+if [ "$2" ]; then
+	echo "Myprj=$1" > ~/prj/bin/myprj
+	model_id $2 > $HOME/etc/hi.conf
+	echo model은 $2 임
 
-elif [ "$2" = wrns ]; then
-	echo "Mycon=wrns/wrs2" > ~/prj/bin/mycon
+elif [ "$1" = wrns ]; then
 	echo "Myprj=../wrns" > ~/prj/bin/myprj
 	echo PC > $HOME/etc/hi.conf
+
 else
 	echo "what model? 어떤거?"
 	echo currently, $Myprj, `cat $HOME/etc/hi.conf`
@@ -79,13 +70,13 @@ else
 fi
 
 source ~/prj/bin/myprj
-source ~/prj/bin/mycon
 sprjenv
+sbldenv
 
 #
 # soc id 검사
 #
-if [ "$WHBS_BUILD_SOCID" = "${Myprj_top: -1}" ]
+if [ "$WHBS_BUILD_SOCID" = "${Myprj_bld: -1}" ]
 then echo 좋아.
 else 
 	echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
@@ -97,31 +88,17 @@ fi
 alias wprj='config_prj wrns'
 
 #trunk
-alias hprja='config_prj console trunka'
-alias hprjb='config_prj console trunkb'
-alias hprjc='config_prj console trunkc'
-alias hprjd='config_prj console trunkd'
-alias hprje='config_prj console trunke'
-alias hprjf='config_prj console trunkf'
+alias hprj='config_prj trunk'
 
 #br 11104, 10241, 9707 atsumi, 8822, 7550, 6205
-alias b11104a='config_prj console11104 b11104_R10.0a'
-alias b11104c='config_prj console11104 b11104_R10.0c'
-alias b11104d='config_prj console11104 b11104_R10.0d'
-alias b11104e='config_prj console11104 b11104_R10.0e'
-alias b11104f='config_prj console11104 b11104_R10.0f'
-
-alias b10241a='config_prj console10241 b10241_R9.6a'
-alias b10241c='config_prj console10241 b10241_R9.6c'
-alias b10241d='config_prj console10241 b10241_R9.6d'
-alias b10241e='config_prj console10241 b10241_R9.6e'
-alias b10241f='config_prj console10241 b10241_R9.6f'
-alias batsumic='config_prj consoleatsumi b8822_r9707_atsumic'
-alias b8822a='config_prj console8822 b8822_R9.4a'
-alias b7550a='config_prj console7550 r7550_R9.2a'
-alias b6205a='config_prj console6205 r6205_R8.8a'
-alias b4223a='config_prj console4223 r4223_R7.8.10'
-alias b3679a='config_prj console3679 r3679_R7.4.2'
+alias b11104='config_prj b11104_R10.0a'
+alias b10241='config_prj b10241_R9.6a'
+alias batsumic='config_prj b8822_r9707_atsumic'
+alias b8822='config_prj b8822_R9.4a'
+alias b7550='config_prj r7550_R9.2a'
+alias bnice='config_prj r6205_R8.8_NICEa'
+alias b6205='config_prj r6205_R8.8a'
+alias b4223='config_prj r4223_R7.8.10'
 
 #wns
 alias wprj='config_prj wrns/wrs2 wrns'
@@ -131,11 +108,12 @@ alias wprj='config_prj wrns/wrs2 wrns'
 #
 function hiprj_aliases()
 {
-Console_top=~/prj/$Mycon
+Console_top=~/prj/$Myprj/console
 Console_src=$Console_top/src
 Consrc1=$Console_top/qt/examples/qws/console
 Consrc2=$Console_top/src/console4k
-Myprj_top=~/prj/sdb1/$Myprj
+Myprj_top=~/prj/$Myprj
+Myprj_bld=~/prj/sdb1/$Myprj$WHBS_BUILD_SOCID
 
 #aliases
 alias tt='cd $Console_top'
@@ -153,23 +131,23 @@ alias qws='cd $Consrc1/..'
 alias i='cd $Consrc1/../oemskin2'
 
 alias t='cd $Myprj_top'
-alias r='cd $Myprj_top/root'
-alias k='cd $Myprj_top/linux'
-alias s='cd $Myprj_top/root/src'
-alias n='cd $Myprj_top/root/src/edvrcore_v6'
-alias o='cd $Myprj_top/root/src/onvif_client'
-alias b='cd $Myprj_top/root/build'
-alias dist='cd $Myprj_top/root/dist'
+alias bld='cd $Myprj_bld'
+alias r='cd $Myprj_bld/root'
+alias k='cd $Myprj_bld/linux'
+alias s='cd $Myprj_bld/root/src'
+alias n='cd $Myprj_bld/root/src/edvrcore_v6'
+alias o='cd $Myprj_bld/root/src/onvif_client'
+alias b='cd $Myprj_bld/root/build'
+alias dist='cd $Myprj_bld/root/dist'
 
-alias trunk='cd ~/prj/console/qt/examples/qws/console'
-alias 10241='cd ~/prj/console10241/qt/examples/qws/console'
+alias trunk='cd ~/prj/trunk/console/qt/examples/qws/console'
+alias 11104='cd ~/prj/b11104/console/qt/examples/qws/console'
 }
 
 #
 # pts prj 환경: main
 #
 source ~/prj/bin/myprj
-source ~/prj/bin/mycon
 function sprjenv()
 {
 	hiprj_aliases
@@ -179,14 +157,24 @@ function sprjenv()
 	else
 		pushd .
 		echo edvr_hddvr_hisilicon_env.sh `cat $HOME/etc/hi.conf $HOME/etc/hi.ver` 한다.
-		if [ -a $Myprj_top/edvr_hddvr_hisilicon_env.sh ];then
-			cd $Myprj_top &&. ./edvr_hddvr_hisilicon_env.sh `cat $HOME/etc/hi.conf $HOME/etc/hi.ver`
-		elif [ -a cd ~/prj/sdb1/default ];then
-			cd ~/prj/sdb1/default &&. ./edvr_hddvr_hisilicon_env.sh `cat $HOME/etc/hi.conf $HOME/etc/hi.ver`
-		else
-			echo $Myprj_top/edvr_hddvr_hisilicon_env.sh 없는데?
-		fi
+		cd $Myprj_top &&. ./edvr_hddvr_hisilicon_env.sh `cat $HOME/etc/hi.conf $HOME/etc/hi.ver`\
+			|| echo $Myprj_top/edvr_hddvr_hisilicon_env.sh 없냐?
 		echo "^^^^^^^^^^^^^^^^^^^^^^^^^^ 설정 끝"
+		popd
+	fi
+}
+function sbldenv()
+{
+	hiprj_aliases
+	Hiconf=`cat $HOME/etc/hi.conf`
+	if [ "$Hiconf" = PC ];then
+		echo pc linux임
+	else
+		pushd .
+		echo \'$Myprj_bld\'에서 edvr_hddvr_hisilicon_env.sh `cat $HOME/etc/hi.conf $HOME/etc/hi.ver` 한다.
+		cd $Myprj_bld &&. ./edvr_hddvr_hisilicon_env.sh `cat $HOME/etc/hi.conf $HOME/etc/hi.ver`\
+			||  echo $Myprj_bld 없냐?
+		echo "^^^^^^^^^^^^^^^^^^^^^^^^^^ build 환경 설정 끝"
 		popd
 	fi
 }

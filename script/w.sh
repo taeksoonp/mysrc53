@@ -1,7 +1,7 @@
 #!/bin/ash
 
 source /wgi_sys_vars_definition
-source mycon
+#deprecated source mycon
 source myprj
 
 #vga_output_type
@@ -70,12 +70,11 @@ done
 
 if [[ "$0" == ./tt ]]; then
 	Fullname=ttlinux/$Targetid/$Targetid
-if [[ "$0" == ./jj ]]; then
+elif [[ "$0" == ./jj ]]; then
 	Fullname=jjlinux/$Targetid/$Targetid
 else
-	Fullname=../$Mycon/qt/examples/qws/console/project_linux/$Targetid/$Targetid
+	Fullname=../$Myprj/console/qt/examples/qws/console/project_linux/$Targetid/$Targetid
 	echo 이름: "$0"
-	echo "console: $Mycon, prj: $Myprj 임"
 fi
 
 $Gdb $Fullname $Args -qws -display linuxfb:/dev/fb${FB_NO}:$Wgi_vfb:size=1920x1080:qws_size=1920x1080:depth=32:mmWidth:480:mmHeight=270 -nokeyboard -font /usr/lib/qt/lib/fonts/arial.ttf

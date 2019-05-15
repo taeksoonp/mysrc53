@@ -31,7 +31,7 @@ export EMACS_SERVER_FILE=~/etc/server/server
 export TERM=xterm-256color
 export Ga_hih="[가-힣]"
 alias euckr='export LANG=ko_KR.euckr'
-alias mysrc='cd ~/mysrc53'
+alias mysrc='cd ~/prj/mysrc53'
 alias prj='cd ~/prj'
 alias prjbin='cd ~/prj/bin'
 alias prjwork='cd ~/prj/work'
@@ -41,7 +41,7 @@ alias prjqt='cd ~/prj/qt5trunk'
 alias sdb='cd ~/prj/sdb1'
 
 #hidvr
-. ~/mysrc53/dot/hidvr.aliases
+. ~/prj/mysrc53/dot/hidvr.aliases.sh
 
 #rust
 . .cargo/env
