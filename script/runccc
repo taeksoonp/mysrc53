@@ -1,8 +1,9 @@
 #!/bin/sh
 #rem config <ip> <port> <id> passwd> <xml folder>
+source ~/prj/bin/myprj
 
 Argc=$#
-Configexe=/home/tsp/prj/console/console/project_window/$WHBS_CONSOLE_TARGETID/release/config.exe
+Configexe=~/prj/$Myprj/console/console/project_window/$WHBS_CONSOLE_TARGETID/release/config.exe
 
 if [ $Argc -lt 1 ]; then
 	echo ip 끝자리는?

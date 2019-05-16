@@ -4,6 +4,7 @@
 #
 
 Mytop = $(notdir $(shell pwd)) #make 실행경로임
+Svn_cmd = up
 
 all:
 	@python -c "print '$(Mytop)'.strip()[0:-1]" > tmp.var
@@ -17,11 +18,14 @@ distclean:
 	read -p "정말 지울거니?" 
 	-rm console root/dist -r
 
+$(Svn_cmd):
+	svn $@
+
 tt:
 	echo $(shell pwd)
 	@python -c "print len('$(Mytop)'), '$(Mytop)'.strip()[0:-1]"
 
-.PHONY: all clean distclean tt
+.PHONY: all clean distclean tt $(Svn_cmd)
 
 #util
 mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))

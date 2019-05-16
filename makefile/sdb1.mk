@@ -2,8 +2,9 @@
 # sdb1 작업용 makefile
 # https://stackoverflow.com/questions/17834582/run-make-in-each-subdirectory
 #
-Top_targets := all clean distclean
+Top_targets := all clean distclean $(Svn_cmd)
 Subdirs := $(wildcard trunk?/) $(wildcard [br][0-9]*[a-z]/)
+Svn_cmd = up
 
 $(Top_targets): $(Subdirs)
 
@@ -22,7 +23,7 @@ tt:
 ttt:
 	echo $(MAKECMDGOALS)
     
-.PHONY: $(Top_targets) $(Subdirs) list tt
+.PHONY: $(Top_targets) $(Subdirs) list tt $(Svn_cmd)
 
 #util
 mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))

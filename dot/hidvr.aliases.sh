@@ -39,10 +39,14 @@ function findui()
 
 # Model ID 찾기
 function model_id() {
+# '-' 넣기
+# - ~f-~ dvr/nvr, ~p-~ nvr, uhn6400-xxx
+# 대문자로 변환
 	sed '
-		s/\([0-9]\)f\([a-z]\)/\1f-\2/g
-		s/h\([0-9]\)$/-h\1/g
-		s/\(.*\)/\U\1/
+		s`\([0-9]\)\([fp]\)\([a-z]\)`\1\2-\3`g
+		s`6400h`6400-h`g
+		
+		s`\(.*\)`\U\1`
 		' <<< $1
 }
 
@@ -89,12 +93,12 @@ function config_prj() {
 alias wprj='config_prj wrns'
 alias hprj='config_prj trunk'
 #br 11104, 10241, 9707 atsumi, 8822, 7550, 6205
-alias b11104='config_prj b11104_R10.0a'
-alias b10241='config_prj b10241_R9.6a'
-alias batsumic='config_prj b8822_r9707_atsumic'
-alias b8822='config_prj b8822_R9.4a'
-alias b7550='config_prj r7550_R9.2a'
-alias b6205='config_prj r6205_R8.8a'
+alias b11104='config_prj b11104_R10.0'
+alias b10241='config_prj b10241_R9.6'
+alias batsumic='config_prj b8822_r9707_atsumi'
+alias b8822='config_prj b8822_R9.4'
+alias b7550='config_prj r7550_R9.2'
+alias b6205='config_prj r6205_R8.8'
 alias b4223='config_prj r4223_R7.8.10'
 
 #
