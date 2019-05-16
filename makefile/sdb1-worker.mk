@@ -4,19 +4,19 @@
 #
 
 Mytop = $(notdir $(shell pwd)) #make 실행경로임
+Branch_name = $(shell python -c "print '$(Mytop)'.strip()[0:-1]")
 Svn_cmd = up
 
 all:
-	@python -c "print '$(Mytop)'.strip()[0:-1]" > tmp.var
-	ln -s ../../`cat tmp.var`/console
+	ln -s ../../$(Branch_name)/console
 	ln -s ../../dist root/
 		
 clean:
 	-rm console root/dist
 	
 distclean:
-	read -p "정말 지울거니?" 
-	-rm console root/dist -r
+	@if [ -d console ]; then read -p "정말 지울거니?";\
+		rm console root/dist -r;fi
 
 $(Svn_cmd):
 	svn $@

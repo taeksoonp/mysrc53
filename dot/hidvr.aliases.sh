@@ -40,13 +40,13 @@ function findui()
 # Model ID 찾기
 function model_id() {
 # '-' 넣기
-# - ~f-~ dvr/nvr, ~p-~ nvr, uhn6400-xxx
+#  ~f-~ dvr/nvr, ~p-~ nvr, uhn6400-xxx
 # 대문자로 변환
 	sed '
-		s`\([0-9]\)\([fp]\)\([a-z]\)`\1\2-\3`g
-		s`6400h`6400-h`g
+		s_\([0-9]\)\([fp]\)\([a-z]\)_\1\2-\3_g
+		s_6400h_6400-h_g
 		
-		s`\(.*\)`\U\1`
+		s_\(.*\)_\U\1_
 		' <<< $1
 }
 
