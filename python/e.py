@@ -7,6 +7,7 @@ import fcntl, struct #to get eth0pc
 def usage():
     print('explorer & notepad client. v1.0')
     print("usage: e [filename]")
+    print('HOST:', HOST)
     exit(0)
 
 print(sys.argv)

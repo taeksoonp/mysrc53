@@ -32,25 +32,23 @@ else:
 PORT = 6821
 
 def con(br):
-    return '/home/tsp/prj/console' + br + '/qt/examples/qws/console' 
+    return '/home/tsp/prj/' + br + '/console/qt/examples/qws/console' 
 
 def winprj(br):
-    return '/home/tsp/prj/console' + br + '/console/project_window'    
+    return '/home/tsp/prj/' + br + '/console/console/project_window'    
     
 def topmk(br):
-    return '/home/tsp/prj/console' + br + '/Makefile'
+    return '/home/tsp/prj/' + br + '/console/Makefile'
 
 def spotosd(br):
-    return '/home/tsp/prj/console' + br + '/qt/examples/qws/spotosd' 
+    return '/home/tsp/prj/' + br + '/console/qt/examples/qws/spotosd' 
 
-hienvsh = '/home/tsp/prj/hidvr/edvr_hddvr_hisilicon_env.sh'
-def cic5(n):    
-    if (n <= 0):
-        br = ''
-    else:
-        br = str(n)
+def hienvsh(br):
+    return '/home/tsp/prj/' + br + '/edvr_hddvr_hisilicon_env.sh'
+
+def cic5(br):    
     return con(br) + '*' + winprj(br) + '*' + topmk(br) + '*' + \
-        spotosd(br) + '*' + hienvsh 
+        spotosd(br) + '*' + hienvsh(br)
 cmd = '"C:/Program Files/TortoiseSVN/bin/TortoiseProc.exe" '
 
 if len(sys.argv) > 1:
@@ -65,13 +63,9 @@ if len(sys.argv) > 1:
     elif sys.argv[1] == 'ci':
         cmd += '/command:commit /path:' + os.getcwd()
     elif sys.argv[1] == 'cic5':
-        cmd += '/command:commit /path:' + cic5(0)
-    elif sys.argv[1] == 'cic8822':
-        cmd += '/command:commit /path:' + cic5(8822)
-    elif sys.argv[1] == 'cic7550':
-        cmd += '/command:commit /path:' + cic5(7550)
-    elif sys.argv[1] == 'cic6205':
-        cmd += '/command:commit /path:' + cic5(6205)
+        cmd += '/command:commit /path:' + cic5('trunk')
+    elif sys.argv[1] == 'cic11104':
+        cmd += '/command:commit /path:' + cic5('b11104_R10.0')
     else:
         usage()
 else:

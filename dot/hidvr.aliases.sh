@@ -1,7 +1,7 @@
 #
 # Util
 #
-alias showwhbs='env|egrep "(WHBS|CROSS)"|sort'
+alias showwhbs='env|egrep "(WHBS|CROSS|BUILD_BASE_DIR)"|sort'
 #alias ccargs='find $Path -name \*.[hc] -or -name \*.cpp |xargs'
 function findcc()
 {
@@ -18,7 +18,7 @@ function findcc()
 	fi
   
 #ng-_-;  find $Path -type f -not -path "*/project_linux/*" -name \*.[hc] -or -name \*.cpp |xargs egrep -n $Target $3 $4 $5
-	find $Path -type f -name \*.[hc] -or -name \*.cpp |grep -v project_linux |xargs egrep -n $Target $3 $4 $5
+	find $Path -type f -name \*.[hc] -or -name \*.cpp -or -name \*.inc |grep -v project_linux |xargs egrep -n $Target $3 $4 $5
 }
 
 function findui()
@@ -123,22 +123,48 @@ function hiprj_aliases()
 	alias bbb='cd $Console_top/console/project_window/'
 	alias cccc='cd $Console_top/console/project_window/${WHBS_CONSOLE_TARGETID}'
 	alias v="cd $Consrc1/etc/vm"
-	alias sss='cd $Consrc1/../spotosd'
-	alias qws='cd $Consrc1/..'
-	alias i='cd $Consrc1/../oemskin2'
 	
-	alias bld='cd $Myprj_bld'
+	alias ttt='cd $Myprj_bld'
 	alias t='cd $Myprj_top'
 	alias r='cd $Myprj_bld/root'
 	alias k='cd $Myprj_bld/linux'
 	alias s='cd $Myprj_bld/root/src'
 	alias n='cd $Myprj_bld/root/src/edvrcore_v6'
-	alias o='cd $Myprj_bld/root/src/onvif_client'
 	alias b='cd $Myprj_bld/root/build'
+	alias bbld='b&&sbldenv'
 	alias dist='cd $Myprj_bld/root/dist'
 	
 	alias trunk='cd ~/prj/trunk/console/qt/examples/qws/console'
-	alias 11104='cd ~/prj/b11104/console/qt/examples/qws/console'
+	alias 11104='cd ~/prj/b11104_R10.0/console/qt/examples/qws/console'
+}
+
+function go()
+{
+	case $1 in
+	base)
+		there=$Myprj_bld/root/base2
+		;;
+	busybox)
+		there=$Myprj_bld/root/src/busybox*
+		;;
+	udhcp)
+		there=$Myprj_bld/root/src/busybox*/networking/udhcp
+		;;
+	onvif)
+		there=$Myprj_bld/root/src/onvif_client
+		;;
+	spotosd)
+		there=$Consrc1/../spotosd
+		;;
+	qqq)
+		there=$Consrc1/..
+		;;
+	tests)
+		there=$Consrc1/../tests
+		;;	
+	esac
+	
+	cd $there	
 }
 
 #
