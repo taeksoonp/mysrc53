@@ -128,10 +128,9 @@ function hiprj_aliases()
 	alias t='cd $Myprj_top'
 	alias r='cd $Myprj_bld/root'
 	alias k='cd $Myprj_bld/linux'
-	alias s='cd $Myprj_bld/root/src'
+	alias s='cd $Myprj_bld/root/src;sbldenv'
 	alias n='cd $Myprj_bld/root/src/edvrcore_v6'
 	alias b='cd $Myprj_bld/root/build'
-	alias bbld='b&&sbldenv'
 	alias dist='cd $Myprj_bld/root/dist'
 	
 	alias trunk='cd ~/prj/trunk/console/qt/examples/qws/console'

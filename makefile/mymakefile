@@ -4,12 +4,12 @@
 CPPFLAGS = -isystem $(Boost_include) -MMD
 CFLAGS = -O -g $(Sanitizer_flags)
 CXXFLAGS = $(CFLAGS) -std=c++11 
-LDLIBS = $(Sanitizer_flags)
+LDLIBS = $(Sanitizer_flags) -lcurl
 LINK.o = $(LINK.cc)	#use g++ as linker
 DEPS = $(TARGET:%=%.d)
 #Sanitizer_flags = -fsanitize=address -fno-omit-frame-pointer
 
-TARGET = globalbufferoverflow
+TARGET = ttcurl
 
 all: $(TARGET)
 
