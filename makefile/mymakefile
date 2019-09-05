@@ -7,9 +7,9 @@ CXXFLAGS = $(CFLAGS) -std=c++11
 LDLIBS = $(Sanitizer_flags) -lcurl
 LINK.o = $(LINK.cc)	#use g++ as linker
 DEPS = $(TARGET:%=%.d)
-#Sanitizer_flags = -fsanitize=address -fno-omit-frame-pointer
+Sanitizer_flags = -fsanitize=address -fno-omit-frame-pointer
 
-TARGET = ttcurl
+TARGET = mytt
 
 all: $(TARGET)
 

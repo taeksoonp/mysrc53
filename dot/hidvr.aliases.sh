@@ -37,6 +37,23 @@ function findui()
 	find $Path -type f -name \*.qss -or -name \*.ini -or -name hd_factory.cpp -or -name \*.ui |xargs egrep -n $Target $3 $4 $5
 }
 
+function findjs()
+{
+	if [ $# -eq 0 ]; then
+		echo "Usage: findjs [path] <pattern>"
+		return
+	elif [ $# -gt 1 ]; then
+		Path=$1
+		Target=$2
+	else
+		Path=.
+		Target=$1
+	fi
+  
+#ng-_-;  find $Path -type f -not -path "*/project_linux/*" -name \*.[hc] -or -name \*.cpp |xargs egrep -n $Target $3 $4 $5
+	find $Path -type f -name \*.js -or -name \*.html -or -name \*.ts |grep -v .min.js|xargs egrep -n $Target $3 $4 $5
+}
+
 # Model ID 찾기
 function model_id() {
 # '-' 넣기
@@ -93,7 +110,7 @@ function config_prj() {
 alias wprj='config_prj wrns'
 alias hprj='config_prj trunk'
 #br 11104, 10241, 9707 atsumi, 8822, 7550, 6205
-alias b11104='config_prj b11104_R10.0'
+alias b11729='config_prj b11729_R10.2'
 alias b10241='config_prj b10241_R9.6'
 alias batsumic='config_prj b8822_r9707_atsumi'
 alias b8822='config_prj b8822_R9.4'
@@ -134,7 +151,7 @@ function hiprj_aliases()
 	alias dist='cd $Myprj_bld/root/dist'
 	
 	alias trunk='cd ~/prj/trunk/console/qt/examples/qws/console'
-	alias 11104='cd ~/prj/b11104_R10.0/console/qt/examples/qws/console'
+	alias 11729='cd ~/prj/b11729_R10.0/console/qt/examples/qws/console'
 }
 
 function go()
@@ -142,6 +159,9 @@ function go()
 	case $1 in
 	base)
 		there=$Myprj_bld/root/base2
+		;;
+	linux-common)
+		there=$Myprj_bld/linux-common
 		;;
 	busybox)
 		there=$Myprj_bld/root/src/busybox*
@@ -152,15 +172,19 @@ function go()
 	onvif)
 		there=$Myprj_bld/root/src/onvif_client
 		;;
+	webapp)
+		there=$Myprj_bld/root/src/webapp
+		;;
+		
 	spotosd)
 		there=$Consrc1/../spotosd
 		;;
-	qqq)
+	qws)
 		there=$Consrc1/..
 		;;
 	tests)
 		there=$Consrc1/../tests
-		;;	
+		;;
 	esac
 	
 	cd $there	
