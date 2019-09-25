@@ -14,6 +14,8 @@ $(Subdirs):
 list:
 	-ls -ld --color=tty trunk?/console [br]*?/console
 	-ls -ld --color=tty trunk?/root/dist [br]*?/root/dist
+	-ls -ld --color=tty trunk?/root/src/include [br]*?/root/src/include
+	-ls -ld --color=tty trunk?/edvr_hddvr_hisilicon_env.sh [br]*?/edvr_hddvr_hisilicon_env.sh
 
 tt:
 	@echo $(Subdirs)

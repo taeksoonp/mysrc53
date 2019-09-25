@@ -64,8 +64,8 @@ if len(sys.argv) > 1:
         cmd += '/command:commit /path:' + os.getcwd()
     elif sys.argv[1] == 'cic5':
         cmd += '/command:commit /path:' + cic5('trunk')
-    elif sys.argv[1] == 'cic11104':
-        cmd += '/command:commit /path:' + cic5('b11104_R10.0')
+    elif sys.argv[1] == 'cibr':
+        cmd += '/command:commit /path:' + cic5(sys.argv[2])
     else:
         usage()
 else:
