@@ -61,7 +61,7 @@ function model_id() {
 # 대문자로 변환
 	sed '
 		s_\([0-9]\)\([fp]\)\([a-z]\)_\1\2-\3_g
-		s_6400h_6400-h_g
+		s_00h_00-h_g
 		
 		s_\(.*\)_\U\1_
 		' <<< $1
@@ -109,9 +109,8 @@ function config_prj() {
 #
 alias wprj='config_prj wrns'
 alias hprj='config_prj trunk'
-#br 11104, 10241, 9707 atsumi, 8822, 7550, 6205
-alias b11729='config_prj b11729_R10.2'
-alias b10241='config_prj b10241_R9.6'
+#br RB-10.2N, 9707 atsumi, 8822, 7550, 6205
+alias rb1='config_prj RB-10.2N'
 alias batsumic='config_prj b8822_r9707_atsumi'
 alias b8822='config_prj b8822_R9.4'
 alias b7550='config_prj r7550_R9.2'

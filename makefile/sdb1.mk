@@ -4,7 +4,7 @@
 #
 Svn_cmd := up
 Top_targets := all clean distclean $(Svn_cmd)
-Subdirs := $(wildcard trunk?/) $(wildcard [br][0-9]*[a-z]/)
+Subdirs := $(wildcard trunk?/) $(wildcard [br][0-9]*[a-z]/) $(wildcard RB-[0-9]*[a-z]/)
 
 $(Top_targets): $(Subdirs)
 

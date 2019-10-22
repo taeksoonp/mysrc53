@@ -39,11 +39,11 @@ while True:
     if ip not in Gigacitys:
         print('Warning! Strange ip:', ip)
         continue
-    
+
     if ip == Gigacitys[0]:
         ip = 'ptslinux.mshome.net'
     cmd = data.decode('utf8')
-    
+
     print('cmd??%s' % cmd)
     if 'explorer' in cmd:
         cmd = os.path.normpath(cmd) #netdrive는 안된다.

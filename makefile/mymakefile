@@ -9,10 +9,13 @@ LINK.o = $(LINK.cc)	#use g++ as linker
 DEPS = $(TARGET:%=%.d)
 Sanitizer_flags = -fsanitize=address -fno-omit-frame-pointer
 
-TARGET = mytt
+TARGET = mytt conditionvar conditionvar2
 
 all: $(TARGET)
 
+run: $(TARGET)
+	./mytt
+	
 test:
 	$(CXX) $(CPPFLAGS:-MMD=) $(CXXFLAGS) -MM $(SRCS)
 	
