@@ -143,9 +143,9 @@ function hiprj_aliases()
 	alias ttt='cd $Myprj_bld'
 	alias t='cd $Myprj_top'
 	alias r='cd $Myprj_bld/root'
-	alias k='cd $Myprj_bld/linux'
+	alias k='cd $Myprj_bld/linux;sbldenv'
 	alias s='cd $Myprj_bld/root/src;sbldenv'
-	alias n='cd $Myprj_bld/root/src/edvrcore_v6'
+	alias n='cd $Myprj_bld/root/src/edvrcore_v7'
 	alias b='cd $Myprj_bld/root/build'
 	alias dist='cd $Myprj_bld/root/dist'
 	

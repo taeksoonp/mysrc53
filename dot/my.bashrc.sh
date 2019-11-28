@@ -10,9 +10,12 @@ fi
 
 # User specific aliases and functions
 export PKG_CONFIG_PATH=/usr/local/lib64/pkgconfig
+#놀랬다. export LD_LIBRARY_PATH=LD_LIBRARY_PATH:/usr/local/lib64
 export PATH=$PATH:/opt/hisi-linux/x86-arm/arm-hisiv200-linux/target/bin:/opt/hisi-linux/x86-arm/arm-hisiv400-linux/target/bin::/opt/hisi-linux/x86-arm/arm-hisiv600-linux/target/bin
-#alias l='ls -lF --time-style=long-iso'
+
+alias l='ls -lF --color=tty --time-style=long-iso'
 alias bank="cd ~/prj/sdb1/bank"
+
 if [ "$HOSTNAME" = ptslinux ]; then
 	export PS1='\w) '
 elif [ "$HOSTNAME" = "gigacity6.localdomain" ]; then

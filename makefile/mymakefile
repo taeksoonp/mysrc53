@@ -2,20 +2,22 @@
 #	pts makefile
 #
 CPPFLAGS = -isystem $(Boost_include) -MMD
-CFLAGS = -O -g $(Sanitizer_flags)
-CXXFLAGS = $(CFLAGS) -std=c++11 
-LDLIBS = $(Sanitizer_flags) -lcurl
+CFLAGS = -g $(Sanitizer_flags) -DDeployment
+CXXFLAGS = $(CFLAGS) -std=c++11
+LDLIBS = $(Sanitizer_flags) -ldl -lssl -lcrypto
 LINK.o = $(LINK.cc)	#use g++ as linker
 DEPS = $(TARGET:%=%.d)
 Sanitizer_flags = -fsanitize=address -fno-omit-frame-pointer
 
-TARGET = mytt conditionvar conditionvar2
+TARGET = rsatt1 rsatt2 ttatt mytt #mkcert osslcli evp-symmetric-encrypt #evp-encrypt openssl_aes
 
 all: $(TARGET)
 
 run: $(TARGET)
-	./mytt
-	
+	./$<
+
+#ttatt: ttatt.o tta_util.o crypt-base64.o mkcert.o
+
 test:
 	$(CXX) $(CPPFLAGS:-MMD=) $(CXXFLAGS) -MM $(SRCS)
 	
