@@ -18,8 +18,8 @@ clean:
 	-rm $(Shares)
 	
 distclean:
-	@if [ -d console ]; then read -p "정말 지울거니?";\
-		rm $(Shares) -r;fi
+#귀찮다	@if [ -d console ]; then read -p "정말 지울거니?";
+	rm $(Shares) -r
 
 $(Svn_cmd):
 	svn $@
