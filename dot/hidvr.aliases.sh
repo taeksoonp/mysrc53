@@ -227,6 +227,10 @@ function sbldenv()
 #
 source ~/prj/bin/myprj
 source ~/etc/global_definitions
+
+#
+#  edvr_hddvr_hisilicon_env에서 model 환경 변수 설정 함수 추출하기
+#
 [ -f "~/etc/model_specific_env" ] || sed -n '
 	s/exit 1//
 	/model specific environment variables/,/model environment variable/ p
@@ -234,4 +238,10 @@ source ~/etc/global_definitions
 	s/export WHBS_QT_VERSION=/function set_console_socid {/p
 '	~/prj/trunk/edvr_hddvr_hisilicon_env.sh > ~/etc/model_specific_env
 source ~/etc/model_specific_env
+
+#
+# console include의 vfs2_definitions_for_diskconf_struct.h 심볼릭 링크 검사
+#
+[ -L "$Myprj_top/vfs2_definitions_for_diskconf_struct.h" ] || ln -s\
+	vfs2_definitions_for_normal_diskconf_struct.h $Myprj_top/vfs2_definitions_for_diskconf_struct.h
 sprjenv	#set my project env.
