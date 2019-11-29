@@ -228,6 +228,7 @@ function sbldenv()
 source ~/prj/bin/myprj
 source ~/etc/global_definitions
 [ -f "~/etc/model_specific_env" ] || sed -n '
+	s/exit 1//
 	/model specific environment variables/,/model environment variable/ p
 	/SOC ID & Console bin path/,/version environment variable/ p
 	s/export WHBS_QT_VERSION=/function set_console_socid {/p
