@@ -18,7 +18,7 @@ from PyQt5.QtWidgets import *
 UDP_IP = ''
 UDP_PORT = 6821
 ptslinux = socket.gethostbyname('ptslinux.mshome.net')
-Gigacitys = [ptslinux, '192.168.217.53', '192.168.217.165']
+Gigacitys = [ptslinux, '192.168.217.53', '192.168.217.165', '192.168.217.159']
 
 #
 # 잊지말고 "제어판\시스템 및 보안\Windows 방화벽" 에 가서 풀어 줘라(고생했다)

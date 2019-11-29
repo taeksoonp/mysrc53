@@ -47,7 +47,7 @@ alias sdb='cd ~/prj/sdb1'
 . ~/prj/mysrc53/dot/hidvr.aliases.sh
 
 #rust
-. .cargo/env
+#. .cargo/env
 
 #dircolors -b mycolors임
 #di=00;30 -> DIR

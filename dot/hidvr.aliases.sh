@@ -54,68 +54,6 @@ function findjs()
 	find $Path -type f -name \*.js -or -name \*.html -or -name \*.ts |grep -v .min.js|xargs egrep -n $Target $3 $4 $5
 }
 
-# Model ID 찾기
-function model_id() {
-# '-' 넣기
-#  ~f-~ dvr/nvr, ~p-~ nvr, uhn6400-xxx
-# 대문자로 변환
-	sed '
-		s_\([0-9]\)\([fp]\)\([a-z]\)_\1\2-\3_g
-		s_00h_00-h_g
-		
-		s_\(.*\)_\U\1_
-		' <<< $1
-}
-
-#
-# prj. 환경 설정
-#
-# 190515 $1 Mycon 퇴출
-# $1 Myprj, $2 model_id
-#
-function config_prj() {
-	if [ "$2" ]; then
-		echo "Myprj=$1" > ~/prj/bin/myprj
-		model_id $2 > $HOME/etc/hi.conf
-		echo model은 $2 임
-	
-	elif [ "$1" = wrns ]; then
-		echo "Myprj=../wrns" > ~/prj/bin/myprj
-		echo PC > $HOME/etc/hi.conf
-	
-	else
-		echo "what model? 어떤거?"
-		echo currently, $Myprj, `cat $HOME/etc/hi.conf`
-		return
-	fi
-	
-	source ~/prj/bin/myprj
-	sprjenv
-	sbldenv
-
-#
-# soc id 검사
-#
-	if [ "$WHBS_BUILD_SOCID" = "${Myprj_bld: -1}" ]; then
-		echo 좋아.
-	else 
-		echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-		echo "$Myprj_top 하고 socid-$WHBS_BUILD_SOCID 하고 안 맞는다?"
-	fi
-}
-
-#
-# prj 변환 alias
-#
-alias wprj='config_prj wrns'
-alias hprj='config_prj trunk'
-#br RB-10.2N, 9707 atsumi, 8822, 7550, 6205
-alias rb1='config_prj RB-10.2N'
-alias b11729='config_prj  b11729_R10.2'
-alias b10241='config_prj  b10241_R9.6'
-alias b6205='config_prj r6205_R8.8'
-alias b4223='config_prj r4223_R7.8.10'
-
 #
 # pts prj 환경: 매번. eclipse 공용.
 #
@@ -188,23 +126,80 @@ function go()
 	cd $there	
 }
 
+# Model ID 찾기
+function model_id() {
+# '-' 넣기
+#  ~f-~ dvr/nvr, ~p-~ nvr, uhn6400-xxx
+# 대문자로 변환
+	sed '
+		s_\([0-9]\)\([fp]\)\([a-z]\)_\1\2-\3_g
+		s_00h_00-h_g
+		
+		s_\(.*\)_\U\1_
+		' <<< $1
+}
+
 #
-# pts prj 환경: main
+# prj 변환 alias
 #
-source ~/prj/bin/myprj
+alias wprj='config_prj wrns'
+alias hprj='config_prj trunk'
+#br RB-10.2N, 9707 atsumi, 8822, 7550, 6205
+alias rb1='config_prj RB-10.2N'
+alias b11729='config_prj  b11729_R10.2'
+alias b10241='config_prj  b10241_R9.6'	#191129 ELMO사용
+alias b6205='config_prj r6205_R8.8'
+alias b4223='config_prj r4223_R7.8.10'
+
+#
+# prj. 환경 설정
+#
+# 190515 $1 Mycon 퇴출
+# $1 Myprj, $2 model_id
+#
+function config_prj() {
+	if [ "$2" ]; then
+		echo "Myprj=$1" > ~/prj/bin/myprj
+		model_id $2 > $HOME/etc/hi.conf
+		echo $2 >  $HOME/etc/hi.model
+		echo model은 $2 임
+	
+	elif [ "$1" = wrns ]; then
+		echo "Myprj=wrns" > ~/prj/bin/myprj
+		echo PC > $HOME/etc/hi.conf
+	
+	else
+		echo "what model? 어떤거?"
+		echo currently, $Myprj, `cat $HOME/etc/hi.conf`
+		return
+	fi
+	
+	source ~/prj/bin/myprj
+	source ~/etc/global_definitions
+	sprjenv
+	sbldenv
+
+#
+# soc id(알파벳 한 자) 검사
+#
+	if [ "$WHBS_BUILD_SOCID" = "${Myprj_bld: -1}" ]; then
+		echo 좋아.
+	else 
+		echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+		echo "$Myprj_top 하고 socid-$WHBS_BUILD_SOCID 하고 안 맞는다?"
+	fi
+}
+
 function sprjenv()
 {
 	hiprj_aliases
-	Hiconf=`cat $HOME/etc/hi.conf`
 	if [ "$Hiconf" = PC ];then
 		echo pc linux임
 	else
-		pushd .
-		echo edvr_hddvr_hisilicon_env.sh `cat $HOME/etc/hi.conf $HOME/etc/hi.ver` 한다.
-		cd $Myprj_top &&. ./edvr_hddvr_hisilicon_env.sh `cat $HOME/etc/hi.conf $HOME/etc/hi.ver`\
-			|| echo $Myprj_top/edvr_hddvr_hisilicon_env.sh 없냐?
+		echo 한다.
+		set_`cat $HOME/etc/hi.model`_specific_env
+		set_console_socid
 		echo "^^^^^^^^^^^^^^^^^^^^^^^^^^ 설정 끝"
-		popd
 	fi
 	
 	#lazy var
@@ -227,4 +222,15 @@ function sbldenv()
 	fi
 }
 
+#
+# pts prj 환경: main
+#
+source ~/prj/bin/myprj
+source ~/etc/global_definitions
+[ -f "~/etc/model_specific_env" ] || sed -n '
+	/model specific environment variables/,/model environment variable/ p
+	/SOC ID & Console bin path/,/version environment variable/ p
+	s/export WHBS_QT_VERSION=/function set_console_socid {/p
+'	~/prj/trunk/edvr_hddvr_hisilicon_env.sh > ~/etc/model_specific_env
+source ~/etc/model_specific_env
 sprjenv	#set my project env.

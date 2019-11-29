@@ -6,6 +6,8 @@
 		<project>zqtinclude473</project>
 		<project>zqtsrc473</project>
 		<project>srcinclude</project>
+		<project>trunk-include</project>
+		<project>zqtinclude486</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

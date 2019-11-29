@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cdtprojectproperties>
+<section name="org.eclipse.cdt.internal.ui.wizards.settingswizards.IncludePaths">
+<language name="Assembly Source File">
+
+</language>
+<language name="C++ Source File">
+<includepath>${ProjDirPath}/../../../../../include</includepath>
+<includepath>${ProjDirPath}/../../../include/QtCore</includepath>
+<includepath>${ProjDirPath}/../../../include/QtGui</includepath>
+<includepath>${ProjDirPath}/../../../include/QtNetwork</includepath>
+<includepath>${ProjDirPath}/../../../include/QtSql</includepath>
+
+</language>
+<language name="C Source File">
+<includepath>${ProjDirPath}/../../../../../include</includepath>
+
+</language>
+<language name="Object File">
+
+</language>
+</section>
+<section name="org.eclipse.cdt.internal.ui.wizards.settingswizards.Macros">
+<language name="Assembly Source File">
+
+</language>
+<language name="C++ Source File">
+<macro>
+<name>signals</name><value>/*signals*/</value>
+</macro>
+<macro>
+<name>slots</name><value>/*slots*/</value>
+</macro>
+
+</language>
+<language name="C Source File">
+
+</language>
+<language name="Object File">
+
+</language>
+</section>
+</cdtprojectproperties>
