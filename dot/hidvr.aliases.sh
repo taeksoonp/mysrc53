@@ -232,13 +232,14 @@ source ~/etc/global_definitions
 #  edvr_hddvr_hisilicon_env에서 model 환경 변수 설정 함수 추출하기
 #
 [ -f "~/etc/model_specific_env" ] || sed -n '
-	s/exit 1//
-	/model specific environment variables/,/model environment variable/ p
+	/exit 1/ d
+	/function set_common_post_env/,/model environment variable/ p
 	/SOC ID & Console bin path/,/version environment variable/ p
 	s/export WHBS_QT_VERSION=/function set_console_socid {/p
 '	~/prj/trunk/edvr_hddvr_hisilicon_env.sh > ~/etc/model_specific_env
 source ~/etc/model_specific_env
 sprjenv	#set my project env.
+set_common_post_env
 
 #
 # console include의 vfs2_definitions_for_diskconf_struct.h 심볼릭 링크 검사
