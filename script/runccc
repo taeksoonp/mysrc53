@@ -7,15 +7,18 @@ Configexe=~/prj/$Myprj/console/console/project_window/$WHBS_CONSOLE_TARGETID/rel
 Folder=--path:$1
 Passwd=1111111qQ
 #Passwd=12345
+Port=80
 
 if [ $Argc -lt 1 ]; then
 	echo ip 끝자리는?
+	echo "사용법: $0 <ip끝자리> [암호]"
 	exit 0
 fi
 
 #arg0
 if [ $0 != "./runccc" ]; then
 	Tls=-tls
+	Port=443
 fi
 
 #arg1, see https://stackoverflow.com/questions/806906/how-do-i-test-if-a-variable-is-a-number-in-bash
@@ -45,4 +48,4 @@ if [ ! -f "$Configexe" ]; then
 	exit 0
 fi
 
-eee $Configexe $Ipaddr 80 admin $Passwd $Folder $Tls
+eee $Configexe $Ipaddr $Port admin $Passwd $Folder $Tls
