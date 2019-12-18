@@ -18,8 +18,10 @@ alias bank="cd ~/prj/sdb1/bank"
 
 if [ "$HOSTNAME" = ptslinux ]; then
 	export PS1='\w) '
-elif [ "$HOSTNAME" = "gigacity6.localdomain" ]; then
+elif [ "$HOSTNAME" = "gigacity7.localdomain" ]; then
 	export PS1='\w] '
+elif [ "$HOSTNAME" = "gigacity6.localdomain" ]; then
+	export PS1='\w} '
 else
 	export PS1='\w? '
 fi
