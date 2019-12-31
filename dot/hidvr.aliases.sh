@@ -149,6 +149,7 @@ alias rb1='config_prj RB-10.2N'
 alias b11729='config_prj  b11729_R10.2'
 alias b10241='config_prj  b10241_R9.6'	#191129 ELMO사용
 alias b6205='config_prj r6205_R8.8'
+alias b5311='config_prj r5311_HDC422FD'
 alias b4223='config_prj r4223_R7.8.10'
 
 #
@@ -231,13 +232,13 @@ source ~/etc/global_definitions
 #
 #  edvr_hddvr_hisilicon_env에서 model 환경 변수 설정 함수 추출하기
 #
-[ -f "~/etc/model_specific_env" ] || sed -n '
+[ -f "~/etc/model_specific_env.$Myprj" ] || sed -n '
 	/exit 1/ d
 	/function set_common_post_env/,/model environment variable/ p
 	/SOC ID & Console bin path/,/version environment variable/ p
 	s/export WHBS_QT_VERSION=/function set_console_socid {/p
-'	~/prj/trunk/edvr_hddvr_hisilicon_env.sh > ~/etc/model_specific_env
-source ~/etc/model_specific_env
+'	~/prj/$Myprj/edvr_hddvr_hisilicon_env.sh > ~/etc/model_specific_env.$Myprj
+source ~/etc/model_specific_env.$Myprj
 sprjenv	#set my project env.
 set_common_post_env
 

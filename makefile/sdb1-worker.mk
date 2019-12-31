@@ -6,11 +6,10 @@
 Mytop = $(notdir $(shell pwd)) #make 실행경로임
 Branch_name = $(shell python -c "print '$(Mytop)'.strip()[0:-1]")
 Svn_cmd = up
-Shares = console root/dist root/src/include edvr_hddvr_hisilicon_env.sh
+Shares = console root/dist root/src/include
 
 all:
 	ln -s ../../$(Branch_name)/console
-	ln -s ../../$(Branch_name)/edvr_hddvr_hisilicon_env.sh
 	ln -s ../../../../$(Branch_name)/include root/src
 	ln -s ../../dist root/
 

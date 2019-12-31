@@ -4,7 +4,7 @@
 #
 Svn_cmd := up
 Top_targets := all clean distclean $(Svn_cmd)
-Subdirs := $(wildcard trunk?/) $(wildcard [br][0-9]*[a-z]/) $(wildcard RB-[0-9]*[a-z]/)
+Subdirs := $(wildcard trunk?/) $(wildcard [rb][0-9]*[a-z]/) $(wildcard RB-[0-9]*[a-z]/)
 
 $(Top_targets): $(Subdirs)
 
@@ -15,7 +15,6 @@ show:
 	-ls -ld --color=tty trunk?/console [br]*/console RB-*[a-z]/console
 	-ls -ld --color=tty trunk?/root/dist [br]*/root/dist RB-*[a-z]/root/dist
 	-ls -ld --color=tty trunk?/root/src/include [br]*/root/src/include RB-*[a-z]/root/src/include
-	-ls -ld --color=tty trunk?/edvr_hddvr_hisilicon_env.sh [br]*/edvr_hddvr_hisilicon_env.sh RB-*[a-z]/edvr_hddvr_hisilicon_env.sh
 
 tt:
 	@echo $(Subdirs)

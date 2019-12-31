@@ -5,8 +5,7 @@ source ~/prj/bin/myprj
 Argc=$#
 Configexe=~/prj/$Myprj/console/console/project_window/$WHBS_CONSOLE_TARGETID/release/config.exe
 Folder=--path:$1
-Passwd=1111111qQ
-#Passwd=12345
+Passwd=12345
 Port=80
 
 if [ $Argc -lt 1 ]; then
@@ -16,9 +15,10 @@ if [ $Argc -lt 1 ]; then
 fi
 
 #arg0
-if [ $0 != "./runccc" ]; then
+if [ $0 = "./tlsccc" ]; then
 	Tls=-tls
 	Port=443
+	Passwd=1111111qQ
 fi
 
 #arg1, see https://stackoverflow.com/questions/806906/how-do-i-test-if-a-variable-is-a-number-in-bash
