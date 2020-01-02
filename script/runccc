@@ -3,10 +3,14 @@
 source ~/prj/bin/myprj
 
 Argc=$#
-Configexe=~/prj/$Myprj/console/console/project_window/$WHBS_CONSOLE_TARGETID/release/config.exe
+Release_dir=~/prj/$Myprj/console/console/project_window/$WHBS_CONSOLE_TARGETID/release
+Configexe=$Release_dir/config.exe
+Libssldll=libssl-10.dll
 Folder=--path:$1
 Passwd=12345
 Port=80
+
+[ -L "$Release_dir/$Libssldll" ] || ln -s ../../dll/$Libssldll $Release_dir
 
 if [ $Argc -lt 1 ]; then
 	echo ip 끝자리는?
