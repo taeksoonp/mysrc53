@@ -218,7 +218,8 @@ function sbldenv()
 		echo \'$Myprj_bld\'에서 edvr_hddvr_hisilicon_env.sh `cat $HOME/etc/hi.conf $HOME/etc/hi.ver` 한다.
 		cd $Myprj_bld &&. ./edvr_hddvr_hisilicon_env.sh `cat $HOME/etc/hi.conf $HOME/etc/hi.ver`\
 			||  echo $Myprj_bld 없냐?
-		echo "^^^^^^^^^^^^^^^^^^^^^^^^^^ build 환경 설정 끝"
+		source ~/etc/global_definitions
+		echo "^^^^^^^^^^^^^^^^^^^^^^^^^^ build 환경 설정 끝. global_definitions만 예외임"
 		popd
 	fi
 }
