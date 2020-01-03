@@ -10,8 +10,8 @@ def usage():
     print("\tr: repository")
     print("\tb: blame")
     print("\tci: ci")
-    print("\tcic5: ci hidvr~console")
-    print("\tcibr: ci br~console")
+    print("\tcic5: ~prj/trunk의 'console, Makefile, spotosd, project_window, edvr_hddvr_hisilicon_env.sh'을 commit한다")
+    print("\tcibr <branch>: ~prj/<branch>의 'console, Makefile, spotosd, project_window, edvr_hddvr_hisilicon_env.sh'을 commit한다")
     exit(0)
 
 #
