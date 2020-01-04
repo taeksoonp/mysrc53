@@ -11,6 +11,10 @@ if "%arg1:~2,19%" == "PTSLINUX.MSHOME.NET" (
 	set Where=%arg1://192.168.217.165/tsp/=%
 	set Ip=192.168.217.165
 
+) else if "%arg1:~2,15%" == "192.168.217.159" ( 
+	set Where=%arg1://192.168.217.159/tsp/=%
+	set Ip=192.168.217.159
+
 ) else (
 	echo ¾îµð?
 )
