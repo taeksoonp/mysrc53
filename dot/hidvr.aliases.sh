@@ -121,6 +121,9 @@ function go()
 	tests)
 		there=$Consrc1/../tests
 		;;
+	tests64)
+		there=~/prj/tests64
+		;;
 	esac
 	
 	cd $there	

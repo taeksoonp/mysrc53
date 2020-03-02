@@ -12,14 +12,15 @@ import os
 import subprocess
 import shutil  # eee가 쓴다.
 import sys
+#from PySide2.QtWidgets import *
 from PyQt5.QtWidgets import *
-#from PyQt4.QtGui import *
 
 UDP_IP = ''
 UDP_PORT = 6821
-ptslinux = socket.gethostbyname('ptslinux.mshome.net')
-Gigacitys = [ptslinux, '192.168.217.53', '192.168.217.165', '192.168.217.159']
-
+#todo: socket.gaierror: [Errno 11001] getaddrinfo failed
+ptslinux = '0.0.0.0'    #deprecated: socket.gethostbyname('ptslinux.mshome.net')
+Gigacitys = ['192.168.217.53', '192.168.217.165', '192.168.217.159']
+cccexe_dir = 'd:\\cccexe'
 #
 # 잊지말고 "제어판\시스템 및 보안\Windows 방화벽" 에 가서 풀어 줘라(고생했다)
 #
@@ -31,7 +32,15 @@ sock.bind((UDP_IP, UDP_PORT))
 # PySide 에러 메시지가 좀 친절해서 알게됨
 app =  QApplication(sys.argv)
 
-print('되라\n')
+print('여기는  "%s"\n' % os.getcwd())
+#os.chdir(cccexe_dir)
+#print('"%s"로  바꿈\n' % os.getcwd())
+print ('현재 python path: %s' % sys.path)
+envpath = os.environ["path"]
+print ('env path: %s' % envpath)
+os.environ["path"] = envpath + cccexe_dir + ';';
+print ('cccexe 추가 후 path: %s' % os.environ["path"])
+
 while True:
     data, (ip, port) = sock.recvfrom(1024)  # buffer size is 1024 bytes
     print("received message:", data)
@@ -40,7 +49,7 @@ while True:
         print('Warning! Strange ip:', ip)
         continue
 
-    if ip == Gigacitys[0]:
+    if ip == ptslinux:
         ip = 'ptslinux.mshome.net'
     cmd = data.decode('utf8')
 

@@ -3,8 +3,7 @@
 source ~/prj/bin/myprj
 
 Argc=$#
-Release_dir=~/prj/$Myprj/console/console/project_window/$WHBS_CONSOLE_TARGETID/release
-Configexe=$Release_dir/config.exe
+Configexe=~/prj/$Myprj/console/console/project_window/$WHBS_CONSOLE_TARGETID/config
 Libssldll=libssl-10.dll
 Folder=--path:$1
 Passwd=12345
@@ -19,7 +18,7 @@ if [ $Argc -lt 1 ]; then
 fi
 
 #arg0
-if [ $0 = "./tlsccc" ]; then
+if [ $0 = "./linuxtlsccc" ]; then
 	Tls=-tls
 	Port=443
 	Passwd=1111111qQ
@@ -77,4 +76,4 @@ if [ ! -f "$Configexe" ]; then
 	exit 0
 fi
 
-eee $Configexe $Ipaddr $Port admin $Passwd $Folder $Tls
+$Configexe $Ipaddr $Port admin $Passwd $Folder $Tls

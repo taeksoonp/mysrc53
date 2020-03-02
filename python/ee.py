@@ -14,21 +14,8 @@ def usage():
     print("\tcibr <branch>: ~prj/<branch>의 'console, Makefile, spotosd, project_window, edvr_hddvr_hisilicon_env.sh'을 commit한다")
     exit(0)
 
-#
-# get eth0 gw ipaddr
-#
-Hostnm = socket.gethostname()
-ipaddr = socket.gethostbyname(Hostnm)
-
-if Hostnm.startswith('ptslinux'):
-    iface = 'eth0'
-    nmask = fcntl.ioctl(socket.socket(socket.AF_INET, socket.SOCK_DGRAM), 35099,\
-                         struct.pack('256s', iface.encode('utf-8')))[20:24]
-    ipaddr1 = bytearray(socket.inet_aton(ipaddr))
-    ipaddr1[3] = (ipaddr1[3] & nmask[3]) + 1 
-    HOST = socket.inet_ntoa(ipaddr1)
-else:
-    HOST = '192.168.217.41'
+print('argv: %s' % sys.argv)
+HOST = os.environ['SSH_CLIENT'].split()[0]
 PORT = 6821
 
 def con(br):

@@ -9,7 +9,7 @@ LINK.o = $(LINK.cc)	#use g++ as linker
 DEPS = $(TARGET:%=%.d)
 Sanitizer_flags = -fsanitize=address -fno-omit-frame-pointer
 
-TARGET = rsatt1 rsatt2 ttatt mytt #mkcert osslcli evp-symmetric-encrypt #evp-encrypt openssl_aes
+TARGET = certtt aestt mytt rsatt#rsatt1 rsatt2 ttatt mytt osslcli
 
 all: $(TARGET)
 
@@ -17,6 +17,8 @@ run: $(TARGET)
 	./$<
 
 #ttatt: ttatt.o tta_util.o crypt-base64.o mkcert.o
+aestt: aestt.o tta_util.o mkcert.o
+certtt: certtt.o tta_util.o mkcert.o
 
 test:
 	$(CXX) $(CPPFLAGS:-MMD=) $(CXXFLAGS) -MM $(SRCS)
@@ -25,7 +27,7 @@ tt:
 	@echo $(.FEATURES)
 
 clean:
-	rm -f $(TARGET) $(OBJS) $(DEPS)
+	rm -f $(TARGET) *.o $(DEPS)
 
 .PHONY: all install clean
 
