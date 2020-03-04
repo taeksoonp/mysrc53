@@ -22,7 +22,8 @@ ptslinux = '0.0.0.0'    #deprecated: socket.gethostbyname('ptslinux.mshome.net')
 Gigacitys = ['192.168.217.53', '192.168.217.165', '192.168.217.159']
 cccexe_dir = 'd:\\cccexe'
 #
-# 잊지말고 "제어판\시스템 및 보안\Windows 방화벽" 에 가서 풀어 줘라(고생했다)
+# 잊지말고 "제어판\시스템 및 보안\Windows 방화벽\고급 설정" 에 가서 풀어 줘라(고생했다)
+# 인바운드 규칙 udp 6821
 #
 sock = socket.socket(socket.AF_INET,  # Internet
                      socket.SOCK_DGRAM)  # UDP
