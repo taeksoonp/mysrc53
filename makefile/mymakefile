@@ -9,7 +9,7 @@ LINK.o = $(LINK.cc)	#use g++ as linker
 DEPS = $(TARGET:%=%.d)
 Sanitizer_flags = -fsanitize=address -fno-omit-frame-pointer
 
-TARGET = certtt aestt mytt rsatt#rsatt1 rsatt2 ttatt mytt osslcli
+TARGET = exported#certtt aestt mytt rsatt#rsatt1 rsatt2 ttatt mytt osslcli
 
 all: $(TARGET)
 
@@ -19,6 +19,7 @@ run: $(TARGET)
 #ttatt: ttatt.o tta_util.o crypt-base64.o mkcert.o
 aestt: aestt.o tta_util.o mkcert.o
 certtt: certtt.o tta_util.o mkcert.o
+exported: exported.o tta_util.o mkcert.o
 
 test:
 	$(CXX) $(CPPFLAGS:-MMD=) $(CXXFLAGS) -MM $(SRCS)

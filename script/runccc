@@ -20,7 +20,7 @@ fi
 
 #arg0
 if [ $0 = "./tlsccc" ]; then
-	Tls=-tls
+	Tls=-tls --runlevel0
 	Port=443
 	Passwd=1111111qQ
 fi

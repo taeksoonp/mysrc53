@@ -4,10 +4,10 @@ source /wgi_sys_vars_definition
 #deprecated source mycon
 source myprj
 
-#vga_output_type
+#from exec_console
 FB_NO=`cat /proc/wgi_sys_vars/console_fb_dev_num`
 Vfb_no=`cat /proc/wgi_sys_vars/virtual_fb_dev_num`
-Scale=`/usr/edvr/vgaparam -r h`
+Height=`cat /proc/umap/vo | grep HDMI | grep "1080\|2160" -o`
 
 if [[ "$Vfb_no" -gt "0" && "$Scale" = "3840x2160" ]]; then
 FB_NO=$Vfb_no
@@ -77,4 +77,4 @@ else
 	echo 이름: "$0"
 fi
 
-$Gdb $Fullname $Args --runlevel0 -qws -display linuxfb:/dev/fb${FB_NO}:$Wgi_vfb:size=1920x1080:qws_size=1920x1080:depth=32:mmWidth:480:mmHeight=270 -nokeyboard -font /usr/lib/qt/lib/fonts/arial.ttf
+$Gdb $Fullname $Args --runlevel0 -qws -display linuxfb:/dev/fb${FB_NO}:$Wgi_vfb:size=1920x1080:qws_size=1920x1080:depth=32:mmWidth:480:mmHeight=270 -font /usr/lib/qt/lib/fonts/arial.ttf
