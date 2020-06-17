@@ -29,7 +29,7 @@ elif [ ${soc_type} = ${SOC_TYPE_3536} ]; then
 Soctype=e
 elif [ ${soc_type} = ${SOC_TYPE_3536C} ]; then
 Soctype=f
-elif [ ${soc_type} = ${SOC_TYPE_3521D} ]; then
+elif [ ${soc_type} = ${SOC_TYPE_3521D} ] || [ ${soc_type} = ${SOC_TYPE_3520DV400} ]; then
 Soctype=g
 elif [ ${soc_type} = ${SOC_TYPE_3531D} ]; then
 Soctype=h
@@ -45,7 +45,7 @@ Version=`awk -F: '{print $2}' /version`
 Targetid=hs`cat /proc/wgi_sys_vars/video_ch_cnt`$Soctype
 
 if [[ "$1" && "$1" = "--gdb" ]]; then
-	Gdb="./gdbserver.hi --once :10000"
+	Gdb="./gdbserver --once :10000"
 
 elif [[ "$1" && "$1" = "--callgrind" ]]; then
 	export VALGRIND_LIB=/mnt/nfs/local/lib/valgrind

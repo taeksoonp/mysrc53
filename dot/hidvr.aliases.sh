@@ -61,7 +61,11 @@ function hiprj_aliases()
 {
 	Console_top=~/prj/$Myprj/console
 	Console_src=$Console_top/src
-	Consrc1=$Console_top/qt/examples/qws/console
+	if [ "$Myprj" = wrns ]; then
+		Consrc1=~/prj/$Myprj/wrs2
+	else
+		Consrc1=$Console_top/qt/examples/qws/console
+	fi
 	Consrc2=$Console_top/src/console4k
 	Myprj_top=~/prj/$Myprj
 	
@@ -132,13 +136,16 @@ function go()
 # Model ID 찾기
 function model_id() {
 # '-' 넣기
-#  ~f-~ dvr/nvr, ~p-~ nvr, uhn6400-xxx
-# 대문자로 변환
+# dvr: 숫자f-알파벳, nvr: 숫자p-알파벳, uhn6400-xxx
+# 200427 dvr, nvr 1개(uhn1600-h2-v2) 임시? 
 	sed '
-		s_\([0-9]\)\([fp]\)\([a-z]\)_\1\2-\3_g
-		s_00h_00-h_g
-		
-		s_\(.*\)_\U\1_
+		s/\([0-9]\)\([fp]\)\([a-z]\)/\1\2-\3/
+		s/00h/00-h/
+#v2들
+		s/-\([a-z][a-z2]\)v2/-\1-v2/
+		s/-uv2/-u-v2/
+#대문자로 변환
+		s/\(.*\)/\U\1/
 		' <<< $1
 }
 
@@ -148,7 +155,9 @@ function model_id() {
 alias wprj='config_prj wrns'
 alias hprj='config_prj trunk'
 #br RB-10.2N, 9707 atsumi, 8822, 7550, 6205
-alias rb1='config_prj RB-10.2N'
+alias rb1='config_prj RB-10.4.14'
+alias rbfosr='config_prj FOSR-10.4'
+alias rb102='config_prj RB-10.2N'
 alias b11729='config_prj  b11729_R10.2'
 alias b10241='config_prj  b10241_R9.6'	#191129 ELMO사용
 alias b6205='config_prj r6205_R8.8'

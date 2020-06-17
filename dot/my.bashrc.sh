@@ -14,7 +14,7 @@ export PKG_CONFIG_PATH=/usr/local/lib64/pkgconfig
 export PATH=$PATH:/opt/hisi-linux/x86-arm/arm-hisiv200-linux/target/bin:/opt/hisi-linux/x86-arm/arm-hisiv400-linux/target/bin::/opt/hisi-linux/x86-arm/arm-hisiv600-linux/target/bin
 
 alias l='ls -lF --color=tty --time-style=long-iso'
-alias bank="cd ~/prj/sdb1/bank"
+alias bank="cd ~/prj/bank"
 
 if [ "$HOSTNAME" = ptslinux ]; then
 	export PS1='\w) '
@@ -31,7 +31,7 @@ echo "gcc8 쓴다."
 source scl_source enable devtoolset-8
 
 #etc
-export SVN_EDITOR=gedit
+export SVN_EDITOR=emacs
 export EMACS_SERVER_FILE=~/etc/server/server
 export TERM=xterm-256color
 export Ga_hih="[가-힣]"

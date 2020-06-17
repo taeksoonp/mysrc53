@@ -4,12 +4,13 @@
 CPPFLAGS = -isystem $(Boost_include) -MMD
 CFLAGS = -g $(Sanitizer_flags) -DDeployment
 CXXFLAGS = $(CFLAGS) -std=c++11
-LDLIBS = $(Sanitizer_flags) -ldl -lssl -lcrypto
+Openssl_libs = -lssl -lcrypto
+LDLIBS = $(Sanitizer_flags) -ldl
 LINK.o = $(LINK.cc)	#use g++ as linker
 DEPS = $(TARGET:%=%.d)
 Sanitizer_flags = -fsanitize=address -fno-omit-frame-pointer
 
-TARGET = exported#certtt aestt mytt rsatt#rsatt1 rsatt2 ttatt mytt osslcli
+TARGET = mytt#certtt aestt rsatt#rsatt1 rsatt2 ttatt mytt osslcli
 
 all: $(TARGET)
 

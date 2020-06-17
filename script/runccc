@@ -66,7 +66,7 @@ case $key in
 	;;
 	
 	-t|--tls)
-	Tls=-tls
+	Tls="-tls --runlevel0"
 	shift
 	;;
 esac
