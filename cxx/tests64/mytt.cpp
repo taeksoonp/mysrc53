@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <vector>
+#include <iostream>
 
 #define RptOne0(X)
 #define RptOne1(X) X
@@ -43,6 +44,11 @@ int main(void)
 
 	DigitalParam p = {16};
 	printf("res %d, format %d, type %d\n", p.bt.resolution, p.bt.format, p.bt.type);
+
+	float hdd_u = 18.669510;
+	cout.setf(ios::fixed);
+	cout.precision(3);
+	cout << hdd_u << ',' << 12345678 << ',' << 9.99000 << ',' << 100.0 << endl;
 
 	return 0;
 }

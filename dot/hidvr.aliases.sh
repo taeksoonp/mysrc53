@@ -72,6 +72,7 @@ function hiprj_aliases()
 	#aliases들은 lazy 변수임
 	alias tt='cd $Console_top'
 	alias c='cd $Consrc1'
+	alias kpsc='cd $Console_top/qt/examples/qws/kpsconsole'
 	alias x='cd $Consrc1/project_linux/xml'
 	alias ts='cd $Consrc1/project_linux/ts'
 	alias u='cd $Consrc1/ui/v5'
@@ -156,8 +157,10 @@ alias wprj='config_prj wrns'
 alias hprj='config_prj trunk'
 #br RB-10.2N, 9707 atsumi, 8822, 7550, 6205
 alias rb1='config_prj RB-10.4.14'
+alias rbkps='config_prj RB-KPS-10.4.48'
 alias rbfosr='config_prj FOSR-10.4'
-alias rb102='config_prj RB-10.2N'
+alias rb10238='config_prj RB-10.2.38'
+alias rb102n='config_prj RB-10.2N'
 alias b11729='config_prj  b11729_R10.2'
 alias b10241='config_prj  b10241_R9.6'	#191129 ELMO사용
 alias b6205='config_prj r6205_R8.8'
