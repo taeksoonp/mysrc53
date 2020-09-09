@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <vector>
 #include <iostream>
+#include <boost/date_time/posix_time/posix_time.hpp>
 
 #define RptOne0(X)
 #define RptOne1(X) X
@@ -49,6 +50,16 @@ int main(void)
 	cout.setf(ios::fixed);
 	cout.precision(3);
 	cout << hdd_u << ',' << 12345678 << ',' << 9.99000 << ',' << 100.0 << endl;
+
+	 namespace pt = boost::posix_time;
+     std::ostringstream msg;
+     const pt::ptime now = pt::second_clock::local_time();
+     pt::time_facet*const f = new pt::time_facet("%y%m%d %H:%M:%S");
+
+     msg.imbue(std::locale(msg.getloc(),f));
+	 msg << now;
+
+	 cout << "한다\n" << msg.str() << endl;
 
 	return 0;
 }

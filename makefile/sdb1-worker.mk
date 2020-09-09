@@ -14,20 +14,19 @@ all:
 	ln -s ../../dist root/
 
 clean:
-	-rm $(Shares)
-	
-distclean:
 #귀찮다	@if [ -d console ]; then read -p "정말 지울거니?";
-	rm $(Shares) -r
+	-rm $(Shares) -r
 
 $(Svn_cmd):
 	svn $@
 
 tt:
+	echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	echo $(shell pwd)
+	echo $(Mytop)
 	@python -c "print len('$(Mytop)'), '$(Mytop)'.strip()[0:-1]"
 
-.PHONY: all clean distclean tt $(Svn_cmd)
+.PHONY: all clean tt $(Svn_cmd)
 
 #util
 mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
