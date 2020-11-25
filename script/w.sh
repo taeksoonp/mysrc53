@@ -48,11 +48,11 @@ if [[ "$1" && "$1" = "--gdb" ]]; then
 	Gdb="./gdbserver --once :10000"
 
 elif [[ "$1" && "$1" = "--callgrind" ]]; then
-	export VALGRIND_LIB=/mnt/nfs/local/lib/valgrind
+	export VALGRIND_LIB=/mnt/nfs/opt/lib/valgrind
 	Gdb="./valgrind --tool=callgrind"
 	
 elif [[ "$1" && "$1" = "--valgrind" ]]; then
-	export VALGRIND_LIB=/mnt/nfs/local/lib/valgrind
+	export VALGRIND_LIB=/mnt/nfs/opt/lib/valgrind
 	Gdb="./valgrind"
 	
 elif [[ "$1" && "$1" = "--target" ]]; then
@@ -68,13 +68,7 @@ for var in "$@"; do
 	Args="$Args $var"
 done
 
-if [[ "$0" == ./tt ]]; then
-	Fullname=ttlinux/$Targetid/$Targetid
-elif [[ "$0" == ./jj ]]; then
-	Fullname=jjlinux/$Targetid/$Targetid
-else
-	Fullname=../$Myprj/console/qt/examples/qws/console/project_linux/$Targetid/$Targetid
-	echo 이름: "$0"
-fi
+Fullname=../$Myprj/console/qt/examples/qws/console/project_linux/$Targetid/$Targetid
+echo 이름: "$0"
 
 $Gdb $Fullname $Args --runlevel0 -qws -display linuxfb:/dev/fb${FB_NO}:$Wgi_vfb:size=1920x1080:qws_size=1920x1080:depth=32:mmWidth:480:mmHeight=270 -font /usr/lib/qt/lib/fonts/arial.ttf

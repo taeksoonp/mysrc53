@@ -8,9 +8,9 @@ Openssl_libs = -lssl -lcrypto
 LDLIBS = $(Sanitizer_flags) -ldl
 LINK.o = $(LINK.cc)	#use g++ as linker
 DEPS = $(TARGET:%=%.d)
-Sanitizer_flags = -fsanitize=address -fno-omit-frame-pointer
+#Sanitizer_flags = -fsanitize=address -fno-omit-frame-pointer
 
-TARGET = mytt#certtt aestt rsatt#rsatt1 rsatt2 ttatt mytt osslcli
+TARGET = rssincrease #mytt certtt aestt rsatt#rsatt1 rsatt2 ttatt mytt osslcli
 
 all: $(TARGET)
 

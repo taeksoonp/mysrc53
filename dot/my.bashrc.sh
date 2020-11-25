@@ -26,7 +26,7 @@ else
 	export PS1='\w? '
 fi
 
-echo "gcc8 쓴다."
+##echo "gcc8 쓴다."
 #source scl_source enable devtoolset-4
 source scl_source enable devtoolset-8
 

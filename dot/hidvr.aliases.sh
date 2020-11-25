@@ -160,6 +160,7 @@ alias wprj='config_prj wrns'
 alias hprj='config_prj trunk'
 #br RB-10.2N, 9707 atsumi, 8822, 7550, 6205
 alias rb1='config_prj RB-10.4.14'
+alias rbcomtec='config_prj RB-COMTEC-10.4.57C'
 alias rbkps='config_prj RB-KPS-10.4.48'
 alias rbfosr='config_prj FOSR-10.4'
 alias rb10238='config_prj RB-10.2.38'
@@ -215,10 +216,10 @@ function sprjenv()
 	if [ "$Hiconf" = PC ];then
 		echo pc linux임
 	else
-		echo 한다.
+##		echo 한다.
 		set_`cat $HOME/etc/hi.model`_specific_env
 		set_console_socid
-		echo "^^^^^^^^^^^^^^^^^^^^^^^^^^ 설정 끝"
+##		echo "^^^^^^^^^^^^^^^^^^^^^^^^^^ 설정 끝"
 	fi
 	
 	#lazy var
