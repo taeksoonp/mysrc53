@@ -8,9 +8,10 @@ Openssl_libs = -lssl -lcrypto
 LDLIBS = $(Sanitizer_flags) -ldl
 LINK.o = $(LINK.cc)	#use g++ as linker
 DEPS = $(TARGET:%=%.d)
-#Sanitizer_flags = -fsanitize=address -fno-omit-frame-pointer
+Sanitizer_flags = -fsanitize=address -fno-omit-frame-pointer
 
-TARGET = rssincrease #mytt certtt aestt rsatt#rsatt1 rsatt2 ttatt mytt osslcli
+TARGET = $(Subdir) asan #rssincrease mytt certtt aestt rsatt#rsatt1 rsatt2 ttatt mytt osslcli
+Subdir = untitled
 
 all: $(TARGET)
 
@@ -22,6 +23,9 @@ aestt: aestt.o tta_util.o mkcert.o
 certtt: certtt.o tta_util.o mkcert.o
 exported: exported.o tta_util.o mkcert.o
 
+$(Subdir):
+	$(MAKE) -C $@
+	
 test:
 	$(CXX) $(CPPFLAGS:-MMD=) $(CXXFLAGS) -MM $(SRCS)
 	
@@ -31,7 +35,7 @@ tt:
 clean:
 	rm -f $(TARGET) *.o $(DEPS)
 
-.PHONY: all install clean
+.PHONY: all install clean $(Subdir)
 
 #include dependencies if it exists.
 # -MMD cpp option generate '~.d' file.

@@ -1,0 +1,12 @@
+#!/bin/sh
+
+if [ "$1" ]; then
+	sed -ri '
+		s/Ui::(\w+)Dialog\s*$/Ui::\1Dialog, public Volatile<\1Dialog>/
+		s/static (\w+)Dialog .me/friend class Volatile<\1Dialog>/
+		s/public Singleton/public Volatile/
+		s/friend class Singleton/friend class Volatile/
+	' $*
+else
+	echo "file name?"
+fi

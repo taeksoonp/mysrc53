@@ -28,7 +28,7 @@ fi
 
 ##echo "gcc8 쓴다."
 #source scl_source enable devtoolset-4
-source scl_source enable devtoolset-8
+source scl_source enable devtoolset-9
 
 #etc
 export SVN_EDITOR=emacs

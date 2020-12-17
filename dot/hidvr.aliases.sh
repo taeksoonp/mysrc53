@@ -72,6 +72,7 @@ function hiprj_aliases()
 	#aliases들은 lazy 변수임
 	alias tt='cd $Console_top'
 	alias c='cd $Consrc1'
+	alias d='cd $Consrc1/../diet2020'	
 	alias kpsc='cd $Console_top/qt/examples/qws/kpsconsole'
 	alias x='cd $Consrc1/project_linux/xml'
 	alias ts='cd $Consrc1/project_linux/ts'
