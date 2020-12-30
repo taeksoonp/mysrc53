@@ -61,6 +61,8 @@ function hiprj_aliases()
 {
 	Console_top=~/prj/$Myprj/console
 	Console_src=$Console_top/src
+	Qws=$Console_top/qt/examples/qws
+	Rb1=RB-10.4.14
 	if [ "$Myprj" = wrns ]; then
 		Consrc1=~/prj/$Myprj/wrs2
 	else
@@ -72,8 +74,7 @@ function hiprj_aliases()
 	#aliases들은 lazy 변수임
 	alias tt='cd $Console_top'
 	alias c='cd $Consrc1'
-	alias d='cd $Consrc1/../diet2020'	
-	alias kpsc='cd $Console_top/qt/examples/qws/kpsconsole'
+	alias d='cd $Qws/diet2020'	
 	alias x='cd $Consrc1/project_linux/xml'
 	alias ts='cd $Consrc1/project_linux/ts'
 	alias u='cd $Consrc1/ui/v5'
@@ -119,19 +120,19 @@ function go()
 		;;
 		
 	spotosd)
-		there=$Consrc1/../spotosd
+		there=$Qws/spotosd
 		;;
 	qws)
-		there=$Consrc1/..
+		there=$Qws
 		;;
 	tests)
-		there=$Consrc1/../tests
+		there=$Qws/tests
 		;;
 	tests64)
 		there=~/prj/tests64
 		;;
-	ksyoon)	
-		there=$Consrc1/../ksyoon
+	rb1)	
+		there=~/prj/$Rb1/console/qt/examples/qws/console
 		;;
 	esac
 	
@@ -160,7 +161,7 @@ function model_id() {
 alias wprj='config_prj wrns'
 alias hprj='config_prj trunk'
 #br RB-10.2N, 9707 atsumi, 8822, 7550, 6205
-alias rb1='config_prj RB-10.4.14'
+alias rb1='config_prj $Rb1'
 alias rbcomtec='config_prj RB-COMTEC-10.4.57C'
 alias rbkps='config_prj RB-KPS-10.4.48'
 alias rbfosr='config_prj FOSR-10.4'
