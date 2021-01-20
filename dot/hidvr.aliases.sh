@@ -150,6 +150,7 @@ function model_id() {
 #v2들
 		s/-\([a-z][a-z2]\)v2/-\1-v2/
 		s/-uv2/-u-v2/
+		s/-\([a-z][a-z2]\)v3/-\1-v3/
 #대문자로 변환
 		s/\(.*\)/\U\1/
 		' <<< $1
@@ -160,6 +161,7 @@ function model_id() {
 #
 alias wprj='config_prj wrns'
 alias hprj='config_prj trunk'
+alias nprj='config_prj novatek15071'
 #br RB-10.2N, 9707 atsumi, 8822, 7550, 6205
 alias rb1='config_prj $Rb1'
 alias rbcomtec='config_prj RB-COMTEC-10.4.57C'
