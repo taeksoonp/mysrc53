@@ -20,6 +20,10 @@ if [ "$HOSTNAME" = ptslinux ]; then
 	export PS1='\w) '
 elif [ "$HOSTNAME" = "gigacity7.localdomain" ]; then
 #	export PS1='\w] '
+
+#
+# git 설정
+#
 #https://gist.github.com/justintv/168835
 #문법: \[\033[NNm\] 또는 \[\e[NNm\]
 #노란색 눈부시다	export PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\] \[\033[33;1m\]\w\[\033[36m\](\$(git branch 2>/dev/null | grep '^*' | colrm 1 2))\[\033[m\] "
@@ -30,6 +34,9 @@ elif [ "$HOSTNAME" = "gigacity6.localdomain" ]; then
 else
 	export PS1='\w? '
 fi
+
+#pc용 git이랑 모드 일치시킬라고. 안하면 디폴티 0002
+umask 0022
 
 #echo "gcc8 쓴다."
 #source scl_source enable devtoolset-4
