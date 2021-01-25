@@ -1,1 +1,0 @@
-../../../trunk/console/qt/examples/qws/console/lib/encoding/tta_util.h
