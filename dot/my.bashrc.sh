@@ -40,8 +40,7 @@ umask 0022
 
 #echo "gcc8 쓴다."
 #source scl_source enable devtoolset-4
-source scl_source enable devtoolset-9
-source scl_source enable rh-git218
+source scl_source enable devtoolset-8
 
 #etc
 export SVN_EDITOR=emacs
@@ -49,7 +48,8 @@ export EMACS_SERVER_FILE=~/etc/server/server
 export TERM=xterm-256color
 export Ga_hih="[가-힣]"
 alias euckr='export LANG=ko_KR.euckr'
-alias mysrc='cd ~/prj/mysrc53'
+alias mysrc='cd ~/github/mysrc53'
+alias github='cd ~/github'
 alias prj='cd ~/prj'
 alias prjbin='cd ~/prj/bin'
 alias prjwork='cd ~/prj/work'
@@ -59,7 +59,7 @@ alias prjqt='cd ~/prj/qt5trunk'
 alias sdb='cd ~/prj/sdb1'
 
 #hidvr
-. ~/prj/mysrc53/dot/hidvr.aliases.sh
+. .hidvr.aliases
 
 #rust
 #. .cargo/env
