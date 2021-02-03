@@ -11,15 +11,10 @@ fi
 # User specific aliases and functions
 export PKG_CONFIG_PATH=/usr/local/lib64/pkgconfig
 #놀랬다. export LD_LIBRARY_PATH=LD_LIBRARY_PATH:/usr/local/lib64
-export PATH=$PATH:/opt/hisi-linux/x86-arm/arm-hisiv200-linux/target/bin:/opt/hisi-linux/x86-arm/arm-hisiv400-linux/target/bin::/opt/hisi-linux/x86-arm/arm-hisiv600-linux/target/bin:/opt/ivot/arm-ca9-linux-gnueabihf-6.5/usr/bin
+export PATH=~/.local/bin:$PATH:/opt/hisi-linux/x86-arm/arm-hisiv200-linux/target/bin:/opt/hisi-linux/x86-arm/arm-hisiv400-linux/target/bin::/opt/hisi-linux/x86-arm/arm-hisiv600-linux/target/bin:/opt/ivot/arm-ca9-linux-gnueabihf-6.5/usr/bin
 
 alias l='ls -lF --color=tty --time-style=long-iso'
 alias bank="cd ~/prj/bank"
-
-if [ "$HOSTNAME" = ptslinux ]; then
-	export PS1='\w) '
-elif [ "$HOSTNAME" = "gigacity7.localdomain" ]; then
-#	export PS1='\w] '
 
 #
 # git 설정
@@ -27,13 +22,8 @@ elif [ "$HOSTNAME" = "gigacity7.localdomain" ]; then
 #https://gist.github.com/justintv/168835
 #문법: \[\033[NNm\] 또는 \[\e[NNm\]
 #노란색 눈부시다	export PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\] \[\033[33;1m\]\w\[\033[36m\](\$(git branch 2>/dev/null | grep '^*' | colrm 1 2))\[\033[m\] "
-	export PS1="\[\033[32m\]\w\[\033[36m\](\$(git branch 2>/dev/null | grep '^*' | colrm 1 2))\[\033[m\] "
-
-elif [ "$HOSTNAME" = "gigacity6.localdomain" ]; then
-	export PS1='\w} '
-else
-	export PS1='\w? '
-fi
+#	export PS1='\w] '
+export PS1="\[\033[32m\]\w\[\033[36m\](\$(git branch 2>/dev/null | grep '^*' | colrm 1 2))\[\033[m\] "
 
 #pc용 git이랑 모드 일치시킬라고. 안하면 디폴티 0002
 umask 0022

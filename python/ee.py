@@ -36,7 +36,10 @@ def hienvsh(br):
 def cic5(br):    
     return con(br) + '*' + winprj(br) + '*' + topmk(br) + '*' + \
         spotosd(br) + '*' + hienvsh(br)
-cmd = '"C:/Program Files/TortoiseSVN/bin/TortoiseProc.exe" '
+if os.environ['EE_Repo_type'] == 'git':
+    cmd = '"C:/Program Files/TortoiseGit/bin/TortoiseGitProc.exe" '
+else:
+    cmd = '"C:/Program Files/TortoiseSVN/bin/TortoiseProc.exe" '
 
 if len(sys.argv) > 1:
     if sys.argv[1] == 'l':

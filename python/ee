@@ -1,0 +1,7 @@
+#!/bin/sh
+
+if git branch 2>/dev/null; then
+	EE_Repo_type=git ee.py $*
+else
+	EE_Repo_type=svn ee.py $*
+fi
