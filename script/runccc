@@ -7,8 +7,8 @@ Release_dir=~/prj/$Myprj/console/console/project_window/$WHBS_CONSOLE_TARGETID/r
 Configexe=$Release_dir/config.exe
 Libssldll=libssl-10.dll
 Folder=--path:$1
-#Passwd=12345
-Passwd=[MD5]gnzLDuqKcGxMNKFokfhOew==,[SHA256]WZRHGrsBESr8wYFZ9sx0tPURuZgG2lmzyvWpwXPKz8U=
+Passwd=12345
+#Passwd=[MD5]gnzLDuqKcGxMNKFokfhOew==,[SHA256]WZRHGrsBESr8wYFZ9sx0tPURuZgG2lmzyvWpwXPKz8U=
 Port=80
 
 #[ -L "$Release_dir/$Libssldll" ] || ln -s ../../dll/$Libssldll $Release_dir
@@ -30,11 +30,16 @@ fi
 re='^[0-9]+$'
 if ! [[ $1 =~ $re ]]; then
 	echo null ip 는 help임	
+elif [ "${1:0:3}" = "000" ]; then
+	Ipaddr=192.168.211.${1:3:3}
+elif [ "${1:0:2}" = "00" ]; then
+	Ipaddr=192.168.210.${1:2:3}
 elif [ "${1:0:1}" = "0" ]; then
 	Ipaddr=192.168.110.${1:1:3}
 else
 	Ipaddr=192.168.217.$1
 fi
+echo $Ipaddr 임
 
 #shift arg1(i.e., ip)
 shift

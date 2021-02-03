@@ -13,7 +13,7 @@ Port=80
 
 if [ $Argc -lt 1 ]; then
 	echo ip 끝자리는?
-	echo "사용법: $0 <ip끝자리> [-p(--port) 포트|-d(--password) 암호|-f(--folder) 폴더|-t(--tls)]"
+	echo "사용법: $0 <ip끝자리> [-p(--port) 포트|-w(--password) 암호|-f(--folder) 폴더|-t(--tls)]"
 	exit 0
 fi
 
@@ -52,7 +52,7 @@ case $key in
 	shift
 	;;
 	
-	-d|--password)
+	-w|--password)
 	Passwd="$2"
 	shift
 	shift
