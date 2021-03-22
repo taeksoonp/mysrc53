@@ -3,7 +3,7 @@
 source ~/prj/bin/myprj
 
 Argc=$#
-Release_dir=~/prj/$Myprj/console/console/project_window/$WHBS_CONSOLE_TARGETID/release
+Release_dir=~/prj/$Myprj/console/src/console/project_window/$WHBS_CONSOLE_TARGETID/release
 Configexe=$Release_dir/config.exe
 Libssldll=libssl-10.dll
 Folder=--path:$1

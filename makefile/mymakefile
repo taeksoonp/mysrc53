@@ -5,12 +5,12 @@ CPPFLAGS = -isystem $(Boost_include) -MMD
 CFLAGS = -g $(Sanitizer_flags) -DDeployment
 CXXFLAGS = $(CFLAGS) -std=c++11
 Openssl_libs = -lssl -lcrypto
-LDLIBS = $(Sanitizer_flags) -ldl
+LDLIBS = $(Sanitizer_flags) -ldl -lcrypto
 LINK.o = $(LINK.cc)	#use g++ as linker
 DEPS = $(TARGET:%=%.d)
 Sanitizer_flags = -fsanitize=address -fno-omit-frame-pointer
 
-TARGET = $(Subdir) asan #rssincrease mytt certtt aestt rsatt#rsatt1 rsatt2 ttatt mytt osslcli
+TARGET = rsatt #rssincrease mytt certtt aestt ttatt mytt osslcli
 Subdir = untitled
 
 all: $(TARGET)

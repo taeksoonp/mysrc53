@@ -61,10 +61,12 @@ function hiprj_aliases()
 {
 	Console_top=~/prj/$Myprj/console
 	Console_src=$Console_top/src
-	Qws=$Console_top/qt/examples/qws
 	Rb1=RB-10.4.14
+
 	if [ "$Myprj" = wrns ]; then
 		Consrc1=~/prj/$Myprj/wrs2
+	elif [ "$Myprj" = "trunk" ]; then
+		Consrc1=$Console_top/src/console
 	else
 		Consrc1=$Console_top/qt/examples/qws/console
 	fi
@@ -73,28 +75,25 @@ function hiprj_aliases()
 	
 	#aliases들은 lazy 변수임
 	alias tt='cd $Console_top'
+	alias s='cd $Console_top/src'
 	alias c='cd $Consrc1'
-	alias d='cd $Qws/diet2020'	
-	alias x='cd $Consrc1/project_linux/xml'
+	alias v="cd $Console_top/lib/qt4"
+
 	alias ts='cd $Consrc1/project_linux/ts'
 	alias u='cd $Consrc1/ui/v5'
 	alias bb='cd $Consrc1/project_linux'
 	alias ccc='cd $Consrc1/project_linux/${WHBS_CONSOLE_TARGETID}'
-	alias bbb='cd $Console_top/console/project_window/'
-	alias cccc='cd $Console_top/console/project_window/${WHBS_CONSOLE_TARGETID}'
-	alias v="cd $Consrc1/etc/vm"
+	alias bbb='cd $Consrc1/project_window/'
+	alias cccc='cd $Consrc1/project_window/${WHBS_CONSOLE_TARGETID}'
 	
 	alias ttt='cd $Myprj_bld'
 	alias t='cd $Myprj_top'
 	alias r='cd $Myprj_bld/root'
 	alias k='cd $Myprj_bld/linux;sbldenv'
-	alias s='cd $Myprj_bld/root/src;sbldenv'
+	alias sss='cd $Myprj_bld/root/src;sbldenv'
 	alias n='cd $Myprj_bld/root/src/edvrcore_v7'
 	alias b='cd $Myprj_bld/root/build'
 	alias dist='cd $Myprj_bld/root/dist'
-	
-	alias trunk='cd ~/prj/trunk/console/qt/examples/qws/console'
-	alias 11729='cd ~/prj/b11729_R10.0/console/qt/examples/qws/console'
 }
 
 function go()
@@ -118,15 +117,12 @@ function go()
 	webapp)
 		there=$Myprj_bld/root/src/webapp
 		;;
-		
 	spotosd)
-		there=$Qws/spotosd
+		there=$Console_src/spotosd
 		;;
-	qws)
-		there=$Qws
-		;;
+
 	tests)
-		there=$Qws/tests
+		there=$Console_src/tests
 		;;
 	tests64)
 		there=~/prj/tests64
@@ -164,7 +160,10 @@ alias hprj='config_prj trunk'
 alias nprj='config_prj novatek15071'
 #br RB-10.2N, 9707 atsumi, 8822, 7550, 6205
 alias rb1='config_prj $Rb1'
+alias rb10472='config_prj RB-10.4.72'
 alias rbcomtec='config_prj RB-COMTEC-10.4.57C'
+alias rbtta='config_prj RB-TTA-10.5.15'
+alias rbmtec='config_prj RB-MTEC-TTA-10.4.14'
 alias rbkps='config_prj RB-KPS-10.4.48'
 alias rbfosr='config_prj FOSR-10.4'
 alias rb10238='config_prj RB-10.2.38'
@@ -256,7 +255,7 @@ source ~/etc/global_definitions
 #
 #  edvr_hddvr_hisilicon_env에서 model 환경 변수 설정 함수 추출하기
 #
-[ -f "~/etc/model_specific_env.$Myprj" ] || sed -n '
+[ -f "$HOME/etc/model_specific_env.$Myprj" ] || sed -n '
 	/exit 1/ d
 	/function set_common_post_env/,/model environment variable/ p
 	/SOC ID & Console bin path/,/version environment variable/ p

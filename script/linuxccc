@@ -3,7 +3,7 @@
 source ~/prj/bin/myprj
 
 Argc=$#
-Configexe=~/prj/$Myprj/console/console/project_window/$WHBS_CONSOLE_TARGETID/config
+Configexe=~/prj/$Myprj/console/src/console/project_window/$WHBS_CONSOLE_TARGETID/config
 Libssldll=libssl-10.dll
 Folder=--path:$1
 Passwd=12345
