@@ -8,10 +8,13 @@ source myprj
 FB_NO=`cat /proc/wgi_sys_vars/console_fb_dev_num`
 Vfb_no=`cat /proc/wgi_sys_vars/virtual_fb_dev_num`
 Height=`cat /proc/umap/vo | grep HDMI | grep "1080\|2160" -o`
+Soc_type=`cat /proc/wgi_sys_vars/soc_type`
+Last_hi=11 #SOC_TYPE_3520DV400
 
-if [[ "$Vfb_no" -gt "0" && "$Scale" = "3840x2160" ]]; then
-FB_NO=$Vfb_no
-Wgi_vfb=wgi_vfb
+if [[ "$Vfb_no" -gt "0" && "$Height" = "2160" ]]; then
+	FB_NO=$Vfb_no
+	Wgi_vfb=wgi_vfb
+	Hdmi_4k_option=--hdmi4k
 fi
 
 #soc_type
@@ -45,7 +48,7 @@ Version=`awk -F: '{print $2}' /version`
 Targetid=hs`cat /proc/wgi_sys_vars/video_ch_cnt`$Soctype
 
 if [[ "$1" && "$1" = "--gdb" ]]; then
-	Gdb="./gdbserver --once :10000"
+	Gdb="./gdbserver.hi --once :10000"
 
 elif [[ "$1" && "$1" = "--callgrind" ]]; then
 	export VALGRIND_LIB=/mnt/nfs/opt/lib/valgrind
@@ -68,7 +71,23 @@ for var in "$@"; do
 	Args="$Args $var"
 done
 
-Fullname=../$Myprj/console/qt/examples/qws/console/project_linux/$Targetid/$Targetid
-echo 이름: "$0"
+if [ $Soc_type -le $Last_hi ]; then
+	Args="$Args ${Hdmi_4k_option} -qws -display linuxfb:/dev/fb${FB_NO}:$Wgi_vfb:size=1920x1080:qws_size=1920x1080:depth=32:mmWidth:480:mmHeight=270 -font /usr/lib/qt/lib/fonts/arial.ttf"
+else
+	Args="$Args -qws -display linuxfb:/dev/fb${FB_NO}:mmWidth=480:mmHeight=270"
+	
+#ng. LinuxInput, Microsoft, LinuxTP, Tslib
+#ok MouseMan, IntelliMouse
+#export QWS_MOUSE_PROTO=MouseMan
+fi
 
-$Gdb $Fullname $Args --runlevel0 -qws -display linuxfb:/dev/fb${FB_NO}:$Wgi_vfb:size=1920x1080:qws_size=1920x1080:depth=32:mmWidth:480:mmHeight=270 -font /usr/lib/qt/lib/fonts/arial.ttf
+if [ ${0:2:2} = "br" ]; then
+	Fullname=../$Myprj/console/qt/examples/qws/console/project_linux/$Targetid/$Targetid
+else
+	Fullname=../$Myprj/console/src/console/project_linux/$Targetid/$Targetid
+fi
+
+$Gdb $Fullname $Args --runlevel0
+echo fullname: $Fullname
+echo args: $Args
+echo 이름: "$0", mouse driver: $QWS_MOUSE_PROTO. bye
