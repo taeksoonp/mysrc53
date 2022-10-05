@@ -10,7 +10,7 @@ LINK.o = $(LINK.cc)	#use g++ as linker
 DEPS = $(TARGET:%=%.d)
 Sanitizer_flags = -fsanitize=address -fno-omit-frame-pointer
 
-TARGET = rsatt #rssincrease mytt certtt aestt ttatt mytt osslcli
+TARGET = wnstt #rssincrease mytt certtt aestt ttatt mytt osslcli
 Subdir = untitled
 
 all: $(TARGET)

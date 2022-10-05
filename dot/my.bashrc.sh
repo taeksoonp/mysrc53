@@ -11,7 +11,6 @@ fi
 # User specific aliases and functions
 export PKG_CONFIG_PATH=/usr/local/lib64/pkgconfig
 #놀랬다. export LD_LIBRARY_PATH=LD_LIBRARY_PATH:/usr/local/lib64
-export PATH=~/.local/bin:$PATH:/opt/hisi-linux/x86-arm/arm-hisiv200-linux/target/bin:/opt/hisi-linux/x86-arm/arm-hisiv400-linux/target/bin::/opt/hisi-linux/x86-arm/arm-hisiv600-linux/target/bin:/opt/ivot/arm-ca9-linux-gnueabihf-6.5/usr/bin
 
 alias l='ls -lF --color=tty --time-style=long-iso'
 alias bank="cd ~/prj/bank"
@@ -33,15 +32,16 @@ export PS1="\[\e[33m\]\w\[\e[1;36m\](\$(git branch 2>/dev/null | grep '^*' | col
 #pc용 git이랑 모드 일치시킬라고. 안하면 디폴티 0002
 umask 0022
 
-#echo "gcc8 쓴다."
-#source scl_source enable devtoolset-4
-source scl_source enable devtoolset-8
+#source scl_source enable devtoolset-11
+#source scl_source enable devtoolset-8
+#? export LD_LIBRARY_PATH=/opt/boost/lib
 
 #etc
 export SVN_EDITOR=emacs
 export EMACS_SERVER_FILE=~/etc/server/server
 export TERM=xterm-256color
 export Ga_hih="[가-힣]"
+
 alias euckr='export LANG=ko_KR.euckr'
 alias mysrc='cd ~/github/mysrc53'
 alias github='cd ~/github'
@@ -54,10 +54,16 @@ alias prjqt='cd ~/prj/qt5trunk'
 alias sdb='cd ~/prj/sdb1'
 
 #hidvr
-. .hidvr.aliases
-
-#rust
-#. .cargo/env
+. $HOME/.hidvr.aliases
 
 # https://gist.github.com/justintv/168835
 export LS_COLORS="di=00;36:fi=00;37"
+
+source $HOME/vcpkg/scripts/vcpkg_completion.bash
+# ssh-agent https://gist.github.com/nepsilon/45fae11f8d173e3370c3
+source $HOME/.ssh/ssh-agent-latest
+source $HOME/bash-completion/ct-ng
+
+#죽겄네
+export WHBS_OEM_ID_LIST_CFLAGS="-DWEBGATE=0 -DSONE=1"
+. "$HOME/.cargo/env"

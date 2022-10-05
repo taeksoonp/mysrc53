@@ -1,7 +1,6 @@
 #!/bin/env python3
 
-import socket, sys, os
-import fcntl, struct #to get eth0pc
+import socket, sys, os, subprocess
 
 def usage():
     print("usage: ee l|m|r")
@@ -15,7 +14,7 @@ def usage():
     exit(0)
 
 print('argv: %s' % sys.argv)
-HOST = os.environ['SSH_CLIENT'].split()[0]
+HOST = os.environ.get('SSH_CLIENT', 'Not set')
 PORT = 6821
 
 def con(br):
@@ -44,6 +43,8 @@ else:
 if len(sys.argv) > 1:
     if sys.argv[1] == 'l':
         cmd += '/command:log /path:' + os.getcwd()
+        if len(sys.argv) > 2:
+            cmd += '/' + sys.argv[2]        
     elif sys.argv[1] == 'm':
         cmd += '/command:diff /path:' + os.getcwd()
     elif sys.argv[1] == 'r':
@@ -61,8 +62,11 @@ if len(sys.argv) > 1:
 else:
     usage()
 
-s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-s.sendto(cmd.encode(), 0, (HOST, PORT))
-s.close()
-
-print('Sent:', cmd)
+if HOST == 'Not set':
+    print("->>", subprocess.Popen(cmd).pid)
+else:
+    ipaddr = HOST.split()[0]
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.sendto(cmd.encode(), 0, (ipaddr, PORT))
+    s.close()
+    print('Sent:', cmd)

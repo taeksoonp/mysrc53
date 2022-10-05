@@ -38,6 +38,9 @@ elif [ ${soc_type} = ${SOC_TYPE_3531D} ]; then
 Soctype=h
 elif [ ${soc_type} = ${SOC_TYPE_3516CV300} ]; then
 Soctype=i
+elif [ ${soc_type} = 14 ]; then
+#노바텍 32bit
+Soctype=k
 
 else
 echo error! soctype $Soctype?

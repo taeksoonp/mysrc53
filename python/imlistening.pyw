@@ -13,7 +13,8 @@ import subprocess
 import shutil  # eee가 쓴다.
 import sys
 #from PySide2.QtWidgets import *
-from PyQt5.QtWidgets import *
+#from PyQt5.QtWidgets import *
+from qtpy.QtWidgets import QApplication, QPushButton
 
 UDP_IP = ''
 UDP_PORT = 6821

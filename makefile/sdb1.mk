@@ -4,7 +4,8 @@
 #
 Svn_cmd := up
 Top_targets := all clean distclean $(Svn_cmd)
-Subdirs := $(wildcard trunk?/) $(wildcard [rb][0-9]*[a-z]/) $(wildcard RB-[0-9A-Z]*[a-z]/)
+RB_dir = RB-[0-9.]*
+Subdirs := $(wildcard trunk?/) $(wildcard [rb][0-9]*[a-z]/) $(wildcard $(RB_dir)/)
 
 $(Top_targets): $(Subdirs)
 
@@ -12,9 +13,10 @@ $(Subdirs):
 	$(MAKE) -C $@ -f ../worker.mk $(MAKECMDGOALS)
 
 show:
-	-ls -ld --color=tty trunk?/console [br]*/console RB-*[a-z]/console
-	-ls -ld --color=tty trunk?/root/dist [br]*/root/dist RB-*[a-z]/root/dist
-	-ls -ld --color=tty trunk?/root/src/include [br]*/root/src/include RB-*[a-z]/root/src/include
+	-ls -ld --color=tty trunk?/console [br]*/console $(RB_dir)/console
+	-ls -ld --color=tty trunk?/root/dist [br]*/root/dist $(RB_dir)/root/dist
+	-ls -ld --color=tty trunk?/root/src/include [br]*/root/src/include $(RB_dir)/root/src/include
+	-ls -ld --color=tty trunk?/edvr_hddvr_hisilicon_env [br]*/edvr_hddvr_hisilicon_env $(RB_dir)/edvr_hddvr_hisilicon_env
 
 tt:
 	@echo $(Subdirs)
