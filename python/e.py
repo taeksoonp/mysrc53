@@ -12,8 +12,8 @@ def usage():
 print('argv: %s' % sys.argv)
 HOST = os.environ.get('SSH_CLIENT', 'Not set')
 PORT = 6821
-office16 = 'C:/Program Files/Microsoft Office/root/Office16/'
-acrobatexe = 'C:\Program Files\Adobe\Acrobat DC\Acrobat\Acrobat.exe'
+office16 = '"C:/Program Files/Microsoft Office/root/Office16/'
+acrobatexe = '"C:/Program Files/Adobe/Acrobat DC/Acrobat/Acrobat.exe"'
 
 if len(sys.argv) > 1:
     if sys.argv[1] in ['--help', '-h', '?']:
@@ -26,14 +26,15 @@ if len(sys.argv) > 1:
             cmd = '"D:/Qt/4.8.7/bin/designer.exe" '
         elif filename[-3:] == '.ts':
             cmd = '"D:/Qt/4.8.7/bin/linguist.exe" '
-        elif filename[-5:] == '.docx':
-            cmd = office16 + 'WINWORD.EXE'
-        elif filename[-5:] == '.xlsx':
-            cmd = office16 + 'EXCEL.exe'
+        elif filename[-5:] == '.docx' or filename[-4:] == '.doc':
+            cmd = office16 + 'WINWORD.EXE"'
+        elif filename[-5:] == '.xlsx' or filename[-4:] == '.xls':
+            cmd = office16 + 'EXCEL.exe"'
         elif filename[-4:] == '.pdf':
             cmd = acrobatexe
         else:
-            cmd = '"C:/Program Files/Notepad++/Notepad++.exe" '
+            cmd = '"C:/Program Files/Notepad++/Notepad++.exe"'
+        cmd += ' '
 
 # d: default
     else:
@@ -48,10 +49,11 @@ else:
     cmd = 'explorer ' + os.getcwd()
 
 if HOST == 'Not set':
+    print('cmd: ', cmd)
     print("->>", subprocess.Popen(cmd).pid)
 else:
     ipaddr = HOST.split()[0]
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     s.sendto(cmd.encode(), 0, (ipaddr, PORT))
     s.close()
-    print('Sent:', cmd)
+    print('cmd:', cmd)
