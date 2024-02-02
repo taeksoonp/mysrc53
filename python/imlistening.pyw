@@ -20,7 +20,7 @@ UDP_IP = ''
 UDP_PORT = 6821
 #todo: socket.gaierror: [Errno 11001] getaddrinfo failed
 ptslinux = '0.0.0.0'    #deprecated: socket.gethostbyname('ptslinux.mshome.net')
-Gigacitys = ['192.168.217.53', '192.168.217.165', '192.168.217.159']
+Gigacitys = ['192.168.217.53', '192.168.217.165', '192.168.217.159', '192.168.217.158']
 cccexe_dir = 'd:\\cccexe'
 #
 # 잊지말고 "제어판\시스템 및 보안\Windows 방화벽\고급 설정" 에 가서 풀어 줘라(고생했다)
@@ -78,8 +78,21 @@ while True:
 
     elif 'byebye' == cmd:
         break
+    
+    #nfs
+    #config.exe를 samba에서 실행하면 win11 23h2에서 cpu reset된다!
+    elif '/home/tsp/prj/' == cmd[0:14]:
+        cmd = '\\\\' + ip + '\\' + cmd
+        print('-->')
+        print(cmd)
+        print("->>", subprocess.Popen(cmd).pid)
+    elif '.exe' == cmd[-4:]:
+        print('-->')
+        print(cmd)
+        print("sorry. I can't. use it on NFS")
+    #samba
     else:
         cmd = cmd.replace('/home/', '\\\\' + ip + '\\')
         print("->>", subprocess.Popen(cmd).pid)
 
-    print('cmd: ', cmd)
+    print('cmd: ', cmd, '\n\n')

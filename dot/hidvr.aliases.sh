@@ -32,6 +32,11 @@ function findcc()
 	Grep_args=-nH findcc0 $*|grep -v project_
 }
 
+function findcc2()
+{
+	Grep_args=-nH -A1 findcc0 $*|grep -v project_
+}
+
 function findui()
 {
 	if [ $# -eq 0 ]; then
@@ -72,9 +77,12 @@ function hiprj_aliases()
 {
 	Console_top=~/prj/$Myprj/console
 	Console_src=$Console_top/src
-	Rb1=RB-10.6.200
-	Rb2=RB-10.6.100
-
+	Rb1=RB-10.6.100
+	Rb2=RB-10.6.200
+	Rb3=RB-10.6.300
+	Rbs1=RB-SONE-0.3.0
+	Rb8=RB-10.8.0
+	
 	if [ "$Myprj" = wrns ]; then
 		Consrc1=~/prj/$Myprj/wrs2
 	else
@@ -90,7 +98,8 @@ function hiprj_aliases()
 	alias v="cd $Console_top/lib/qt4"
 
 	alias ts='cd $Consrc1/project_linux/ts'
-	alias u='cd $Consrc1/ui/s1'
+	alias u='cd $Consrc1/ui/v5'
+	alias uu='cd $Consrc1/ui/s1'
 	alias bb='cd $Consrc1/project_linux'
 	alias ccc='cd $Consrc1/project_linux/${WHBS_CONSOLE_TARGETID}'
 	alias bbb='cd $Consrc1/project_window/'
@@ -98,9 +107,12 @@ function hiprj_aliases()
 	
 	alias ttt='cd $Myprj_bld'
 	alias t='cd $Myprj_top'
+	alias tinclude='cd $Myprj_top/include'
 	alias r='cd $Myprj_bld/root'
 	alias k='cd $Myprj_bld/linux;sbldenv'
 	alias sss='cd $Myprj_bld/root/src;sbldenv'
+	alias sss1='cd $Myprj_bld/root/src/s1service;sbldenv'
+	alias sssp='cd $Myprj_bld/root/src/p2p;sbldenv'
 	alias n='cd $Myprj_bld/root/src/edvrcore_v7'
 	alias b='cd $Myprj_bld/root/build'
 	alias dist='cd $Myprj_bld/root/dist'
@@ -151,10 +163,11 @@ function model_id() {
 # dvr: 숫자f-알파벳, nvr: 숫자p-알파벳, uhn6400-xxx
 # 200427 dvr, nvr 1개(uhn1600-h2-v2) 임시? 
 	sed '
+#ex) shn808ph2v3
 		s/\([0-9]\)\([fp]\)\([a-z]\)/\1\2-\3/
 		s/\(-h[0-9]\)\([a-z]\)/\1-\2/
-#v2들, 2번째는 노예들
-		s/-h\([0-9]\)v\([0-9]\)/-h\1-v\2/
+#v2들, 2번째는 노예들 ex) uhn1600h2v2
+		s/h\([0-9]\)v\([0-9]\)/h\1-v\2/
 		s/urv2/ur-v2/
 #00-Hxxx
 		s/\([0-9]\)h\([0-9]\)/\1-h\2/	
@@ -172,6 +185,9 @@ alias nprj='config_prj novatek15071'
 #br RB-10.2N, 9707 atsumi, 8822, 7550, 6205
 alias rb1='config_prj $Rb1'
 alias rb2='config_prj $Rb2'
+alias rb3='config_prj $Rb3'
+alias rbs1='config_prj $Rbs1'
+alias rb8='config_prj $Rb8'
 
 #
 # prj. 환경 설정
@@ -266,12 +282,33 @@ function host2gts() {
 	/SOC ID & Console bin path/,/version environment variable/ p
 	s/export WHBS_QT_VERSION=/function set_console_socid {/p
 '	~/prj/$Myprj/edvr_hddvr_hisilicon_env.sh > ~/etc/model_specific_env.$Myprj
+
+#
+# 수동 1개 (set_common_env 생략하고)
+# $ARCH: console/lib/qt4/include sybolic link 만들 때 쓴다
+#
+export ARCH=arm #default arm
 source ~/etc/model_specific_env.$Myprj
 sprjenv	#set my project env.
 
-#common 일단 1개만
+#
+# 수동 2개
+#
 export WHBS_OEM_ID_LIST_CFLAGS="-DWEBGATE=0 -DSONE=1"
 export WHBS_BUILD_VERSION=`cat $HOME/etc/hi.ver`
+t #prj top
+function sync_third_party_files {
+	echo "copy third_party files to source code"
+	if [ ${WHBS_SOC_TYPE} = "NT98323" ]; then
+		rsync -arvh root/src/third_party/hikvision_sadp/libs/libsadp_nt98323.so console/lib/etc/arm-nt/libsadp.so
+		rsync -arvh root/src/third_party/hikvision_sadp/incEN/Sadp.h console/src/console/lib/sadp/hik_sadp.h
+	elif [ ${WHBS_SOC_TYPE} = "NT98336" ]; then
+		rsync -arvh root/src/third_party/hikvision_sadp/libs/libsadp_nt98336.so console/lib/etc/arm-nt98336/libsadp.so
+		rsync -arvh root/src/third_party/hikvision_sadp/incEN/Sadp.h console/src/console/lib/sadp/hik_sadp.h
+	fi
+}
+sync_third_party_files
+#<--수동
 
 set_common_post_env
 
