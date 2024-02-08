@@ -220,11 +220,12 @@ function config_prj() {
 # soc id(알파벳 한 자) 검사
 #
 	if [ "$WHBS_BUILD_SOCID" = "${Myprj_bld: -1}" ]; then
-		echo 좋아.
+		echo $WHBS_BUILD_SOCID
 	else 
 		echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
 		echo "$Myprj_top 하고 socid-$WHBS_BUILD_SOCID 하고 안 맞는다?"
 	fi
+	echo $ARCH $ARCH $ARCH $ARCH $ARCH $ARCH $ARCH $ARCH $ARCH $ARCH $ARCH
 }
 
 function sprjenv()
@@ -240,7 +241,7 @@ function sprjenv()
 	fi
 	
 	#lazy var
-	Myprj_bld=~/prj/sdb1/$Myprj$WHBS_BUILD_SOCID
+	Myprj_bld=~/prj/dvrtop/$Myprj$WHBS_BUILD_SOCID
 }
 
 function sbldenv()
@@ -318,3 +319,5 @@ set_common_post_env
 [ -L "$Myprj_top/include/vfs2_definitions_for_diskconf_struct.h" ] || ln -s\
 	vfs2_definitions_for_normal_diskconf_struct.h $Myprj_top/include/vfs2_definitions_for_diskconf_struct.h
 
+echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+echo $ARCH $ARCH $ARCH $ARCH $ARCH $ARCH $ARCH $ARCH $ARCH $ARCH $ARCH

@@ -41,19 +41,11 @@ export SVN_EDITOR=emacs
 export EMACS_SERVER_FILE=~/etc/server/server
 export TERM=xterm-256color
 export Ga_hih="[가-힣]"
-
-alias euckr='export LANG=ko_KR.euckr'
-alias mysrc='cd ~/github/mysrc53'
-alias github='cd ~/github'
+alias mysrc='cd ~/GitHub/mysrc53'
 alias prj='cd ~/prj'
 alias prjbin='cd ~/prj/bin'
 alias prjwork='cd ~/prj/work'
-alias prjtmp='cd ~/prj/tmp'
-alias prjtt='cd ~/prj/tests64'
-alias prjqt='cd ~/prj/qt5trunk'
-alias sdb='cd ~/prj/sdb1'
-
-#hidvr
+alias ddtt='cd ~/prj/dvrtop'
 . $HOME/.hidvr.aliases
 
 # https://gist.github.com/justintv/168835
