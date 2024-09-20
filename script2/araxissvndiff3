@@ -1,0 +1,4 @@
+#!/bin/bash
+
+#https://stackoverflow.com/questions/1399974/what-are-the-arguments-passed-to-svns-diff3-cmd
+"/mnt/c/Program Files/Araxis/Araxis Merge/AraxisSVNDiff.exe" "$4" "$6" $WslPrefix$8 $WslPrefix$9 $WslPrefix$10 $WslPrefix$11
