@@ -34,6 +34,8 @@ else
 	sed 's/echo/#echo/g' -i ~/.ssh/ssh-add-latest
 	. ~/.ssh/ssh-add-latest
 	ssh-add
+#wns	sudo bash -c "sed '4i nameserver 127.0.0.1' -i /etc/resolv.conf"
+	echo "wns 실행할 거면 'nameserver 127.0.0.1' 맨 위에 써라"
 fi
 
 #etc
@@ -58,3 +60,6 @@ export PS1="\[\e[33m\]\w\[\e[1;36m\](\$(git branch 2>/dev/null | grep '^*' | col
 #윈도 git path 제거
 #https://tldp.org/LDP/abs/html/string-manipulation.html
 #export PATH=${PATH%/mnt/c/Users/tsp/AppData/Local/Atlassian/SourceTree/git_local/mingw32/bin:*}
+
+source /home/tsp/vcpkg/scripts/vcpkg_completion.bash
+export VCPKG_ROOT=$HOME/vcpkg
