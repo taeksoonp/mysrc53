@@ -40,7 +40,7 @@ fi
 
 #etc
 alias ll='ls -alF --time-style=long-iso' la='ls -A' l='ls -CF'
-export EDITOR=nano
+export EDITOR=emacs
 
 #wsl path
 export WslPrefix='\\wsl.localhost\PengwinEnterprise9'
@@ -63,3 +63,23 @@ export PS1="\[\e[33m\]\w\[\e[1;36m\](\$(git branch 2>/dev/null | grep '^*' | col
 
 source /home/tsp/vcpkg/scripts/vcpkg_completion.bash
 export VCPKG_ROOT=$HOME/vcpkg
+export BROWSER=firefox
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/tsp/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/tsp/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/tsp/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/tsp/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
+#aihub
+export AIHUB_ID=taeksoonp@gmail.com
+#export AIHUB_PW=''

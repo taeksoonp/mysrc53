@@ -20,6 +20,5 @@ cmd = '/mnt/c/Program Files/Araxis/Araxis Merge/arx_wsl_git_merge' $BASE $LOCAL 
 [alias]
 ad = difftool --tool=araxis --dir-diff --no-symlinks
 ads = difftool --tool=araxis --dir-diff --no-symlinks --staged
-
 #shortcut
-graph = log --oneline --graph --all
+logg = log --oneline --graph --all --decorate

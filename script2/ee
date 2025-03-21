@@ -1,28 +1,26 @@
 #!/bin/bash
 
-SvnInfoUrl=`svn info|grep ^URL:|awk '{print $2}'`
-
-if [ $# -gt 2 ]; then
-	Where=$SvnInfoUrl/$2
+if svn info 2>/dev/null; then
+	Cmd=TortoiseProc.exe
 else
-	Where=$SvnInfoUrl
+	Cmd=TortoiseGitProc.exe
 fi
-echo "path: $Where임"
 
 case $1 in
 	"l")
-	TortoiseProc.exe /command:log /path:$Where
+	$Cmd /command:log $2 $3 $4 $5&
 	;;
-	
-#	"m")
-#	TortoiseProc.exe /command:diff /path:$WslPrefix$Where
-#	;;
-	
-#	"ci")
-#	TortoiseProc.exe /command:commit /path:$WslPrefix$Where
-#	;;
-	
+
+	"m")
+	$Cmd /command:diff $2 $3 $4 $5&
+	;;
+
+	"ci")
+	$Cmd /command:commit $2 $3 $4 $5&
+	;;
+
 	*)
-	echo "사용법: ee <l> [path]"
+	echo "사용법: ee <l|m|ci> [options]"
+	echo "ex) ee l /path:./hi.txt"
 	;;
 esac
