@@ -4,7 +4,6 @@
 
 [core]
 	editor = code --wait
-#	eol = lf
 
 #https://www.araxis.com/merge/windows/integrating-with-other-applications.en#WSLGit
 [diff]
@@ -20,5 +19,4 @@ cmd = '/mnt/c/Program Files/Araxis/Araxis Merge/arx_wsl_git_merge' $BASE $LOCAL 
 [alias]
 ad = difftool --tool=araxis --dir-diff --no-symlinks
 ads = difftool --tool=araxis --dir-diff --no-symlinks --staged
-#shortcut
 logg = log --oneline --graph --all --decorate

@@ -1,0 +1,36 @@
+[user]
+	name = 박택순
+	email = taeksoonp@gmail.com
+
+[core]
+	editor = code --wait
+
+[diff]
+tool = araxis
+[difftool "araxis"]
+path = C:\\Program Files\\Araxis\\Araxis Merge\\compare.exe
+
+[merge]
+tool = araxis
+[mergetool "araxis"]
+path = C:\\Program Files\\Araxis\\Araxis Merge\\compare.exe
+#https://git-scm.com/docs/git-mergetool
+#trustExitCode = true
+
+[alias]
+ad = difftool --tool=araxis --dir-diff
+ads = difftool --tool=araxis --dir-diff --staged
+logg=log --oneline --graph --all --decorate
+
+[safe]
+#gg7은 https로 clone; readonly
+	directory = %(prefix)///wsl.localhost/PengwinEnterprise9/home/tsp/GitHub/mysrc53
+	directory = %(prefix)///wsl.localhost/PengwinEnterprise9/home/tsp/Glab/wns
+	directory = %(prefix)///wsl.localhost/PengwinEnterprise9/home/tsp/Glab/asioex
+	directory = %(prefix)///wsl.localhost/PengwinEnterprise9/home/tsp/Glab/mockup
+	directory = %(prefix)///192.168.217.158/tsp/GitHub/mysrc53
+	directory = %(prefix)///192.168.217.158/tsp/prj/mock-up
+
+#sourcetree가 자동으로 넣는 아이들 생략
+#[difftool "sourcetree"]
+#[mergetool "sourcetree"]
