@@ -27,7 +27,7 @@ fi
 unset rc
 
 #ssh agent
-if pidof ssh-agent; then
+if pgrep -u $USER ssh-agent; then
 	. ~/.ssh/ssh-add-latest
 else
 	ssh-agent > ~/.ssh/ssh-add-latest
@@ -40,7 +40,27 @@ fi
 
 #etc
 alias ll='ls -alF --time-style=long-iso' la='ls -A' l='ls -CF'
+My_gcc_toolset=gcc-toolset-14 #scl list-collections
+alias mmake='scl enable '$My_gcc_toolset' make'
 export EDITOR=emacs
+
+function findcc ()
+{
+    if [ $# -eq 0 ]; then
+        echo "Usage: findcc [path] <pattern>";
+        echo "Tip: If you want space in pattern, you can do it like this 'findcc abc\sxyz'";
+        return;
+    else
+        if [ $# -gt 1 ]; then
+            Path=$1;
+            Target=$2;
+        else
+            Path=.;
+            Target=$1;
+        fi;
+    fi;
+    find $Path -type f \( -name \*.[hc] -o -name \*.[hc]pp \) -exec egrep -nH $Target {} \;
+}
 
 #wsl path
 export WslPrefix='\\wsl.localhost\PengwinEnterprise9'

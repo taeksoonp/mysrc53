@@ -131,4 +131,13 @@ alias prj='cd ~/prj'
 alias prjbin='cd ~/prj/bin'
 alias prjwork='cd ~/prj/work'
 alias ddtt='cd ~/prj/dvrtop'
-. ~/.hidvr.aliases
+
+#ssh agent
+if pgrep -u $USER ssh-agent; then
+	. ~/.ssh/ssh-add-latest
+else
+	ssh-agent > ~/.ssh/ssh-add-latest
+	sed 's/echo/#echo/g' -i ~/.ssh/ssh-add-latest
+	. ~/.ssh/ssh-add-latest
+	ssh-add
+fi
