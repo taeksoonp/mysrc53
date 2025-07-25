@@ -23,9 +23,9 @@ if len(sys.argv) > 1:
     filename = os.path.basename(sys.argv[1])
     if request == 'e':
         if filename[-3:] == '.ui':
-            cmd = '"D:/Qt/4.8.7/bin/designer.exe" '
+            cmd = '"D:/Qt4/4.8.7/bin/designer.exe" '
         elif filename[-3:] == '.ts':
-            cmd = '"D:/Qt/4.8.7/bin/linguist.exe" '
+            cmd = '"D:/Qt4/4.8.7/bin/linguist.exe" '
         elif filename[-5:] == '.docx' or filename[-4:] == '.doc':
             cmd = office16 + 'WINWORD.EXE"'
         elif filename[-5:] == '.xlsx' or filename[-4:] == '.xls':

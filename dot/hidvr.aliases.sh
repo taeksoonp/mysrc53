@@ -77,12 +77,17 @@ function hiprj_aliases()
 {
 	Console_top=~/prj/$Myprj/console
 	Console_src=$Console_top/src
-	Rb1=RB-10.6.100
-	Rb2=RB-10.6.200
-	Rb3=RB-10.6.300
-	Rbs1=RB-SONE-0.3.0
-	Rb8=RB-10.8.0
-	
+	Rb2n=RB-10.2N
+	Rb61=RB-10.6.100
+	Rb62=RB-10.6.200
+	Rb63=RB-10.6.300
+	Rb0=RB-10.8.0
+	Rbs0=RB-SONE-0.3.0
+	Rb1=RB-10.8.100
+	Rbs1=RB-SONE-1.1.0
+#-_-;
+	Vmcrb=VMC-RB-2.2.0
+
 	if [ "$Myprj" = wrns ]; then
 		Consrc1=~/prj/$Myprj/wrs2
 	else
@@ -94,6 +99,7 @@ function hiprj_aliases()
 	#aliases들은 lazy 변수임
 	alias tt='cd $Console_top'
 	alias s='cd $Console_top/src'
+	alias sutil='cd $Console_top/src/util'
 	alias c='cd $Consrc1'
 	alias v="cd $Console_top/lib/qt4"
 
@@ -104,6 +110,7 @@ function hiprj_aliases()
 	alias ccc='cd $Consrc1/project_linux/${WHBS_CONSOLE_TARGETID}'
 	alias bbb='cd $Consrc1/project_window/'
 	alias cccc='cd $Consrc1/project_window/${WHBS_CONSOLE_TARGETID}'
+	alias spotosd='cd $Console_top/src/spotosd'
 	
 	alias ttt='cd $Myprj_bld'
 	alias t='cd $Myprj_top'
@@ -114,8 +121,10 @@ function hiprj_aliases()
 	alias sss1='cd $Myprj_bld/root/src/s1service;sbldenv'
 	alias sssp='cd $Myprj_bld/root/src/p2p;sbldenv'
 	alias n='cd $Myprj_bld/root/src/edvrcore_v7'
+	alias nn='cd $Myprj_bld/root/src/edvrcore'
 	alias b='cd $Myprj_bld/root/build'
 	alias dist='cd $Myprj_bld/root/dist'
+	alias base2='cd $Myprj_bld/root/base2'
 }
 
 function go()
@@ -163,14 +172,19 @@ function model_id() {
 # dvr: 숫자f-알파벳, nvr: 숫자p-알파벳, uhn6400-xxx
 # 200427 dvr, nvr 1개(uhn1600-h2-v2) 임시? 
 	sed '
-#ex) shn808ph2v3
+#ex) shn808ph2v3: P-H2-V3, uhd1608fuv3: F-U-V3
 		s/\([0-9]\)\([fp]\)\([a-z]\)/\1\2-\3/
 		s/\(-h[0-9]\)\([a-z]\)/\1-\2/
+		s/\(-u\)\([a-z]\)/\1-\2/
 #v2들, 2번째는 노예들 ex) uhn1600h2v2
 		s/h\([0-9]\)v\([0-9]\)/h\1-v\2/
 		s/urv2/ur-v2/
 #00-Hxxx
 		s/\([0-9]\)h\([0-9]\)/\1-h\2/	
+		
+#v3r2
+		s/v\([0-9]\)r\([0-9]\)/v\1-r\2/
+
 #대문자로 변환
 		s/\(.*\)/\U\1/
 		' <<< $1
@@ -183,11 +197,15 @@ alias wprj='config_prj wrns'
 alias hprj='config_prj trunk'
 alias nprj='config_prj novatek15071'
 #br RB-10.2N, 9707 atsumi, 8822, 7550, 6205
+alias rb2n='config_prj $Rb2n'
+alias rb61='config_prj $Rb61'
+alias rb62='config_prj $Rb62'
+alias rb63='config_prj $Rb63'
+alias rb0='config_prj $Rb0'
+alias rbs0='config_prj $Rbs0'
 alias rb1='config_prj $Rb1'
-alias rb2='config_prj $Rb2'
-alias rb3='config_prj $Rb3'
 alias rbs1='config_prj $Rbs1'
-alias rb8='config_prj $Rb8'
+alias vmcrb='config_prj $Vmcrb'
 
 #
 # prj. 환경 설정
@@ -214,6 +232,7 @@ function config_prj() {
 	source ~/prj/bin/myprj
 	source ~/etc/global_definitions
 	sprjenv
+	source ~/etc/model_specific_env.$Myprj
 	sbldenv
 
 #

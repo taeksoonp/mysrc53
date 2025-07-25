@@ -78,11 +78,13 @@ while True:
 
     elif 'byebye' == cmd:
         break
-    
-    #nfs
+
+    #nfs임
     #config.exe를 samba에서 실행하면 win11 23h2에서 cpu reset된다!
     elif '/home/tsp/prj/' == cmd[0:14]:
-        cmd = '\\\\' + ip + '\\' + cmd
+        args = cmd.split()
+        args[0].replace('/', '\\')
+        cmd = '\\\\' + ip + ' '.join(args)
         print('-->')
         print(cmd)
         print("->>", subprocess.Popen(cmd).pid)
