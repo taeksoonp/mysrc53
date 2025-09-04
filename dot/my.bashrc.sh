@@ -29,33 +29,23 @@ alias bank="cd ~/prj/bank"
 #MSYS2 기본 개나리색 \[\e]0;\w\a\]\n\[\e[32m\]\u@\h \[\e[35m\]$MSYSTEM\[\e[0m\] \[\e[33m\]\w\[\e[0m\]\n\$
 export PS1="\[\e[33m\]\w\[\e[1;36m\](\$(git branch 2>/dev/null | grep '^*' | colrm 1 2))\[\033[m\] "
 
-#pc용 git이랑 모드 일치시킬라고. 안하면 디폴티 0002
-umask 0022
-
-#source scl_source enable devtoolset-11
-#source scl_source enable devtoolset-8
-#? export LD_LIBRARY_PATH=/opt/boost/lib
+source /usr/local/vcpkg/scripts/vcpkg_completion.bash
 
 #etc
 export SVN_EDITOR=emacs
-export EMACS_SERVER_FILE=~/etc/server/server
-export TERM=xterm-256color
-export Ga_hih="[가-힣]"
 alias mysrc='cd ~/GitHub/mysrc53'
 alias prj='cd ~/prj'
 alias prjbin='cd ~/prj/bin'
 alias prjwork='cd ~/prj/work'
-alias ddtt='cd ~/prj/dvrtop'
+alias dt='cd ~/prj/dvrtop'
 . $HOME/.hidvr.aliases
 
-# https://gist.github.com/justintv/168835
-export LS_COLORS="di=00;36:fi=00;37"
-
-source $HOME/vcpkg/scripts/vcpkg_completion.bash
-# ssh-agent https://gist.github.com/nepsilon/45fae11f8d173e3370c3
-source $HOME/.ssh/ssh-agent-latest
-source $HOME/bash-completion/ct-ng
-
-#죽겄네
-export WHBS_OEM_ID_LIST_CFLAGS="-DWEBGATE=0 -DSONE=1"
-. "$HOME/.cargo/env"
+#ssh agent
+if pgrep -u $USER ssh-agent; then
+	. ~/.ssh/ssh-add-latest
+else
+	ssh-agent > ~/.ssh/ssh-add-latest
+	sed 's/echo/#echo/g' -i ~/.ssh/ssh-add-latest
+	. ~/.ssh/ssh-add-latest
+	ssh-add
+fi
