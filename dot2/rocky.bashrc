@@ -33,9 +33,11 @@ else
 	ssh-agent > ~/.ssh/ssh-add-latest
 	sed 's/echo/#echo/g' -i ~/.ssh/ssh-add-latest
 	. ~/.ssh/ssh-add-latest
-	ssh-add
-#wns	sudo bash -c "sed '4i nameserver 127.0.0.1' -i /etc/resolv.conf"
-	echo "wns 실행할 거면 'nameserver 127.0.0.1' 맨 위에 써라"
+#pengwin 9.6이후로 안됨	ssh-add
+	echo "wns 실행할 거면 resolv.con에 'nameserver 127.0.0.1' 맨 위에 써라"
+fi
+if [ "`ssh-add -L`" = "The agent has no identities." ]; then
+	echo "ssh-add 해라"
 fi
 
 #etc
