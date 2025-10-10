@@ -27,7 +27,7 @@ fi
 unset rc
 
 #ssh agent
-if pgrep -u $USER ssh-agent; then
+if pgrep -u $USER ssh-agent >/dev/null; then
 	. ~/.ssh/ssh-add-latest
 else
 	ssh-agent > ~/.ssh/ssh-add-latest
@@ -105,3 +105,9 @@ unset __conda_setup
 #aihub
 export AIHUB_ID=taeksoonp@gmail.com
 #export AIHUB_PW=''
+
+PATH="/home/tsp/perl5/bin${PATH:+:${PATH}}"; export PATH;
+PERL5LIB="/home/tsp/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="/home/tsp/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"/home/tsp/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/home/tsp/perl5"; export PERL_MM_OPT;

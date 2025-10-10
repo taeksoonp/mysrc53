@@ -1,4 +1,0 @@
-#/bin/bash
-
-#https://unix.stackexchange.com/questions/129072/whats-the-difference-between-and
-"/mnt/c/Program Files/Araxis/Araxis Merge/Merge.exe" $*
