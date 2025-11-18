@@ -82,8 +82,8 @@ function hiprj_aliases()
 	Rb62=RB-10.6.200
 	Rb63=RB-10.6.300
 	Rb0=RB-10.8.0
-	Rbs0=RB-SONE-0.3.0
-	Rb1=RB-10.8.100
+	Rbs0=RB-SONE-1.0.0
+	Rb1=RB-10.8.200
 	Rbs1=RB-SONE-1.1.0
 #-_-;
 	Vmcrb=VMC-RB-2.2.0
@@ -318,15 +318,30 @@ export WHBS_OEM_ID_LIST_CFLAGS="-DWEBGATE=0 -DSONE=1"
 export WHBS_BUILD_VERSION=`cat $HOME/etc/hi.ver`
 t #prj top
 function sync_third_party_files {
-	echo "copy third_party files to source code"
-	if [ ${WHBS_SOC_TYPE} = "NT98323" ]; then
+	if [ ${WHBS_SOC_TYPE} = "NT98321" ]; then
+		echo "copy thirdparty library for NT98321"
 		rsync -arvh root/src/third_party/hikvision_sadp/libs/libsadp_nt98323.so console/lib/etc/arm-nt/libsadp.so
 		rsync -arvh root/src/third_party/hikvision_sadp/incEN/Sadp.h console/src/console/lib/sadp/hik_sadp.h
+		rsync -arvh root/src/third_party/tiandy_netadmin/${CROSS_COMPILE_PREFIX}/*.so console/lib/etc/arm-nt/
+		rsync -arvh root/src/third_party/tiandy_netadmin/NetAdmin.h console/src/console/lib/netadmin/tiandy_netadmin.h
+		rsync -arvh root/src/third_party/tiandy_netadmin/gensc_Interface.h console/src/console/lib/netadmin/
+	elif [ ${WHBS_SOC_TYPE} = "NT98323" ]; then
+		echo "copy thirdparty library for NT98323"
+		rsync -arvh root/src/third_party/hikvision_sadp/libs/libsadp_nt98323.so console/lib/etc/arm-nt/libsadp.so
+		rsync -arvh root/src/third_party/hikvision_sadp/incEN/Sadp.h console/src/console/lib/sadp/hik_sadp.h
+		rsync -arvh root/src/third_party/tiandy_netadmin/${CROSS_COMPILE_PREFIX}/*.so console/lib/etc/arm-nt/
+		rsync -arvh root/src/third_party/tiandy_netadmin/NetAdmin.h console/src/console/lib/netadmin/tiandy_netadmin.h
+		rsync -arvh root/src/third_party/tiandy_netadmin/gensc_Interface.h console/src/console/lib/netadmin/
 	elif [ ${WHBS_SOC_TYPE} = "NT98336" ]; then
+		echo "copy thirdparty library for NT98336"
 		rsync -arvh root/src/third_party/hikvision_sadp/libs/libsadp_nt98336.so console/lib/etc/arm-nt98336/libsadp.so
 		rsync -arvh root/src/third_party/hikvision_sadp/incEN/Sadp.h console/src/console/lib/sadp/hik_sadp.h
+		rsync -arvh root/src/third_party/tiandy_netadmin/${CROSS_COMPILE_PREFIX}/*.so console/lib/etc/arm-nt98336/
+		rsync -arvh root/src/third_party/tiandy_netadmin/NetAdmin.h console/src/console/lib/netadmin/tiandy_netadmin.h
+		rsync -arvh root/src/third_party/tiandy_netadmin/gensc_Interface.h console/src/console/lib/netadmin/
 	fi
 }
+
 sync_third_party_files
 #<--수동
 
