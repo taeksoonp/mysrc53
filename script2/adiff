@@ -1,0 +1,3 @@
+#!/bin/sh
+
+mergeexe `wslpath $1 -w` `wslpath $2 -w`

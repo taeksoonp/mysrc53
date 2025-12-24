@@ -15,6 +15,14 @@ case $1 in
 	$Cmd /command:diff $2 $3 $4 $5&
 	;;
 
+	'r')
+	$Cmd /command:repobrowser $2 $3 $4 $5&
+	;;
+
+	'b')
+	$Cmd /command:blame $2 $3 $4 $5&
+	;;
+
 	"ci")
 	$Cmd /command:commit $2 $3 $4 $5&
 	;;
