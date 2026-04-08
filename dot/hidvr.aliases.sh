@@ -82,9 +82,9 @@ function hiprj_aliases()
 	Rb62=RB-10.6.200
 	Rb63=RB-10.6.300
 	Rb0=RB-10.8.0
-	Rbs0=RB-SONE-1.0.0
 	Rb1=RB-10.8.200
-	Rbs1=RB-SONE-1.1.0
+	Rbs0=RB-SONE-1.0.0
+	Rbs1=RB-SONE-1.1.0 #임시 5m 개발용임
 #-_-;
 	Vmcrb=VMC-RB-2.2.0
 
@@ -120,6 +120,7 @@ function hiprj_aliases()
 	alias sss='cd $Myprj_bld/root/src;sbldenv'
 	alias sss1='cd $Myprj_bld/root/src/s1service;sbldenv'
 	alias sssp='cd $Myprj_bld/root/src/p2p;sbldenv'
+	alias sssw='cd $Myprj_bld/root/src/wgservice;sbldenv'
 	alias n='cd $Myprj_bld/root/src/edvrcore_v7'
 	alias nn='cd $Myprj_bld/root/src/edvrcore'
 	alias b='cd $Myprj_bld/root/build'
@@ -202,8 +203,8 @@ alias rb61='config_prj $Rb61'
 alias rb62='config_prj $Rb62'
 alias rb63='config_prj $Rb63'
 alias rb0='config_prj $Rb0'
-alias rbs0='config_prj $Rbs0'
 alias rb1='config_prj $Rb1'
+alias rbs0='config_prj $Rbs0'
 alias rbs1='config_prj $Rbs1'
 alias vmcrb='config_prj $Vmcrb'
 
@@ -244,25 +245,32 @@ function config_prj() {
 		echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
 		echo "$Myprj_top 하고 socid-$WHBS_BUILD_SOCID 하고 안 맞는다?"
 	fi
+#
+# external_library 링크
+#
+	if [ "$Myprj" = trunk ]; then
+		ln -sf ~/prj/dvrtop/trunk$WHBS_BUILD_SOCID/root/src/external_library ~/prj/trunk/root/src/
+	fi
+
 	echo $ARCH $ARCH $ARCH $ARCH $ARCH $ARCH $ARCH $ARCH $ARCH $ARCH $ARCH
 }
 
+#모델 환경
 function sprjenv()
 {
 	hiprj_aliases
 	if [ "$Hiconf" = PC ];then
 		echo pc linux임
 	else
-##		echo 한다.
 		set_`cat $HOME/etc/hi.model`_specific_env
 		set_console_socid
-##		echo "^^^^^^^^^^^^^^^^^^^^^^^^^^ 설정 끝"
 	fi
 	
 	#lazy var
 	Myprj_bld=~/prj/dvrtop/$Myprj$WHBS_BUILD_SOCID
 }
 
+#최상위 브렌치 빌드 환경
 function sbldenv()
 {
 	hiprj_aliases
