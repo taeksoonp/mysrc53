@@ -83,8 +83,11 @@ function hiprj_aliases()
 	Rb63=RB-10.6.300
 	Rb0=RB-10.8.0
 	Rb1=RB-10.8.200
+	Rbt=TRY-LUPRO
 	Rbs0=RB-SONE-1.0.0
-	Rbs1=RB-SONE-1.1.0 #임시 5m 개발용임
+	#Rbs1=RB-SONE-1.1.0 #임시 5m 개발용임
+	Rbs1=RB-SONE-1.1.2
+
 #-_-;
 	Vmcrb=VMC-RB-2.2.0
 
@@ -204,6 +207,7 @@ alias rb62='config_prj $Rb62'
 alias rb63='config_prj $Rb63'
 alias rb0='config_prj $Rb0'
 alias rb1='config_prj $Rb1'
+alias rbt='config_prj $Rbt'
 alias rbs0='config_prj $Rbs0'
 alias rbs1='config_prj $Rbs1'
 alias vmcrb='config_prj $Vmcrb'
@@ -248,7 +252,9 @@ function config_prj() {
 #
 # external_library 링크
 #
-	if [ "$Myprj" = trunk ]; then
+	if [[ -z "$WHBS_BUILD_SOCID" ]]; then
+		echo "external_library link 만들어야 하는데 '$WHBS_BUILD_SOCID' 왜또 비냐?"
+	elif [ "$Myprj" = trunk ]; then		
 		ln -sf ~/prj/dvrtop/trunk$WHBS_BUILD_SOCID/root/src/external_library ~/prj/trunk/root/src/
 	fi
 
