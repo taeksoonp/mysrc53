@@ -7,6 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 `console` is the Qt4/Qt-Embedded (QWS, no X11) on-screen-display (OSD) application for WebGate/SONE-branded embedded DVR/NVR hardware (HiSilicon Hi35xx and Novatek NT983xx SoCs). It runs as a separate userspace process alongside the DVR's recording engine ("recore") and draws the menu/config UI that is alpha-composited by SoC video hardware over live decoded video. The same source tree cross-compiles:
 - The embedded target binary (`conmain`, aka "console") for Linux/ARM.
 - A Windows PC "remote configuration" tool (`cc_config` / `config.zip`) from the same UI/scenario/config sources under `_PC_CONFIG`.
+  - The PC-config package is embedded in the NVR firmware; the PC software detects the NVR's version and automatically downloads the matching PC-config from that NVR. PC-config and NVR are therefore always the same build — **no backward compatibility between PC-config and NVR is needed** (don't add version checks or fallbacks for old/new counterparts in `_PC_CONFIG` ↔ NVR WESP/config paths).
 - A desktop Linux x86 simulator ("VVR") for developing/debugging the console UI without real hardware.
 
 This checkout is an SVN working copy (`.svn/`), not git — there is no `git log`/`git blame` history to consult; use `svn log`/`svn blame` instead if needed.
@@ -91,3 +92,4 @@ Three distinct mechanisms are in play — know which one a given piece of code u
 - Headers use `#ifndef _NAME_H_` guards; most core/model files carry a Doxygen-style header comment (`\file`, `\date`, `\brief`).
 - Comments are predominantly English; Korean appears only in user-facing UI strings (`QString::fromUtf8(...)`), not in developer comments.
 - `deprecated_readme.txt` is EUC-KR-encoded Korean text and will render as garbage in a UTF-8 terminal — use `iconv -f EUC-KR -t UTF-8` if you need to read it.
+- **Translations**: when asked to translate new/changed UI strings, always update exactly these three files in `src/console/project_linux/ts/`: `ml_korean.ts`, `ml_korean_sone.ts` (same Korean text in both, unless the existing entries for that string differ between the two) and `ml_japanese.ts`. Add each message under the same `<name>` context that `tr()` uses (or the `.ui` form's class), escape quotes as `&apos;`, and don't use full-width `％` in Japanese. Leave the other language files untouched. Verify with `lrelease-qt4 <file>.ts -qm <scratch>.qm`.

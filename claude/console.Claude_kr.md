@@ -7,6 +7,7 @@
 `console`은 WebGate/SONE 브랜드의 임베디드 DVR/NVR 하드웨어(HiSilicon Hi35xx 및 Novatek NT983xx SoC)용 Qt4/Qt-Embedded(QWS, X11 없음) 기반 OSD(On-Screen Display) 애플리케이션입니다. DVR의 녹화 엔진("recore")과 함께 별도의 사용자 공간 프로세스로 실행되며, SoC 비디오 하드웨어가 라이브 디코딩 영상 위에 알파 합성하는 메뉴/설정 UI를 그립니다. 동일한 소스 트리에서 다음을 크로스 컴파일합니다:
 - Linux/ARM용 임베디드 타깃 바이너리(`conmain`, 일명 "console").
 - `_PC_CONFIG` 하에서 동일한 UI/시나리오/설정 소스로 빌드되는 Windows PC "원격 설정" 도구(`cc_config` / `config.zip`).
+  - PC-config 패키지는 NVR 펌웨어에 내장되어 있으며, PC 소프트웨어가 NVR의 버전을 감지하여 해당 NVR로부터 일치하는 PC-config를 자동으로 다운로드합니다. 따라서 PC-config와 NVR은 항상 동일한 빌드이며 — **PC-config와 NVR 간의 하위 호환성은 필요하지 않습니다** (`_PC_CONFIG` ↔ NVR WESP/config 경로에 구/신 버전 상대를 위한 버전 체크나 폴백을 추가하지 마십시오).
 - 실제 하드웨어 없이 console UI를 개발/디버깅하기 위한 데스크톱 Linux x86 시뮬레이터("VVR").
 
 이 체크아웃은 git이 아닌 SVN 작업 사본(`.svn/`)입니다 — 참조할 `git log`/`git blame` 이력이 없으므로, 필요하면 `svn log`/`svn blame`을 사용하십시오.
@@ -91,3 +92,4 @@ Qt 버전은 전체적으로 **Qt4**(qmake-qt4, `lrelease-qt4`)입니다. `lib/q
 - 헤더는 `#ifndef _NAME_H_` 가드를 사용하며, 대부분의 core/model 파일에는 Doxygen 스타일 헤더 주석(`\file`, `\date`, `\brief`)이 있습니다.
 - 주석은 주로 영어이며, 한국어는 개발자 주석이 아닌 사용자에게 보이는 UI 문자열(`QString::fromUtf8(...)`)에만 등장합니다.
 - `deprecated_readme.txt`는 EUC-KR 인코딩된 한국어 텍스트이므로 UTF-8 터미널에서는 깨져 보입니다 — 읽어야 한다면 `iconv -f EUC-KR -t UTF-8`을 사용하십시오.
+- **번역**: 새로 추가/변경된 UI 문자열의 번역을 요청받으면, 항상 `src/console/project_linux/ts/`의 다음 세 파일만 정확히 수정합니다: `ml_korean.ts`, `ml_korean_sone.ts`(두 파일에 같은 한국어 텍스트. 단, 해당 문자열의 기존 항목이 두 파일 간에 다르면 예외) 그리고 `ml_japanese.ts`. 각 메시지는 `tr()`이 사용하는 것과 같은 `<name>` 컨텍스트(또는 `.ui` 폼의 클래스) 아래에 추가하고, 따옴표는 `&apos;`로 이스케이프하며, 일본어에는 전각 `％`를 쓰지 마십시오. 다른 언어 파일은 건드리지 마십시오. 검증은 `lrelease-qt4 <file>.ts -qm <scratch>.qm`으로 합니다.
