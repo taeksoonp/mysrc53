@@ -19,7 +19,7 @@ function findcc0()
  
 #ng-_-;  find $Path -type f -not -path "*/project_linux/*" -name \*.[hc] -or -name \*.cpp |xargs egrep -n $Target $3 $4 $5
 #공란이 있으면 실패	find $Path -type f -name \*.[hc] -or -name \*.cpp -or -name \*.inc |grep -v project_linux |xargs egrep -n $Target $3 $4 $5
-	find $Path -type f \( -name \*.[hc] -o -name \*.[hc]pp -o -name \*.inc -o -name \*.rc -o -name \*.cs \) -exec egrep $Grep_args $Target {} \;
+	find $Path -path './.venv' -prune -o -type f \( -name \*.[hc] -o -name \*.[hc]pp -o -name \*.inc -o -name \*.rc -o -name \*.cs \) -exec egrep $Grep_args $Target {} \;
 }
 
 function findcci()
@@ -84,8 +84,8 @@ function hiprj_aliases()
 	Rb0=RB-10.8.0
 	Rb1=RB-10.8.200
 	Rbt=TRY-LUPRO
+	Rbs110=RB-SONE-1.1.0 #임시 5m 개발용임
 	Rbs0=RB-SONE-1.0.0
-	#Rbs1=RB-SONE-1.1.0 #임시 5m 개발용임
 	Rbs1=RB-SONE-1.1.2
 
 #-_-;
@@ -210,6 +210,7 @@ alias rb1='config_prj $Rb1'
 alias rbt='config_prj $Rbt'
 alias rbs0='config_prj $Rbs0'
 alias rbs1='config_prj $Rbs1'
+alias rbs110='config_prj $Rbs110'
 alias vmcrb='config_prj $Vmcrb'
 
 #
@@ -326,10 +327,12 @@ source ~/etc/model_specific_env.$Myprj
 sprjenv	#set my project env.
 
 #
-# 수동 2개
+# 수동 3개
 #
 export WHBS_OEM_ID_LIST_CFLAGS="-DWEBGATE=0 -DSONE=1"
 export WHBS_BUILD_VERSION=`cat $HOME/etc/hi.ver`
+export CCC64=yes
+
 t #prj top
 function sync_third_party_files {
 	if [ ${WHBS_SOC_TYPE} = "NT98321" ]; then
