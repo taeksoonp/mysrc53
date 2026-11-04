@@ -61,7 +61,7 @@ function findcc ()
             Target=$1;
         fi;
     fi;
-    find $Path -type f \( -name \*.[hc] -o -name \*.[hc]pp \) -exec egrep -nH $Target {} \;
+    find $Path -path './.venv' -prune -o -type f \( -name \*.[hc] -o -name \*.[hc]pp -o -name \*.py \) -exec egrep -nH $Target {} \;
 }
 
 #wsl path
@@ -87,27 +87,27 @@ source /home/tsp/vcpkg/scripts/vcpkg_completion.bash
 export VCPKG_ROOT=$HOME/vcpkg
 export BROWSER=firefox
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/tsp/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/home/tsp/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/tsp/miniconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/home/tsp/miniconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
-
 #aihub
 export AIHUB_ID=taeksoonp@gmail.com
 #export AIHUB_PW=''
 
+#이건 왜 깔았냐?
 PATH="/home/tsp/perl5/bin${PATH:+:${PATH}}"; export PATH;
 PERL5LIB="/home/tsp/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
 PERL_LOCAL_LIB_ROOT="/home/tsp/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
 PERL_MB_OPT="--install_base \"/home/tsp/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=/home/tsp/perl5"; export PERL_MM_OPT;
+
+#한글 in qt
+#https://share.google/aimode/Mu6rbpInJTQBmeDf7
+export GTK_IM_MODULE=ibus
+export QT_IM_MODULE=ibus
+export XMODIFIERS=@im=ibus
+
+# WSL 실행 시 ibus 데몬 자동 시작
+if ! pgrep -x "ibus-daemon" > /dev/null; then
+    ibus-daemon -drxR
+fi
+
+# Qt 앱 배율 (WSLg에서 글자가 작을 때)
+export QT_SCALE_FACTOR=1.8
