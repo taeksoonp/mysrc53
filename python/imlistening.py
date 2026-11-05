@@ -96,7 +96,8 @@ while True:
         print("sorry. I can't. use it on NFS")
     # samba
     else:
-        cmd = cmd.replace("/home/", "\\\\" + ip + "\\")
+#vscode 쓸라고 path 냅둔다
+#         cmd = cmd.replace("/home/", "\\\\" + ip + "\\")
         print("->>", subprocess.Popen(cmd).pid)
 
     print("cmd: ", cmd, "\n\n")
