@@ -3,10 +3,11 @@ I am listening.
 Created on 2014. 12. 12.
 @author: ts.p
 ConEmu 설정
-명령: uv run \\192.168.217.158/tsp/GitHub/mysrc53/python/imlistening.pyw
+명령: uv run \\wsl.localhost/PengwinEnterprise9/home/tsp/GitHub/mysrc53/python/imlistening.py
 """
 
 import os
+import shlex
 import shutil  # noqa: F401  eee가 쓴다.
 import socket
 import subprocess
@@ -56,12 +57,32 @@ while True:
     if ip == ptslinux:
         ip = "ptslinux.mshome.net"
     cmd = data.decode("utf8")
-
+    # 따옴표로 묶인 건 한 토큰. posix=False라 윈도우 경로의 \는 그대로 둔다.
+    try:
+        args = [t.strip('"') for t in shlex.split(cmd, posix=False)]
+    except ValueError as e:  # 따옴표 짝이 안 맞을 때
+        print(f"tokenize 실패: {e}")
+        args = cmd.split()
     print(f"cmd??{cmd}")
-    if "explorer" in cmd:
+#    print(f"commands: {commands}")
+
+# nfs임
+# config.exe를 samba에서 실행하면 win11 23h2에서 cpu reset된다!
+    if "/home/tsp/prj/" == cmd[0:14]:
+        args[0].replace("/", "\\")
+        cmd = "\\\\" + ip + " ".join(args)
+        print("->>", subprocess.Popen(cmd).pid)
+
+# samba
+    elif "explorer" == args[0]:
         cmd = os.path.normpath(cmd)  # netdrive는 안된다.
         cmd = cmd.replace("\\home\\", "\\\\" + ip + "\\")
-        print("->", subprocess.Popen(cmd).pid)
+        print("-1>>", subprocess.Popen(cmd).pid)
+
+    elif ".exe" == args[0][-4:] or ".EXE" == args[0][-4:]:
+        print("-->")
+        cmd = cmd.replace("/home/", "\\\\" + ip + "\\")
+        print("-2>>", subprocess.Popen(cmd).pid)
 
     elif "python " == cmd[0:7]:
         cmd = cmd.replace("/home/", "\\\\" + ip + "\\")
@@ -76,28 +97,13 @@ while True:
             pushbtn.show()
             pushbtn.resize(200, 140)
             pushbtn.clicked.connect(app.closeAllWindows)
-            app.exec_()
+            app.exec()
 
     elif "byebye" == cmd:
         break
 
-    # nfs임
-    # config.exe를 samba에서 실행하면 win11 23h2에서 cpu reset된다!
-    elif "/home/tsp/prj/" == cmd[0:14]:
-        args = cmd.split()
-        args[0].replace("/", "\\")
-        cmd = "\\\\" + ip + " ".join(args)
-        print("-->")
-        print(cmd)
-        print("->>", subprocess.Popen(cmd).pid)
-    elif ".exe" == cmd[-4:]:
-        print("-->")
-        print(cmd)
-        print("sorry. I can't. use it on NFS")
-    # samba
     else:
-#vscode 쓸라고 path 냅둔다
-#         cmd = cmd.replace("/home/", "\\\\" + ip + "\\")
-        print("->>", subprocess.Popen(cmd).pid)
+#vscode용: code.cmd
+        print("-3>>", subprocess.Popen(cmd).pid)
 
     print("cmd: ", cmd, "\n\n")

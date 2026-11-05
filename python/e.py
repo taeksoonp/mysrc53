@@ -34,7 +34,7 @@ if len(sys.argv) > 1:
         elif filename[-5:] == ".docx" or filename[-4:] == ".doc":
             cmd = office16 + 'WINWORD.EXE"'
         elif filename[-5:] == ".xlsx" or filename[-4:] == ".xls":
-            cmd = office16 + 'EXCEL.exe"'
+            cmd = office16 + 'EXCEL.EXE"'
         elif filename[-4:] == ".pdf":
             cmd = acrobatexe
         else:
