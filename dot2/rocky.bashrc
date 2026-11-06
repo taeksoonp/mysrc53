@@ -61,7 +61,27 @@ function findcc ()
             Target=$1;
         fi;
     fi;
-    find $Path -path './.venv' -prune -o -type f \( -name \*.[hc] -o -name \*.[hc]pp -o -name \*.py \) -exec egrep -nH $Target {} \;
+
+# ! -path 로 할 수 도 있다
+    find $Path -type d \( -name '.venv' -o -name '.claude' \) -prune -o -type f \( -name \*.[hc] -o -name \*.[hc]pp -o -name \*.py \) -exec egrep -nH $Target {} \;
+}
+
+function findmm ()
+{
+    if [ $# -eq 0 ]; then
+        echo "Usage: findcc [path] <pattern>";
+        echo "Tip: If you want space in pattern, you can do it like this 'findcc abc\sxyz'";
+        return;
+    else
+        if [ $# -gt 1 ]; then
+            Path=$1;
+            Target=$2;
+        else
+            Path=.;
+            Target=$1;
+        fi;
+    fi;
+    find $Path -type d \( -name '.venv' -o -name '.claude' \) -prune -o -type f \( -name \*.md \) -exec egrep -nH $Target {} \;
 }
 
 #wsl path
@@ -79,6 +99,7 @@ export WslPrefix='\\wsl.localhost\PengwinEnterprise9'
 #녹색/파랑 export PS1="\[\033[32m\]\w\[\033[36m\](\$(git branch 2>/dev/null | grep '^*' | colrm 1 2))\[\033[m\] "
 #MSYS2 기본 개나리색 \[\e]0;\w\a\]\n\[\e[32m\]\u@\h \[\e[35m\]$MSYSTEM\[\e[0m\] \[\e[33m\]\w\[\e[0m\]\n\$
 export PS1="\[\e[33m\]\w\[\e[1;36m\](\$(git branch 2>/dev/null | grep '^*' | colrm 1 2))\[\033[m\] "
+
 #윈도 git path 제거
 #https://tldp.org/LDP/abs/html/string-manipulation.html
 #export PATH=${PATH%/mnt/c/Users/tsp/AppData/Local/Atlassian/SourceTree/git_local/mingw32/bin:*}

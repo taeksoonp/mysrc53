@@ -4,6 +4,7 @@
 
 [core]
 	editor = code --wait
+	quotepath = false
 
 #https://www.araxis.com/merge/windows/integrating-with-other-applications.en#WSLGit
 [diff]
